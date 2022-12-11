@@ -1,10 +1,15 @@
-import { Typography } from '@mui/material';
+import * as types from './types';
+import { useState } from 'react';
 
 function Annals() {
+    const startingYear: types.Year = {
+        current:1,
+    }
+    const [year, setYear] = useState(startingYear);
     return (
-        <Typography>
-            These are the annals recording major events.
-        </Typography>
+            <div>
+                The year is { year.current }.
+                </div>
     )
 };
 

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import { AppBar, CssBaseline, Box, Button, Toolbar, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Stack } from '@mui/material';
@@ -14,31 +15,8 @@ import Timeline from './Timeline';
 
 function Layout() {
     const myTheme = createTheme();
-    
     const drawerWidth: number = 240;
     
-    // interface AppBarProps extends MuiAppBarProps {
-    //     open?: boolean;
-    // }
-
-    // const AppBar = styled(MuiAppBar, {
-    //     shouldForwardProp: (prop) => prop != 'open',
-    // })<AppBarProps>(({ theme, open }) => ({
-    //     zIndex: theme.zIndex.drawer + 1,
-    //     transition: theme.transitions.create(['width', 'margin'], {
-    //         easing: theme.transitions.easing.sharp,
-    //         duration: theme.transitions.duration.leavingScreen,
-    //     }),
-    //     ...(open && {
-    //         marginLeft: drawerWidth,
-    //         width: `calc(100% - ${drawerWidth}px)`,
-    //         transition: theme.transitions.create(['width', 'margin'], {
-    //             easing: theme.transitions.easing.sharp,
-    //             duration: theme.transitions.duration.enteringScreen,
-    //         }),
-    //     }),
-    // }));
-
     return (
         <ThemeProvider theme={ myTheme }>
             <Box sx={{ display: 'flex' }}>
