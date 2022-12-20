@@ -12,11 +12,18 @@ import Tree from './Tree';
 import Annals from './Annals';
 import Contact from './Contact';
 import Timeline from './Timeline';
+import { Year, Person, People, War, Plague } from './types';
+import { useAppDispatch, useAppSelector } from './store/hooks';
+import {
+    increment, selectCount
+} from './store/counterSlice';
 
 function Layout() {
     const myTheme = createTheme();
     const drawerWidth: number = 240;
-    
+    const year = useAppSelector(selectCount);
+    const dispatch = useAppDispatch();
+
     return (
         <ThemeProvider theme={ myTheme }>
             <Box sx={{ display: 'flex' }}>
@@ -26,7 +33,9 @@ function Layout() {
                         <Stack direction="row" spacing={6}>
                        <Button variant="contained" disableElevation>Start</Button>
                        <Button variant="contained" disableElevation>Restart</Button>
-                       <Button variant="contained" disableElevation>Next</Button>
+                       <Button variant="contained" disableElevation
+                       onClick={() => dispatch(increment())}
+                       >Next</Button>
                        <Button variant="contained" disableElevation>Save</Button>
                        </Stack>
                     </Toolbar>

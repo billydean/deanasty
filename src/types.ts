@@ -15,12 +15,12 @@ interface Year {
     region_stability: number,
     local_stability: number,
     plague_now: boolean,
-    plagues: Plague[],
+    plagues?: Plague[],
     climate: string,
     crops: string,
     crop_fortune: number,
     war_now: boolean,
-    wars: War[]
+    wars?: War[]
 }
 
 interface Person {
