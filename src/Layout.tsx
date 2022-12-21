@@ -15,13 +15,13 @@ import Timeline from './Timeline';
 import { Year, Person, People, War, Plague } from './types';
 import { useAppDispatch, useAppSelector } from './store/hooks';
 import {
-    increment, selectCount
-} from './store/counterSlice';
+    increment, selectCurrentYear
+} from './store/yearSlice';
 
 function Layout() {
     const myTheme = createTheme();
     const drawerWidth: number = 240;
-    const year = useAppSelector(selectCount);
+    const currentYear = useAppSelector(selectCurrentYear);
     const dispatch = useAppDispatch();
 
     return (

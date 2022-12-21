@@ -1,12 +1,12 @@
 import { useAppSelector } from './store/hooks';
-import { selectCount } from './store/counterSlice';
+import { selectCurrentYear } from './store/yearSlice';
 
 function Annals() {
-    const count = useAppSelector(selectCount);
+    const currentYear = useAppSelector(selectCurrentYear);
 
     return (
             <div>
-                The year is { count }.
+                The year is { currentYear }.
                 </div>
     )
 };
