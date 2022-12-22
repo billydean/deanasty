@@ -1,28 +1,28 @@
 import { useAppSelector } from '../store/hooks';
 import { selectCurrentYear } from '../store/yearSlice';
-import { selectPeopleCheck } from '../store/checkSlice';
+import { selectPeople } from '../store/peopleSlice';
 
 function Annals() {
     const currentYear = useAppSelector(selectCurrentYear);
-    const peopleCheck = useAppSelector(selectPeopleCheck);
+    const people = useAppSelector(selectPeople);
 
     return (
         <div>
         <div>
             The year is { currentYear }.
         </div>
-        { peopleCheck == true 
-            ? 
-            <div>
-                Start has been clicked; the wheels are in motion!
+        <div>
+        { 
+        people.map(each => (
+            <div key={each.id}>
+                {each.name} is {currentYear - each.birth_year} years old.
             </div>
-            : 
-            <div>
-                The sim hasn't started, or someone clicked Restart.
-            </div> 
+        ))
         }
+        </div>
         </div>
     )
 };
+
 
 export default Annals;

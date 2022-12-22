@@ -15,7 +15,7 @@ import Timeline from './Timeline';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { restartYear, incrementYear } from '../store/yearSlice';
 import { startSim, restartSim, selectPeopleCheck } from '../store/checkSlice';
-
+import { beLife, begone } from '../store/peopleSlice';
 
 function Layout() {
     const myTheme = createTheme();
@@ -32,13 +32,17 @@ function Layout() {
                        <Button variant="contained" 
                         disableElevation
                         disabled={check}
-                        onClick={()=> dispatch(startSim())}>
+                        onClick={()=> {
+                            dispatch(beLife());
+                            dispatch(startSim())
+                        }}>
                             Start
                         </Button>
                        <Button variant="contained" 
                         disableElevation
                         disabled={!check}
                         onClick={()=> {
+                            dispatch(begone());
                             dispatch(restartSim());
                             dispatch(restartYear());
                         }}
