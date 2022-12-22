@@ -1,6 +1,5 @@
-import { useState } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
-import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { AppBar, CssBaseline, Box, Button, Toolbar, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Stack } from '@mui/material';
 import CottageIcon from '@mui/icons-material/Cottage';
 import ForestIcon from '@mui/icons-material/Forest';
@@ -12,16 +11,15 @@ import Tree from './Tree';
 import Annals from './Annals';
 import Contact from './Contact';
 import Timeline from './Timeline';
-import { Year, Person, People, War, Plague } from './types';
-import { useAppDispatch, useAppSelector } from './store/hooks';
+// import { Year, Person, People, War, Plague } from '../types';
+import { useAppDispatch } from '../store/hooks';
 import {
-    increment, selectCurrentYear
-} from './store/yearSlice';
+    increment
+} from '../store/yearSlice';
 
 function Layout() {
     const myTheme = createTheme();
     const drawerWidth: number = 240;
-    const currentYear = useAppSelector(selectCurrentYear);
     const dispatch = useAppDispatch();
 
     return (
