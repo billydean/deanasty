@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from './index';
-import type { Year, War, Plague, Person, People } from '../types';
+import type { Year } from '../types';
 
 const initialState: Year = {
     current: 0,
@@ -19,17 +19,26 @@ export const yearSlice = createSlice({
     name: 'year',
     initialState,
     reducers: {
-        increment: (state) => {
+        incrementYear: (state) => {
             state.current += 1;
             state.total += 1;
         },
-        incrementByAmount: (state, action: PayloadAction<number>) => {
-            state.current += action.payload;
+        restartYear: (state) => {
+            state.current = 0;
+            state.global_stability = 5;
+            state.region_stability = 5;
+            state.local_stability = 5;
+            state.plague_now = false;
+            state.climate = 'good';
+            state.crops = 'good';
+            state.crop_fortune = 5;
+            state.war_now = false;
+        }
         }
     }
-});
+);
 
-export const { increment, incrementByAmount } = yearSlice.actions;
+export const { incrementYear, restartYear } = yearSlice.actions;
 
 export const selectCurrentYear = (state: RootState) => state.year.current;
 

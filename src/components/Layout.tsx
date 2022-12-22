@@ -12,16 +12,16 @@ import Annals from './Annals';
 import Contact from './Contact';
 import Timeline from './Timeline';
 // import { Year, Person, People, War, Plague } from '../types';
-import { useAppDispatch } from '../store/hooks';
-import {
-    increment
-} from '../store/yearSlice';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { restartYear, incrementYear } from '../store/yearSlice';
+import { startSim, restartSim, selectPeopleCheck } from '../store/checkSlice';
+
 
 function Layout() {
     const myTheme = createTheme();
     const drawerWidth: number = 240;
     const dispatch = useAppDispatch();
-
+    const check = useAppSelector(selectPeopleCheck);
     return (
         <ThemeProvider theme={ myTheme }>
             <Box sx={{ display: 'flex' }}>
@@ -29,13 +29,31 @@ function Layout() {
                 <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
                     <Toolbar >
                         <Stack direction="row" spacing={6}>
-                       <Button variant="contained" disableElevation>Start</Button>
-                       <Button variant="contained" disableElevation>Restart</Button>
-                       <Button variant="contained" disableElevation
-                       onClick={() => dispatch(increment())}
-                       >Next</Button>
-                       <Button variant="contained" disableElevation>Save</Button>
-                       </Stack>
+                       <Button variant="contained" 
+                        disableElevation
+                        disabled={check}
+                        onClick={()=> dispatch(startSim())}>
+                            Start
+                        </Button>
+                       <Button variant="contained" 
+                        disableElevation
+                        disabled={!check}
+                        onClick={()=> {
+                            dispatch(restartSim());
+                            dispatch(restartYear());
+                        }}
+                        >
+                            Restart
+                        </Button>
+                       <Button variant="contained" 
+                        disableElevation
+                        disabled={!check}
+                        onClick={() => dispatch(incrementYear())}
+                        >
+                            Next
+                        </Button>
+                        <Button variant="contained" disableElevation>Save</Button>
+                    </Stack>
                     </Toolbar>
                 </AppBar>
                 <Drawer
