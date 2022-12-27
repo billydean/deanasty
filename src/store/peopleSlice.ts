@@ -15,7 +15,7 @@ export const peopleSlice = createSlice({
         },
         begone: () => {
             return []
-        }
+        },
     }
 });
 

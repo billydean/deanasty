@@ -3,7 +3,7 @@ import { RootState } from './index';
 import type { Year } from '../types';
 
 const initialState: Year = {
-    current: 0,
+    current: 1,
     total: 0,
     global_stability: 5,
     region_stability: 5,

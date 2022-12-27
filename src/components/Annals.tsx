@@ -15,7 +15,7 @@ function Annals() {
         { 
         people.map(each => (
             <div key={each.id}>
-                {each.name} is {currentYear - each.birth_year} years old.
+                {each.name} is {currentYear - each.birth_year} years old. They will die in the year {each.old_year}.
             </div>
         ))
         }

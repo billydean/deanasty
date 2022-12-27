@@ -17,6 +17,8 @@ import { restartYear, incrementYear } from '../store/yearSlice';
 import { startSim, restartSim, selectPeopleCheck } from '../store/checkSlice';
 import { beLife, begone } from '../store/peopleSlice';
 
+
+
 function Layout() {
     const myTheme = createTheme();
     const drawerWidth: number = 240;
@@ -52,7 +54,9 @@ function Layout() {
                        <Button variant="contained" 
                         disableElevation
                         disabled={!check}
-                        onClick={() => dispatch(incrementYear())}
+                        onClick={() => {
+                            dispatch(incrementYear())
+                        }}
                         >
                             Next
                         </Button>
