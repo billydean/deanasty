@@ -1,6 +1,3 @@
-import { useAppSelector } from '../store/hooks';
-import { selectCurrentYear } from '../store/yearSlice';
-import { selectPeople } from '../store/peopleSlice';
 import type { People, Year } from '../types';
 
 function Annals({year, people}: {year: Year, people: People}) {
@@ -15,7 +12,7 @@ function Annals({year, people}: {year: Year, people: People}) {
         { 
         people.map(each => (
             <div key={each.id}>
-                {each.name} is { year.current - each.birth_year} years old. They will die in the year {each.old_year}.
+                {each.name} is { year.current - each.birth_year} years old. They will die in the year {each.old_year}. They are { each.alive ? `alive` : `dead`}.
             </div>
         ))
         }
