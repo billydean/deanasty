@@ -39,6 +39,14 @@ interface Person {
 
 type People = Person[];
 
-export type { Year, Person, People, War, Plague };
+interface State {
+    people: People;
+    year: Year;
+    sim_check: boolean;
+}
+
+type Action = any;
+
+export type { Year, Person, People, War, Plague, State, Action };
 
 

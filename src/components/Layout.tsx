@@ -11,19 +11,18 @@ import Tree from './Tree';
 import Annals from './Annals';
 import Contact from './Contact';
 import Timeline from './Timeline';
-// import { Year, Person, People, War, Plague } from '../types';
-import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { restartYear, incrementYear } from '../store/yearSlice';
-import { startSim, restartSim, selectPeopleCheck } from '../store/checkSlice';
-import { beLife, begone } from '../store/peopleSlice';
 
+import { useReducer } from 'react';
+import { initialState } from '../store/initialState';
+import reducer from '../store/reducer';
 
 
 function Layout() {
     const myTheme = createTheme();
     const drawerWidth: number = 240;
-    const dispatch = useAppDispatch();
-    const check = useAppSelector(selectPeopleCheck);
+    const [state, dispatch] = useReducer(reducer, initialState);
+
+    console.log(state.sim_check);
     return (
         <ThemeProvider theme={ myTheme }>
             <Box sx={{ display: 'flex' }}>
@@ -33,29 +32,32 @@ function Layout() {
                         <Stack direction="row" spacing={6}>
                        <Button variant="contained" 
                         disableElevation
-                        disabled={check}
+                        disabled={state.sim_check == true}
                         onClick={()=> {
-                            dispatch(beLife());
-                            dispatch(startSim())
+                            dispatch({
+                                type: 'START_SIM'
+                            });
                         }}>
                             Start
                         </Button>
                        <Button variant="contained" 
                         disableElevation
-                        disabled={!check}
+                        disabled={!state.sim_check}
                         onClick={()=> {
-                            dispatch(begone());
-                            dispatch(restartSim());
-                            dispatch(restartYear());
+                            dispatch({
+                                type: 'RESET_SIM'
+                            })
                         }}
                         >
                             Restart
                         </Button>
                        <Button variant="contained" 
                         disableElevation
-                        disabled={!check}
+                        disabled={!state.sim_check}
                         onClick={() => {
-                            dispatch(incrementYear())
+                            dispatch({
+                                type: 'INCREMENT_YEAR'
+                            })
                         }}
                         >
                             Next
@@ -133,7 +135,7 @@ function Layout() {
                     <Routes>
                         <Route path="/" element={<Main />}/>
                         <Route path="/tree" element={<Tree />}/>
-                        <Route path="/annals" element={<Annals />}/>
+                        <Route path="/annals" element={<Annals year={ state.year } people={ state.people }/>}/>
                         <Route path="/timeline" element={<Timeline />}/>
                         <Route path="/contact" element={<Contact />}/>
                     </Routes>

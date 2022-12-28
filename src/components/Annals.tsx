@@ -1,21 +1,21 @@
 import { useAppSelector } from '../store/hooks';
 import { selectCurrentYear } from '../store/yearSlice';
 import { selectPeople } from '../store/peopleSlice';
+import type { People, Year } from '../types';
 
-function Annals() {
-    const currentYear = useAppSelector(selectCurrentYear);
-    const people = useAppSelector(selectPeople);
+function Annals({year, people}: {year: Year, people: People}) {
+
 
     return (
         <div>
         <div>
-            The year is { currentYear }.
+            The year is { year.current }.
         </div>
         <div>
         { 
         people.map(each => (
             <div key={each.id}>
-                {each.name} is {currentYear - each.birth_year} years old. They will die in the year {each.old_year}.
+                {each.name} is { year.current - each.birth_year} years old. They will die in the year {each.old_year}.
             </div>
         ))
         }

@@ -2,7 +2,7 @@ import type { Person } from "../types";
 import oldAge from "./oldAge";
 
 
-export default function () {
+export default function firstPerson() {
     const birth_year: number = 1;
 
     const newbie: Person = {
