@@ -2,7 +2,8 @@ import type { State } from '../types';
 
 
 export const initialState: Readonly<State> = {
-    people: [],
+    dead_people: [],
+    living_people: [],
     year: {
         current: 1,
         total: 0,

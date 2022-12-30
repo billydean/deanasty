@@ -40,7 +40,8 @@ interface Person {
 type People = Person[];
 
 interface State {
-    people: People;
+    dead_people: People;
+    living_people: People;
     year: Year;
     sim_check: boolean;
 }

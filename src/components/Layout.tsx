@@ -22,7 +22,6 @@ function Layout() {
     const drawerWidth: number = 240;
     const [state, dispatch] = useReducer(reducer, initialState);
 
-    console.log(state.sim_check);
     return (
         <ThemeProvider theme={ myTheme }>
             <Box sx={{ display: 'flex' }}>
@@ -32,7 +31,7 @@ function Layout() {
                         <Stack direction="row" spacing={6}>
                        <Button variant="contained" 
                         disableElevation
-                        disabled={state.sim_check == true}
+                        disabled={state.sim_check === true}
                         onClick={()=> {
                             dispatch({
                                 type: 'START_SIM'
@@ -135,7 +134,7 @@ function Layout() {
                     <Routes>
                         <Route path="/" element={<Main />}/>
                         <Route path="/tree" element={<Tree />}/>
-                        <Route path="/annals" element={<Annals year={ state.year } people={ state.people }/>}/>
+                        <Route path="/annals" element={<Annals year={ state.year } people={ state.living_people }/>}/>
                         <Route path="/timeline" element={<Timeline />}/>
                         <Route path="/contact" element={<Contact />}/>
                     </Routes>

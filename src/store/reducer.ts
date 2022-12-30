@@ -2,6 +2,7 @@ import { State, Action } from "../types";
 import { firstPerson } from "../utils/firstPerson";
 import { initialState } from "./initialState";
 import { isOld }from "../utils/isOld";
+import { livingToDead } from "../utils/livingToDead";
 
 export default function reducer(state: State, action: Action): State {
     switch (action.type) {
@@ -9,14 +10,24 @@ export default function reducer(state: State, action: Action): State {
             return {
                 ...state,
                 sim_check: true,
-                people: [firstPerson()]
+                living_people: [firstPerson()]
             };
 
         case 'RESET_SIM':
             return initialState;
 
         case 'INCREMENT_YEAR':
-            // let current = state.year.current;
+            let oldCheckedPeople = state.living_people.map((person) => {
+                if (isOld(person.old_year,state.year.current)) {
+                    return {...person, alive: false}
+                } else { 
+                    return person
+                }
+            })
+            const { living_people, dead_people } = livingToDead(oldCheckedPeople, state.dead_people);
+            if (state.dead_people.length > 0) {
+                console.log(state)
+            }
             return {
                 ...state,
                 year: {
@@ -24,13 +35,8 @@ export default function reducer(state: State, action: Action): State {
                     current: state.year.current + 1,
                     total: state.year.total + 1
                 },
-                people: state.people.map((person) => {
-                    if (isOld(person.old_year,state.year.current)) {
-                        return {...person, alive: false}
-                    } else {
-                        return person
-                    }
-                })
+                living_people: living_people,
+                dead_people: dead_people
             }
 
         default:
