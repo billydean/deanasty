@@ -1,7 +1,7 @@
 import { State, Action } from "../types";
-import firstPerson from "../utils/firstPerson";
+import { firstPerson } from "../utils/firstPerson";
 import { initialState } from "./initialState";
-import isOld from "../utils/isOld";
+import { isOld }from "../utils/isOld";
 
 export default function reducer(state: State, action: Action): State {
     switch (action.type) {
