@@ -3,6 +3,7 @@ import { firstPerson } from "../utils/firstPerson";
 import { initialState } from "./initialState";
 import { isOld }from "../utils/isOld";
 import { livingToDead } from "../utils/livingToDead";
+import { reaper } from "../utils/reaper";
 
 export default function reducer(state: State, action: Action): State {
     switch (action.type) {
@@ -19,7 +20,7 @@ export default function reducer(state: State, action: Action): State {
         case 'INCREMENT_YEAR':
             let oldCheckedPeople = state.living_people.map((person) => {
                 if (isOld(person.old_year,state.year.current)) {
-                    return {...person, alive: false}
+                    return reaper(person, state.year.current)
                 } else { 
                     return person
                 }
