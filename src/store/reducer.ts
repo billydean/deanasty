@@ -32,9 +32,6 @@ export default function reducer(state: State, action: Action): State {
                     }
                 })
             }
-            // state.year.current++;
-            // state.year.total++;
-            // return state;
 
         default:
             throw Error("I'm not familiar with the action: " + action.type)
