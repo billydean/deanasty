@@ -43,7 +43,7 @@ type Events = EventfulYear[]
 
 type EventfulYear = {
     year: number;
-    events: string[]
+    events: (string | undefined)[]
 }
 
 interface State {

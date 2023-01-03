@@ -33,10 +33,11 @@ export default function reducer(state: State, action: Action): State {
                     return person
                 }
             })
-            const { living_people, dead_people } = livingToDead(oldCheckedPeople, state.dead_people);
-            if (state.dead_people.length > 0) {
-                console.log(state)
-            }
+            const { living_people, dead_people, death_events } = livingToDead(oldCheckedPeople, state.dead_people);
+            const other_year_events = state.events.filter((EventfulYear) => EventfulYear.year !== state.year.current);
+            const current_year_events = state.events.find((EventfulYear) => EventfulYear.year === state.year.current)?.events || [];
+            
+
             return {
                 ...state,
                 year: {
@@ -45,7 +46,14 @@ export default function reducer(state: State, action: Action): State {
                     total: state.year.total + 1
                 },
                 living_people: living_people,
-                dead_people: dead_people
+                dead_people: dead_people,
+                events: [
+                    ...other_year_events,
+                    {
+                        year: state.year.current,
+                        events: [...current_year_events, ...death_events]
+                    }
+                ]
             }
 
         default:

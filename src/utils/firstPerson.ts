@@ -15,7 +15,7 @@ export function firstPerson(): Person {
         fertility: 100,
         alive: true,
         offspring: [],
-        birth_year: birth_year
+        birth_year: birth_year,
     }
     return newbie;
 }

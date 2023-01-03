@@ -3,13 +3,15 @@ import Annal from './Annal';
 
 function Annals({year, people, events}: {year: Year, people: People, events: Events}) {
     
+    const filteredEvents = events.filter((eachYear) => eachYear.events.length > 0)
+
     return (
         <div>
         <div>
             The year is { year.current }.
         </div>
 
-        { events.map(eachYear => (
+        { filteredEvents.map(eachYear => (
             <div key={eachYear.year}>
             <Annal year={eachYear.year} events={eachYear.events} />
             </div>
