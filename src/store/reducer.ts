@@ -1,4 +1,4 @@
-import { State, Action } from "../types";
+import { State, Action, Person } from "../types";
 import { firstPerson } from "../utils/firstPerson";
 import { initialState } from "./initialState";
 import { isOld }from "../utils/isOld";
@@ -8,10 +8,18 @@ import { reaper } from "../utils/reaper";
 export default function reducer(state: State, action: Action): State {
     switch (action.type) {
         case 'START_SIM':
+            const newPerson: Person = firstPerson();
+            const birthMessage: string = newPerson.name + ' was born';
             return {
                 ...state,
                 sim_check: true,
-                living_people: [firstPerson()]
+                living_people: [newPerson],
+                events: [
+                    ...state.events,
+                    { year: state.year.current,
+                        events: [birthMessage]
+                    }
+            ]
             };
 
         case 'RESET_SIM':

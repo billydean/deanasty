@@ -39,15 +39,23 @@ interface Person {
 
 type People = Person[];
 
+type Events = EventfulYear[]
+
+type EventfulYear = {
+    year: number;
+    events: string[]
+}
+
 interface State {
     dead_people: People;
     living_people: People;
     year: Year;
     sim_check: boolean;
+    events: Events;
 }
 
 type Action = any;
 
-export type { Year, Person, People, War, Plague, State, Action };
+export type { Year, Person, People, War, Plague, State, Action, Events, EventfulYear };
 
 

@@ -134,7 +134,7 @@ function Layout() {
                     <Routes>
                         <Route path="/" element={<Main />}/>
                         <Route path="/tree" element={<Tree />}/>
-                        <Route path="/annals" element={<Annals year={ state.year } people={ state.living_people }/>}/>
+                        <Route path="/annals" element={<Annals year={ state.year } people={ state.living_people } events={ state.events }/>}/>
                         <Route path="/timeline" element={<Timeline />}/>
                         <Route path="/contact" element={<Contact />}/>
                     </Routes>

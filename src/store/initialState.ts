@@ -16,5 +16,6 @@ export const initialState: Readonly<State> = {
         crop_fortune: 5,
         war_now: false,
     },
-    sim_check: false
+    sim_check: false,
+    events: []
 }
