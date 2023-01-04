@@ -2,12 +2,14 @@ import type { Person } from "../types";
 import { deathRate } from "./oldAge";
 import { v4 as uuid } from "uuid";
 import { pickSex, setFertility } from "./Pickers";
+import { nameMaker } from "./Naming";
 
 export function firstPerson(): Person {
     const birth_year: number = 1;
+    const {first, last} = nameMaker();
 
     const newbie: Person = {
-        name: "Persy Personson",
+        name: `${first} ${last}`,
         id: uuid(),
         sex: pickSex(),
         old_year: deathRate(birth_year),
@@ -24,12 +26,13 @@ export function firstPerson(): Person {
 
 
 export function createSpouse(person: Person): Person {
+    const {first, last} = nameMaker();
     const sex = person.sex === 'female'
         ? 'male'
         : 'female'
-    const birthYear = (person.birth_year - 4) + Math.floor(Math.random() * 9)
+    const birthYear = (person.birth_year - 3) + Math.floor(Math.random() * 7)
     return {
-        name: "name",
+        name: `${first} ${last}`,
         id: uuid(),
         sex: sex,
         birth_year: birthYear,

@@ -19,8 +19,8 @@ export function willYouMarryMe (age: number): boolean {
     
     switch (check) {
         case 3: return picker <= 64
-        case 4: return picker <= 512
-        case 5: return picker <= 256
+        case 4: return picker <= 384
+        case 5: return picker <= 384
         case 6: return picker <= 128
         case 7: return picker <= 128
         case 8: return picker <= 32
