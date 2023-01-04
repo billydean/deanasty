@@ -1,9 +1,10 @@
-import { State, Action, Person } from "../types";
-import { firstPerson } from "../utils/PeopleMakers";
+import { State, Action, Person, People } from "../types";
+import { firstPerson, createSpouse } from "../utils/PeopleMakers";
 import { initialState } from "./initialState";
 import { isOld }from "../utils/isOld";
 import { livingToDead } from "../utils/livingToDead";
 import { reaper } from "../utils/reaper";
+import { willYouMarryMe } from "../utils/Pickers";
 
 export default function reducer(state: State, action: Action): State {
     switch (action.type) {
@@ -36,8 +37,28 @@ export default function reducer(state: State, action: Action): State {
             const { living_people, dead_people, death_events } = livingToDead(oldCheckedPeople, state.dead_people);
             const other_year_events = state.events.filter((EventfulYear) => EventfulYear.year !== state.year.current);
             const current_year_events = state.events.find((EventfulYear) => EventfulYear.year === state.year.current)?.events || [];
+            const createdSpouses: People = []
 
+            living_people.forEach((person)=> {
+                person.marital_status = willYouMarryMe((state.year.current - person.birth_year));
+                if (person.marital_status === true && !person.relations.spouse) {
+                    createdSpouses.push(createSpouse(person))
 
+                }
+            });
+
+            createdSpouses.forEach((spouse)=>{
+                living_people.forEach((person)=>{
+                    if (spouse.relations.spouse === person.id) {
+                        person.relations.spouse = spouse.id
+                        
+                    }
+                })
+            });
+
+            const new_living_people = living_people.concat(createdSpouses);
+
+            // living_people.forEach((person) => {console.log(willYouMarryMe((state.year.current - person.birth_year)))})
             return {
                 ...state,
                 year: {
@@ -45,7 +66,7 @@ export default function reducer(state: State, action: Action): State {
                     current: state.year.current + 1,
                     total: state.year.total + 1
                 },
-                living_people: living_people,
+                living_people: new_living_people,
                 dead_people: dead_people,
                 events: [
                     ...other_year_events,

@@ -40,7 +40,8 @@ interface Person {
     alive: boolean,
     birth_year: number,
     death_year?: number,
-    relations: Relations
+    relations: Relations,
+    marital_status: boolean
 }
 
 type People = Person[];

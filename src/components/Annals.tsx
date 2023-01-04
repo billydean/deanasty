@@ -4,7 +4,7 @@ import Annal from './Annal';
 function Annals({year, people, events}: {year: Year, people: People, events: Events}) {
     
     const filteredEvents = events.filter((eachYear) => eachYear.events.length > 0)
-
+  
     return (
         <div>
         <div>

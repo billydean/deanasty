@@ -14,9 +14,10 @@ export function pickSex (): string {
 export function willYouMarryMe (age: number): boolean {
     const check: number = Math.floor(age / 5);
     const picker: number = Math.ceil(Math.random() * 2560)
+    
     switch (check) {
         case 3: return picker <= 64
-        case 4: return picker <= 256
+        case 4: return picker <= 512
         case 5: return picker <= 256
         case 6: return picker <= 128
         case 7: return picker <= 128
@@ -27,7 +28,7 @@ export function willYouMarryMe (age: number): boolean {
         case 12: return picker <= 4
         case 13: return picker <= 4
         case 14: return picker <= 2
-        case 15: return picker == 1
+        case 15: return picker === 1
         default: return false;
     }
 }
