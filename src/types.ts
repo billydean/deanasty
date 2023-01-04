@@ -34,6 +34,7 @@ interface Relations {
 interface Person {
     name: string,
     id: string,
+    sex: string,
     old_year: number, //death date by old age, barring other cause(s)
     fertility: number,
     alive: boolean,
