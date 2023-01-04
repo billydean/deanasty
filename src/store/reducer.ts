@@ -42,23 +42,25 @@ export default function reducer(state: State, action: Action): State {
             living_people.forEach((person)=> {
                 person.marital_status = willYouMarryMe((state.year.current - person.birth_year));
                 if (person.marital_status === true && !person.relations.spouse) {
-                    createdSpouses.push(createSpouse(person))
-
+                    const spouse = createSpouse(person);
+                    person.relations.spouse = spouse.id;
+                    createdSpouses.push(spouse);
+                    current_year_events.push(`${person.name} and ${spouse.name} joined hands in marriage.`)
                 }
             });
 
-            createdSpouses.forEach((spouse)=>{
-                living_people.forEach((person)=>{
-                    if (spouse.relations.spouse === person.id) {
-                        person.relations.spouse = spouse.id
+            // createdSpouses.forEach((spouse)=>{
+            //     living_people.forEach((person)=>{
+            //         if (spouse.relations.spouse === person.id) {
+            //             person.relations.spouse = spouse.id
                         
-                    }
-                })
-            });
+            //         }
+            //     })
+            // });
 
             const new_living_people = living_people.concat(createdSpouses);
 
-            // living_people.forEach((person) => {console.log(willYouMarryMe((state.year.current - person.birth_year)))})
+
             return {
                 ...state,
                 year: {
