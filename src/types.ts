@@ -23,18 +23,23 @@ interface Year {
     wars?: War[]
 }
 
+interface Relations {
+    family: string;
+    mother?: string;
+    father?: string;
+    spouse?: string;
+    offspring?: string[];
+}
+
 interface Person {
     name: string,
-    id: number,
+    id: string,
     old_year: number, //death date by old age, barring other cause(s)
-    family_id: number,
-    mother_id: number,
-    father_id: number,
     fertility: number,
     alive: boolean,
-    offspring?: number[],
     birth_year: number,
-    death_year?: number 
+    death_year?: number,
+    relations: Relations
 }
 
 type People = Person[];

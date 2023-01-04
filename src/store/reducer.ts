@@ -1,5 +1,5 @@
 import { State, Action, Person } from "../types";
-import { firstPerson } from "../utils/firstPerson";
+import { firstPerson } from "../utils/PeopleMakers";
 import { initialState } from "./initialState";
 import { isOld }from "../utils/isOld";
 import { livingToDead } from "../utils/livingToDead";
@@ -36,7 +36,7 @@ export default function reducer(state: State, action: Action): State {
             const { living_people, dead_people, death_events } = livingToDead(oldCheckedPeople, state.dead_people);
             const other_year_events = state.events.filter((EventfulYear) => EventfulYear.year !== state.year.current);
             const current_year_events = state.events.find((EventfulYear) => EventfulYear.year === state.year.current)?.events || [];
-            
+
 
             return {
                 ...state,
