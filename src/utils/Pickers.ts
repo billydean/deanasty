@@ -1,3 +1,5 @@
+import { beta } from '@stdlib/random/base';
+
 export function pickSex (): string {
     const value: number = Math.ceil(Math.random() * 2);
     return value === 1
@@ -31,6 +33,10 @@ export function willYouMarryMe (age: number): boolean {
         case 15: return picker === 1
         default: return false;
     }
+}
+
+export function setFertility (): number {
+    return Math.ceil(beta(2.5,2) * 100);
 }
 
 /**back of napkin math:

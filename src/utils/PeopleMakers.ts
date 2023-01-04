@@ -1,7 +1,7 @@
 import type { Person } from "../types";
 import { deathRate } from "./oldAge";
 import { v4 as uuid } from "uuid";
-import { pickSex } from "./Pickers";
+import { pickSex, setFertility } from "./Pickers";
 
 export function firstPerson(): Person {
     const birth_year: number = 1;
@@ -11,7 +11,7 @@ export function firstPerson(): Person {
         id: uuid(),
         sex: pickSex(),
         old_year: deathRate(birth_year),
-        fertility: 100,
+        fertility: setFertility(),
         alive: true,
         birth_year: birth_year,
         relations: {
@@ -34,7 +34,7 @@ export function createSpouse(person: Person): Person {
         sex: sex,
         birth_year: birthYear,
         old_year: deathRate(birthYear),
-        fertility: 100,
+        fertility: setFertility(),
         alive: true,
         relations: {
             family: uuid(),
