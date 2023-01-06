@@ -37,11 +37,14 @@ const syllableMaker = (syllable: string) => {
     return product;
 }
 
-export function nameMaker (): {first: string, last: string} {
+export function nameMaker (): {capitalFirst: string, capitalLast: string} {
     let firstCount = syllableCount('first');
     let lastCount = syllableCount('second');
     let first = "";
     let last = "";
+    let capitalFirst = "";
+    let capitalLast = "";
+
     while (firstCount > 0) {
         first += syllableMaker(picker(syllables));
         firstCount--;
@@ -50,8 +53,21 @@ export function nameMaker (): {first: string, last: string} {
         last += syllableMaker(picker(syllables));
         lastCount--;
     }
+
+    for (let i=0; i<first.length;i++) {
+        if (i === 0) {
+            capitalFirst += first[i].toUpperCase();
+        } else { capitalFirst += first[i]; }
+    }
+    
+    for (let i=0; i<last.length;i++) {
+        if (i === 0) {
+            capitalLast += last[i].toUpperCase();
+        } else { capitalLast += last[i]; }
+    }
+
     return {
-        first, 
-        last
+        capitalFirst, 
+        capitalLast
     }
 }

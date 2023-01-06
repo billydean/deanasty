@@ -6,10 +6,10 @@ import { nameMaker } from "./Naming";
 
 export function firstPerson(): Person {
     const birth_year: number = 1;
-    const {first, last} = nameMaker();
+    const {capitalFirst, capitalLast} = nameMaker();
 
     const newbie: Person = {
-        name: `${first} ${last}`,
+        name: `${capitalFirst} ${capitalLast}`,
         id: uuid(),
         sex: pickSex(),
         old_year: deathRate(birth_year),
@@ -26,13 +26,13 @@ export function firstPerson(): Person {
 
 
 export function createSpouse(person: Person): Person {
-    const {first, last} = nameMaker();
+    const {capitalFirst, capitalLast} = nameMaker();
     const sex = person.sex === 'female'
         ? 'male'
         : 'female'
     const birthYear = (person.birth_year - 3) + Math.floor(Math.random() * 7)
     return {
-        name: `${first} ${last}`,
+        name: `${capitalFirst} ${capitalLast}`,
         id: uuid(),
         sex: sex,
         birth_year: birthYear,
