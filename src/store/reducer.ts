@@ -1,10 +1,8 @@
 import { State, Action, Person, People } from "../types";
 import { firstPerson, createSpouse } from "../utils/PeopleMakers";
 import { initialState } from "./initialState";
-import { isOld }from "../utils/isOld";
 import { livingToDead } from "../utils/livingToDead";
-import { reaper } from "../utils/reaper";
-import { willYouMarryMe } from "../utils/Pickers";
+import { agingFertility, checkOldAge, handleMarriages, willYouMarryMe } from "../utils/PeopleCheckers";
 
 export default function reducer(state: State, action: Action): State {
     switch (action.type) {
@@ -27,28 +25,24 @@ export default function reducer(state: State, action: Action): State {
             return initialState;
 
         case 'INCREMENT_YEAR':
-            let oldCheckedPeople = state.living_people.map((person) => {
-                if (isOld(person.old_year,state.year.current)) {
-                    return reaper(person, state.year.current)
-                } else { 
-                    return person
-                }
-            })
-            const { living_people, dead_people, death_events } = livingToDead(oldCheckedPeople, state.dead_people);
+            const peopleCheckedForOld = checkOldAge(state.year.current, state.living_people)
+
+            const { living_people, dead_people, death_events } = livingToDead(peopleCheckedForOld, state.dead_people);
+
             const other_year_events = state.events.filter((EventfulYear) => EventfulYear.year !== state.year.current);
             const current_year_events = state.events.find((EventfulYear) => EventfulYear.year === state.year.current)?.events || [];
+
             const createdSpouses: People = []
 
-            living_people.forEach((person)=> {
-                person.marital_status = willYouMarryMe((person.age));
-                if (person.marital_status === true && !person.relations.spouse) {
-                    const spouse = createSpouse(person, state.year.current);
-                    person.relations.spouse = spouse.id;
-                    createdSpouses.push(spouse);
-                    current_year_events.push(`${person.name} and ${spouse.name} joined hands in marriage.`)
-                }
-            });
+            // check/adjust fertility based on age bracket
+            agingFertility(living_people);
 
+            // check to see if single folks get hitched
+            willYouMarryMe(living_people);
+            
+            //  create spouses with correct id and age, announce marriages in array of current events
+            handleMarriages(living_people, state.year.current, createdSpouses, current_year_events);
+            
             const new_living_people = living_people.concat(createdSpouses);
 
 

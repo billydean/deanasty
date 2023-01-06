@@ -26,7 +26,7 @@ export function firstPerson(): Person {
 }
 
 
-export function createSpouse(person: Person, year: number): Person {
+export function createSpouse(person: Person): Person {
     const {capitalFirst, capitalLast} = nameMaker();
     const sex = person.sex === 'female'
         ? 'male'
@@ -36,7 +36,7 @@ export function createSpouse(person: Person, year: number): Person {
         name: `${capitalFirst} ${capitalLast}`,
         id: uuid(),
         sex: sex,
-        age: year - birthYear,
+        age: 0,
         birth_year: birthYear,
         old_year: deathRate(birthYear),
         fertility: setFertility(),

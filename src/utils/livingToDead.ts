@@ -8,7 +8,13 @@ export function livingToDead (living: People, dead: People): { living_people: Pe
         }  else return undefined
     })
     let dead_people = dead.concat(new_dead_people)
-    let living_people = living.filter((person: Person) => person.alive === true )
+    let new_living_people = living.filter((person: Person) => person.alive === true);
+    let living_people = new_living_people.map((person: Person) => {
+        return {
+            ...person,
+            age: person.age + 1
+        }
+    })
     return {
         living_people,
         dead_people,
