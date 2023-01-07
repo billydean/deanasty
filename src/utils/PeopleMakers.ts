@@ -49,6 +49,25 @@ export function createSpouse(person: Person): Person {
     }
 }
 
+export function createChild (parent1: Person, parent2: Person, year: number): Person {
+    const {capitalFirst, capitalLast} = nameMaker();
+    return {
+        name: `${capitalFirst} ${capitalLast}`,
+        id: uuid(),
+        sex: pickSex(),
+        age: 0,
+        old_year: deathRate(year),
+        fertility: setFertility(),
+        alive: true,
+        birth_year: year,
+        relations: {
+            family: parent1.relations.family,
+            mother: parent1.id,
+            father: parent2.id
+        },
+        marital_status: false
+    }
+}
 
 /**
  * all are checked for marriage

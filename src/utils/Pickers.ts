@@ -10,7 +10,7 @@ export function pickSex (): string {
 
 
 export function setFertility (): number {
-    return Math.ceil(beta(2.5,2) * 100);
+    return Math.ceil(beta(3,2) * 100);
 }
 
 /**back of napkin math:

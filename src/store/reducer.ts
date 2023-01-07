@@ -1,8 +1,8 @@
 import { State, Action, Person, People } from "../types";
-import { firstPerson, createSpouse } from "../utils/PeopleMakers";
+import { firstPerson } from "../utils/PeopleMakers";
 import { initialState } from "./initialState";
 import { livingToDead } from "../utils/livingToDead";
-import { agingFertility, checkOldAge, handleMarriages, willYouMarryMe } from "../utils/PeopleCheckers";
+import { agingFertility, checkOldAge, handleMarriages, stork, willYouMarryMe } from "../utils/PeopleCheckers";
 
 export default function reducer(state: State, action: Action): State {
     switch (action.type) {
@@ -32,7 +32,9 @@ export default function reducer(state: State, action: Action): State {
             const other_year_events = state.events.filter((EventfulYear) => EventfulYear.year !== state.year.current);
             const current_year_events = state.events.find((EventfulYear) => EventfulYear.year === state.year.current)?.events || [];
 
-            const createdSpouses: People = []
+            // bucket arrays for later
+            const createdSpouses: People = [];
+            const createdBabies: People = [];
 
             // check/adjust fertility based on age bracket
             agingFertility(living_people);
@@ -42,8 +44,11 @@ export default function reducer(state: State, action: Action): State {
             
             //  create spouses with correct id and age, announce marriages in array of current events
             handleMarriages(living_people, state.year.current, createdSpouses, current_year_events);
-            
-            const new_living_people = living_people.concat(createdSpouses);
+
+            // check living couples for new babies, based on both fertility rates
+            stork(living_people, createdBabies, current_year_events, state.year.current);
+
+            const new_living_people = living_people.concat(createdSpouses, createdBabies);
 
 
             return {

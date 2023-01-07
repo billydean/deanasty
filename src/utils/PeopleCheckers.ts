@@ -1,6 +1,6 @@
 import { People, Person } from "../types"
 import { beta } from '@stdlib/random/base';
-import { createSpouse } from "./PeopleMakers";
+import { createChild, createSpouse } from "./PeopleMakers";
 
 
 export function deathRate(birth_year: number, modifier: number = 0): number {
@@ -60,12 +60,12 @@ export function marriageRate (age: number): boolean {
     const picker: number = Math.ceil(Math.random() * 2560)
     
     switch (check) {
-        case 3: return picker <= 64
-        case 4: return picker <= 384
-        case 5: return picker <= 384
-        case 6: return picker <= 128
-        case 7: return picker <= 128
-        case 8: return picker <= 32
+        case 3: return picker <= 172
+        case 4: return picker <= 720
+        case 5: return picker <= 512
+        case 6: return picker <= 256
+        case 7: return picker <= 256
+        case 8: return picker <= 64
         case 9: return picker <= 32
         case 10: return picker <= 16
         case 11: return picker <= 8
@@ -99,6 +99,48 @@ export function handleMarriages (people: People, year: number, new_spouses: Peop
             spouse.age = year - spouse.birth_year; // step 3
             new_spouses.push(spouse); // step 4
             events.push(`${person.name} and ${spouse.name} joined hands in marriage.`); // step 5
+        }
+    })
+};
+
+// 1. filters down to live, married couples
+// 2. rolls: if lower than both fertility rates, baby!
+// 3. creates baby
+// 4. adds baby to baby array
+// 5. adds baby news to array of events in state
+// 6. adds baby's id to both parents' relations.offspring
+
+export function stork (people: People, new_children: People, events: (string|undefined)[], year: number) {
+    people.forEach((person) => {
+        
+        // step 1
+        if (person.sex === 'female' && person.marital_status === true && person.fertility > 0) { 
+            const match = people.find(each => each.id === person.relations.spouse);
+            if (match && match.alive && match.fertility > 0) {
+                const seed = Math.ceil(Math.random() * 100);
+                console.log(`seed is ${seed}. fertility rates are ${person.fertility} and ${match.fertility}.`);
+                if (person.fertility > seed && match.fertility > seed) { // step 2
+                    const kiddo = createChild(person, match, year); // step 3
+                    new_children.push(kiddo); // step 4
+                    events.push(`${kiddo.name} was born to ${person.name} and ${match.name}.`); // step 5
+                    // step 6
+                    if (person.relations.offspring) {
+                        person.relations.offspring.push(kiddo.id);
+                        if (match.relations.offspring) {
+                            match.relations.offspring.push(kiddo.id);
+                        } else {
+                            match.relations.offspring = [kiddo.id];
+                        }
+                    } else {
+                        person.relations.offspring = [kiddo.id];
+                        if (match.relations.offspring) {
+                            match.relations.offspring.push(kiddo.id);
+                        } else {
+                            match.relations.offspring = [kiddo.id];
+                        }
+                    }
+                }
+            }
         }
     })
 }
