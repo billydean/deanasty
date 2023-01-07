@@ -25,19 +25,21 @@ export default function reducer(state: State, action: Action): State {
             return initialState;
 
         case 'INCREMENT_YEAR':
+
             const peopleCheckedForOld = checkOldAge(state.year.current, state.living_people)
 
-            const { living_people, dead_people, death_events } = livingToDead(peopleCheckedForOld, state.dead_people);
+            // I know I'm playing fast and loose with 'less'! Not being able to quickly concatenate arrays led to dozens of new mapped arrays, which became hard to follow (and it was hard to settle on a naming convention that was easy to parse over the course of a dozen (potentially dozens) different checks). 
+            let { living_people, dead_people, death_events } = livingToDead(peopleCheckedForOld, state.dead_people);
 
             const other_year_events = state.events.filter((EventfulYear) => EventfulYear.year !== state.year.current);
             const current_year_events = state.events.find((EventfulYear) => EventfulYear.year === state.year.current)?.events || [];
 
             // bucket arrays for later
-            const createdSpouses: People = [];
-            const createdBabies: People = [];
+            let createdSpouses: People = [];
+            let createdBabies: People = [];
 
             // check/adjust fertility based on age bracket
-            agingFertility(living_people);
+            living_people = (agingFertility(living_people));
 
             // check to see if single folks get hitched
             willYouMarryMe(living_people);
@@ -48,7 +50,7 @@ export default function reducer(state: State, action: Action): State {
             // check living couples for new babies, based on both fertility rates
             stork(living_people, createdBabies, current_year_events, state.year.current);
 
-            const new_living_people = living_people.concat(createdSpouses, createdBabies);
+            living_people = living_people.concat(createdSpouses, createdBabies);
 
 
             return {
@@ -58,7 +60,7 @@ export default function reducer(state: State, action: Action): State {
                     current: state.year.current + 1,
                     total: state.year.total + 1
                 },
-                living_people: new_living_people,
+                living_people: living_people,
                 dead_people: dead_people,
                 events: [
                     ...other_year_events,

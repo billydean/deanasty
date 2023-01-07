@@ -25,30 +25,59 @@ export function checkOldAge (year: number, people: People): People {
     })
 }
 
-export function agingFertility (people: People) {
-    people.forEach((person) => {
+// export function agingFertility (people: People) {
+//     people.forEach((person) => {
+//         if (person.age > 40) {
+//             if (person.fertility >= 5) {
+//                 person.fertility -= 5;
+//             } else {
+//                 person.fertility = 0;
+//             }
+//         } else if (person.age > 30) {
+//             if (person.fertility >= 3) {
+//                 person.fertility -= 3;
+//             } else {
+//                 person.fertility = 0;
+//             }
+//         } else if (person.age > 20) {
+//             if (person.fertility > 0) {
+//                 person.fertility--;
+//             } else {
+//                 person.fertility = 0;
+//             }
+//         }
+//     })
+// }
+
+export function agingFertility (people: People): People {
+    return people.map((person) => {
+        let new_fertility = person.fertility;
         if (person.age > 40) {
             if (person.fertility >= 5) {
-                person.fertility -= 5;
+                new_fertility -= 5;
             } else {
-                person.fertility = 0;
+                new_fertility = 0;
             }
         } else if (person.age > 30) {
             if (person.fertility >= 3) {
-                person.fertility -= 3;
+                new_fertility -= 3;
             } else {
-                person.fertility = 0;
+                new_fertility = 0;
             }
         } else if (person.age > 20) {
             if (person.fertility > 0) {
-                person.fertility--;
+                new_fertility--;
             } else {
-                person.fertility = 0;
+                new_fertility = 0;
             }
         }
-    })
-}
- 
+        return {
+            ...person,
+            fertility: new_fertility
+        }
+        
+    })}
+
 /**
  * 
  * @param age Age of person in question, influences chances of success.
@@ -92,6 +121,10 @@ export function willYouMarryMe (people: People) {
 //      5. pushes an announcement about their marriage to the array of events in state
 
 export function handleMarriages (people: People, year: number, new_spouses: People, events: (string|undefined)[]) {
+    // move willyoumarryme down here
+    // change this to return 1. newspouses 2. marriage events to add
+    // handle the pushes for 1 and 2 externally, in reducer?
+    
     people.forEach((person) => {
         if (person.marital_status === true && !person.relations.spouse) {
             const spouse = createSpouse(person); // step 1
