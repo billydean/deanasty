@@ -1,17 +1,15 @@
 import { beta } from '@stdlib/random/base';
 
-export function pickSex (): string {
-    const value: number = Math.ceil(Math.random() * 2);
-    return value === 1
-        ? 'female'
-        : 'male'
-}
+// export function pickSex (): string {
+//     const value: number = Math.ceil(Math.random() * 2);
+//     return value === 1
+//         ? 'female'
+//         : 'male'
+// }
 
-
-
-export function setFertility (): number {
-    return Math.ceil(beta(3,2) * 100);
-}
+// export function setFertility (): number {
+//     return Math.ceil(beta(3,2) * 100);
+// }
 
 /**back of napkin math:
  * when do I think folks should get married?

@@ -1,7 +1,7 @@
 import type { People, Person } from "../types"
 import { deathRate } from "./oldAge";
 import { v4 as uuid } from "uuid";
-import { pickSex, setFertility } from "./Pickers";
+import { pickSex, setFertility } from "./checks";
 import { nameMaker } from "./Naming";
 
 // People Makers
@@ -68,3 +68,28 @@ export function createChild (parent1: Person, parent2: Person, year: number): Pe
         marital_status: false
     }
 }
+
+// Death, so sad
+export function 
+/**
+ * map over people --> die of old age?
+ * filter people into living and dead
+ * new death news from new dead
+ * combine new living with living and dead with dead
+ * 
+ *
+ * everyone ages and adjusts fertility
+ * 
+ * handle marital status
+ * create spouses
+ * coordinate spouse id
+ * 
+ * check for pregnancy
+ * have baby
+ * 
+ * 
+ * for creating people:
+ *  picking sex
+ *  picking inherent old age
+ *  picking fertility
+ */
