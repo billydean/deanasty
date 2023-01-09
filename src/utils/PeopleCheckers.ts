@@ -116,25 +116,52 @@ export function willYouMarryMe (people: People) {
 // if married person is missing a spouse, this function
 //      1. creates a spouse
 //      2. ensures respective id for both spouses refer to each other
-//      3. sets the spouse's age based on their birth year
+//      3. sets the spouse's age based on their birth year (N/A!)
 //      4. pushes the spouse to the "createdSpouses" array
 //      5. pushes an announcement about their marriage to the array of events in state
 
-export function handleMarriages (people: People, year: number, new_spouses: People, events: (string|undefined)[]) {
-    // move willyoumarryme down here
-    // change this to return 1. newspouses 2. marriage events to add
-    // handle the pushes for 1 and 2 externally, in reducer?
+export function handleMarriages (people: People, year: number) {
     
+    let new_spouses: People = [];
+    let new_news: string[] = [];
+
     people.forEach((person) => {
         if (person.marital_status === true && !person.relations.spouse) {
-            const spouse = createSpouse(person); // step 1
+            const spouse = createSpouse(person, year); // step 1
             person.relations.spouse = spouse.id; // step 2
-            spouse.age = year - spouse.birth_year; // step 3
             new_spouses.push(spouse); // step 4
-            events.push(`${person.name} and ${spouse.name} joined hands in marriage.`); // step 5
+            new_news.push(`${person.name} and ${spouse.name} joined hands in marriage.`); // step 5
         }
-    })
+    });
+
+    return {
+        new_spouses,
+        new_news
+    }
 };
+
+export function coordinateSpouseIDs (spouse_array: People, people_array: People) {
+    if (spouse_array.length > 0) {
+        return people_array.map((person) => {
+            let spouse = spouse_array.find((one) => one.relations.spouse === person.id);
+            if (spouse) {
+                return {
+                    ...person,
+                    relations: {
+                        ...person.relations,
+                        spouse: spouse.id
+                    }
+                }
+            } else {
+                return {
+                    ...person
+                }
+            }
+        })
+    } else {
+        return people_array
+    }
+}
 
 // 1. filters down to live, married couples
 // 2. rolls: if lower than both fertility rates, baby!
