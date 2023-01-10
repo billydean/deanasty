@@ -1,6 +1,7 @@
 // This file contains any logic, tests, or filters used to create or transform slices of state related to the current year or to any generated people
 import { Events, People, Person } from "../types";
 import { beta } from '@stdlib/random/base';
+import { createSpouse } from "./people";
 
 // Takes array of folks and filters both living and dead arrays
 export function filterDeadFolks (living: People): { the_living: People, the_dead: People} {
@@ -21,7 +22,7 @@ export function deathNews (dead: People): string[] {
 }
 
 // Function describes "neutral changes," i.e., changes that are constant across populations and are not dynamically determined by other factors in state. Example: increase in age, decrease in fertility, etc.
-export function agingProcess (people: People): People {
+export function timeMarchesOn (people: People): People {
     return people.map((person: Person) => {
         const new_age = person.age + 1;
         let new_fertility = 0;
@@ -95,7 +96,7 @@ export function dieOldAge (year: number, people: People): People {
  * 
  * Note: Other parameters may be added!
  */
-export function marriageRate (age: number): boolean {
+export function willYouMarryMe (age: number): boolean {
     const check: number = Math.floor(age / 5);
     const picker: number = Math.ceil(Math.random() * 2560)
     
@@ -118,11 +119,11 @@ export function marriageRate (age: number): boolean {
 };
 
 // iterates over People and adjusts marital status based on the marriageRate function above.
-export function willYouMarryMe (people: People) {
-    people.forEach((person) => {
-        person.marital_status = marriageRate(person.age);
-    })
-};
+// export function willYouMarryMe (people: People) {
+//     people.forEach((person) => {
+//         person.marital_status = marriageRate(person.age);
+//     })
+// };
 
 // if married person is missing a spouse, this function
 //      1. creates a spouse
@@ -131,48 +132,43 @@ export function willYouMarryMe (people: People) {
 //      4. pushes the spouse to the "createdSpouses" array
 //      5. pushes an announcement about their marriage to the array of events in state
 
-export function handleMarriages (people: People, year: number) {
+export function handleMarriage (year: number, person: Person): { spouseID: string, wedding_news: string, spouse: Person } {
     
-    let new_spouses: People = [];
-    let new_news: string[] = [];
 
-    people.forEach((person) => {
-        if (person.marital_status === true && !person.relations.spouse) {
-            const spouse = createSpouse(person, year); // step 1
-            person.relations.spouse = spouse.id; // step 2
-            new_spouses.push(spouse); // step 4
-            new_news.push(`${person.name} and ${spouse.name} joined hands in marriage.`); // step 5
-        }
-    });
+    const spouse = createSpouse(person, year);
+    const spouseID = spouse.id;
+    const wedding_news = `${person.name} and ${spouse.name} joined hands in marriage.`
 
     return {
-        new_spouses,
-        new_news
+        spouseID,
+        wedding_news,
+        spouse
     }
-};
 
-export function coordinateSpouseIDs (spouse_array: People, people_array: People) {
-    if (spouse_array.length > 0) {
-        return people_array.map((person) => {
-            let spouse = spouse_array.find((one) => one.relations.spouse === person.id);
-            if (spouse) {
-                return {
-                    ...person,
-                    relations: {
-                        ...person.relations,
-                        spouse: spouse.id
-                    }
-                }
-            } else {
-                return {
-                    ...person
-                }
-            }
-        })
-    } else {
-        return people_array
-    }
-}
+    };
+
+// export function coordinateSpouseIDs (spouse_array: People, people_array: People) {
+//     if (spouse_array.length > 0) {
+//         return people_array.map((person) => {
+//             let spouse = spouse_array.find((one) => one.relations.spouse === person.id);
+//             if (spouse) {
+//                 return {
+//                     ...person,
+//                     relations: {
+//                         ...person.relations,
+//                         spouse: spouse.id
+//                     }
+//                 }
+//             } else {
+//                 return {
+//                     ...person
+//                 }
+//             }
+//         })
+//     } else {
+//         return people_array
+//     }
+// }
 
 // 1. filters down to live, married couples
 // 2. rolls: if lower than both fertility rates, baby!
@@ -181,37 +177,38 @@ export function coordinateSpouseIDs (spouse_array: People, people_array: People)
 // 5. adds baby news to array of events in state
 // 6. adds baby's id to both parents' relations.offspring
 
-export function stork (people: People, new_children: People, events: (string|undefined)[], year: number) {
-    people.forEach((person) => {
+// export function stork (people: People, new_children: People, events: (string|undefined)[], year: number) {
+//     people.forEach((person) => {
         
-        // step 1
-        if (person.sex === 'female' && person.marital_status === true && person.fertility > 0) { 
-            const match = people.find(each => each.id === person.relations.spouse);
-            if (match && match.alive && match.fertility > 0) {
-                const seed = Math.ceil(Math.random() * 100);
-                console.log(`seed is ${seed}. fertility rates are ${person.fertility} and ${match.fertility}.`);
-                if (person.fertility > seed && match.fertility > seed) { // step 2
-                    const kiddo = createChild(person, match, year); // step 3
-                    new_children.push(kiddo); // step 4
-                    events.push(`${kiddo.name} was born to ${person.name} and ${match.name}.`); // step 5
-                    // step 6
-                    if (person.relations.offspring) {
-                        person.relations.offspring.push(kiddo.id);
-                        if (match.relations.offspring) {
-                            match.relations.offspring.push(kiddo.id);
-                        } else {
-                            match.relations.offspring = [kiddo.id];
-                        }
-                    } else {
-                        person.relations.offspring = [kiddo.id];
-                        if (match.relations.offspring) {
-                            match.relations.offspring.push(kiddo.id);
-                        } else {
-                            match.relations.offspring = [kiddo.id];
-                        }
-                    }
-                }
-            }
-        }
-    })
-}
+//         // step 1
+//         if (person.sex === 'female' && person.marital_status === true && person.fertility > 0) { 
+//             const match = people.find(each => each.id === person.relations.spouse);
+//             if (match && match.alive && match.fertility > 0) {
+//                 const seed = Math.ceil(Math.random() * 100);
+//                 console.log(`seed is ${seed}. fertility rates are ${person.fertility} and ${match.fertility}.`);
+//                 if (person.fertility > seed && match.fertility > seed) { // step 2
+//                     const kiddo = createChild(person, match, year); // step 3
+//                     new_children.push(kiddo); // step 4
+//                     events.push(`${kiddo.name} was born to ${person.name} and ${match.name}.`); // step 5
+//                     // step 6
+//                     if (person.relations.offspring) {
+//                         person.relations.offspring.push(kiddo.id);
+//                         if (match.relations.offspring) {
+//                             match.relations.offspring.push(kiddo.id);
+//                         } else {
+//                             match.relations.offspring = [kiddo.id];
+//                         }
+//                     } else {
+//                         person.relations.offspring = [kiddo.id];
+//                         if (match.relations.offspring) {
+//                             match.relations.offspring.push(kiddo.id);
+//                         } else {
+//                             match.relations.offspring = [kiddo.id];
+//                         }
+//                     }
+//                 }
+//             }
+//         }
+//     })
+// }
+

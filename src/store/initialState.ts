@@ -11,10 +11,12 @@ export const initialState: Readonly<State> = {
         region_stability: 5,
         local_stability: 5,
         plague_now: false,
+        plagues: [],
         climate: 'good',
         crops: 'good',
         crop_fortune: 5,
         war_now: false,
+        wars: [],
     },
     sim_check: false,
     events: []
