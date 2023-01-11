@@ -1,5 +1,5 @@
 // This file contains any logic, tests, or filters used to create or transform slices of state related to the current year or to any generated people
-import { Events, People, Person } from "../types";
+import { People, Person } from "../types";
 import { beta } from '@stdlib/random/base';
 import { createSpouse } from "./people";
 
@@ -25,29 +25,28 @@ export function deathNews (dead: People): string[] {
 export function timeMarchesOn (people: People): People {
     return people.map((person: Person) => {
         const new_age = person.age + 1;
-        let new_fertility = 0;
+        // let new_fertility = 0;
         if (new_age > 40) {
             if (person.fertility >= 5) {
-                new_fertility = person.fertility - 5;
+                person.fertility -= 5;
             } else {
-                new_fertility = 0;
+                person.fertility = 0;
             }
         } else if (new_age > 30) {
             if (person.fertility >= 3) {
-                new_fertility = person.fertility - 3;
+                 person.fertility -= 3;
             } else {
-                new_fertility = 0;
+                person.fertility = 0;
             }
         } else if (new_age > 20) {
             if (person.fertility > 0) {
-                new_fertility = person.fertility - 1;
+                person.fertility -= 1;
             } else {
-                new_fertility = 0;
+                person.fertility = 0;
             }
         }
         return {
             ...person,
-            fertility: new_fertility,
             age: new_age
         }
     })

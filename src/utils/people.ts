@@ -114,7 +114,7 @@ export function marriageStuff (year: number, living_people: People): {new_spouse
                 new_spouses.push(spouse);
                 marriage_news.push(wedding_news);
             } else {
-                dummy = 0;
+                dummy = 0; // eslint-disable-line
             }
 
     }
@@ -138,19 +138,19 @@ export function allStorks(people: People, year: number): {new_people: People, ne
     for (let i=0; i<mothers.length; i++) {
         const seed = Math.ceil(Math.random() * 100);
         const match = people.find((person) => person.id === mothers[i].relations.spouse);
-        if (match && mothers[i].fertility > seed && match.fertility > seed) {
+        if (typeof match !== 'undefined' && mothers[i].fertility > seed && match.fertility > seed) {
             const {baby, baby_announcement} = individualStork(mothers[i],match,year);
             new_children.push(baby);
             baby_news.push(baby_announcement);
         } else {
-            dummy = 0; // ignore for now...
+            dummy = 0; // eslint-disable-line
         }
     }
-
+ 
     const new_people: People = people.map((person: Person) => {
-        const spawn: Person = new_children.find((kid) => person.id === kid.relations.mother || person.id === kid.relations.father);
+        const spawn = new_children.find((kid) => person.id === kid.relations.mother || person.id === kid.relations.father);
 
-        if (spawn) {
+        if (typeof spawn !== 'undefined') {
             return {
                 ...person,
                 relations: {
@@ -162,7 +162,7 @@ export function allStorks(people: People, year: number): {new_people: People, ne
                 }
             }
         } else {
-            return { person }
+            return person 
         }
     });
 
