@@ -1,7 +1,6 @@
 import type { People, Person } from "../types"
-import { deathRate } from "./oldAge";
 import { v4 as uuid } from "uuid";
-import { deathNews, dieOldAge, filterDeadFolks, handleMarriage, pickSex, setFertility, willYouMarryMe } from "./checks";
+import { deathNews, dieOldAge, filterDeadFolks, handleMarriage, inherentOldAge, pickSex, setFertility, willYouMarryMe } from "./checks";
 import { nameMaker } from "./Naming";
 
 // People Makers
@@ -14,7 +13,7 @@ export function firstPerson(): Person {
         id: uuid(),
         sex: pickSex(),
         age: 0,
-        old_year: deathRate(birth_year),
+        old_year: inherentOldAge(birth_year),
         fertility: setFertility(),
         alive: true,
         birth_year: birth_year,
@@ -42,7 +41,7 @@ export function createSpouse(person: Person, year: number): Person {
         sex: sex,
         age: year - birthYear,
         birth_year: birthYear,
-        old_year: deathRate(birthYear),
+        old_year: inherentOldAge(birthYear),
         fertility: setFertility(),
         alive: true,
         relations: {
@@ -63,7 +62,7 @@ export function createChild (parent1: Person, parent2: Person, year: number): Pe
         id: uuid(),
         sex: pickSex(),
         age: 0,
-        old_year: deathRate(year),
+        old_year: inherentOldAge(year),
         fertility: setFertility(),
         alive: true,
         birth_year: year,
