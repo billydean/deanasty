@@ -27,20 +27,20 @@ export function timeMarchesOn (people: People): People {
         const new_age = person.age + 1;
         // let new_fertility = 0;
         if (new_age > 40) {
-            if (person.fertility >= 5) {
-                person.fertility -= 5;
+            if (person.fertility > 5) {
+                person.fertility -= 6;
             } else {
                 person.fertility = 0;
             }
         } else if (new_age > 30) {
-            if (person.fertility >= 3) {
-                 person.fertility -= 3;
+            if (person.fertility > 3) {
+                 person.fertility -= 4;
             } else {
                 person.fertility = 0;
             }
         } else if (new_age > 20) {
-            if (person.fertility > 0) {
-                person.fertility -= 1;
+            if (person.fertility > 1) {
+                person.fertility -= 2;
             } else {
                 person.fertility = 0;
             }
@@ -100,11 +100,11 @@ export function willYouMarryMe (age: number): boolean {
     const picker: number = Math.ceil(Math.random() * 2560)
     
     switch (check) {
-        case 3: return picker <= 172
-        case 4: return picker <= 720
-        case 5: return picker <= 512
-        case 6: return picker <= 256
-        case 7: return picker <= 256
+        case 3: return picker <= 128
+        case 4: return picker <= 256
+        case 5: return picker <= 384
+        case 6: return picker <= 128
+        case 7: return picker <= 64
         case 8: return picker <= 64
         case 9: return picker <= 32
         case 10: return picker <= 16

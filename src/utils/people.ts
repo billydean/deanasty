@@ -138,8 +138,11 @@ export function allStorks(people: People, year: number): {new_people: People, ne
         const seed = Math.ceil(Math.random() * 100);
         const match = people.find((person) => person.id === mothers[i].relations.spouse);
         if (typeof match !== 'undefined' && mothers[i].fertility > seed && match.fertility > seed) {
+
             const {baby, baby_announcement} = individualStork(mothers[i],match,year);
+
             new_children.push(baby);
+
             baby_news.push(baby_announcement);
         } else {
             dummy = 0; // eslint-disable-line
@@ -148,7 +151,6 @@ export function allStorks(people: People, year: number): {new_people: People, ne
  
     const new_people: People = people.map((person: Person) => {
         const spawn = new_children.find((kid) => person.id === kid.relations.mother || person.id === kid.relations.father);
-
         if (typeof spawn !== 'undefined') {
             return {
                 ...person,

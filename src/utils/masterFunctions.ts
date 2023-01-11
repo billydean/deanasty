@@ -15,7 +15,7 @@ export function okay (current_year: number, living_people: People, dead_people: 
     const { new_people, new_children, baby_news } = allStorks(people, current_year)
 
     const updated_living = new_people.concat(new_spouses, new_children);
-
+ 
     const news_items = new_deaths.concat(marriage_news, baby_news);
 
     return {
