@@ -29,6 +29,11 @@ interface Relations {
     father: string;
     spouse: string;
     offspring: string[];
+    /**
+     * avenir:
+     *  - attitude/relationship with each relation?
+     *  - friends? other relations?
+     */
 }
 
 interface Person {
@@ -42,7 +47,11 @@ interface Person {
     birth_year: number,
     death_year?: number,
     relations: Relations,
-    marital_status: boolean
+    marital_status: boolean,
+    /**
+     * avenir
+     *  - claim (to titles extant or otherwise)
+     */
 }
 
 type People = Person[];
@@ -64,6 +73,51 @@ interface State {
 
 type Action = any;
 
-export type { Year, Person, People, War, Plague, State, Action, Events, EventfulYear };
+interface House {
+    name: string,
+    definition: string,
+    founder: {
+        name: string,
+        id: string
+    },
+    begin: number,
+    /**
+     * avenir:
+     *  - accomplishments or events?
+     *  - current head
+     *  - notable members?
+     *  - dissolved?
+     */
+};
+
+interface Title {
+    name: string,
+    id: number,
+    rank: string,
+    appellation: string,
+    eta: number,
+    status: string,
+    dissolved?: number,
+    succession: string, // will eventually delineate different succession models
+    holder?: {
+        name: string,
+        id: string
+    },
+    heir?: {
+        name: string,
+        id: string
+    },
+    seat: string, // eventually geographical types?
+    /**
+     * avenir:
+     *  - history
+     *  - size
+     *  - rank
+     *  - parent/child titles, if applicable
+     *  - claimants
+     */
+};
+
+export type { Year, Person, People, War, Plague, State, Action, Events, EventfulYear, Title, House };
 
 
