@@ -25,7 +25,7 @@ export function deathNews (dead: People): string[] {
 export function timeMarchesOn (people: People): People {
     return people.map((person: Person) => {
         const new_age = person.age + 1;
-        // let new_fertility = 0;
+        // let new_fertility = 0; <--- BILLY GO BACK TO USING THIS VARIABLE RATHER THAN DIRECTLY CHANGING PERSON.FERTILITY!!!
         if (new_age > 40) {
             if (person.fertility > 5) {
                 person.fertility -= 6;
@@ -67,7 +67,7 @@ export function pickSex (): string {
 
 // Assigns fertility at birth.
 export function setFertility (): number {
-    return Math.ceil(beta(3,2) * 100);
+    return Math.ceil(beta(4,2.5) * 100);
 };
 
 // General-use death-handler
