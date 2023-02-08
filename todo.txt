@@ -1,0 +1,10 @@
+1. Titles to person
+2. House at gen
+3. House inherited
+4. Title at worldgen
+5. Title check at death
+6. Title heir check with birth
+7. Ignore TS errors with title match handler, if appear
+8. Title inherited
+
+What are the next ten steps?
