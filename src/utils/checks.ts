@@ -67,7 +67,7 @@ export function pickSex (): string {
 
 // Assigns fertility at birth.
 export function setFertility (): number {
-    return Math.ceil(beta(4,2.5) * 100);
+    return Math.ceil(beta(2.75,2) * 100);
 };
 
 // General-use death-handler

@@ -14,7 +14,7 @@ export function firstPerson(year:number): {newPerson: Person, firstHouse: House}
         sex: 'male', // pickSex() I HATE this, but until I can figure out how to handle different kinds of succession laws, everything is single-sex primogeniture. Must fix this as soon as possible, because it feels gross. But I'm modelling off history (at first). Lame excuse
         age: 0,
         old_year: inherentOldAge(year),
-        fertility: setFertility(),
+        fertility: 80,
         alive: true,
         birth_year: year,
         relations: {
