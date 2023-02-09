@@ -43,14 +43,16 @@ export function createSpouse(person: Person, year: number): Person {
     const sex = person.sex === 'female'
         ? 'male'
         : 'female'
-    const birthYear = (person.birth_year - 3) + Math.floor(Math.random() * 7)
+    const spouse_age = person.sex === 'male'
+        ? 15 + Math.floor(Math.random() * (person.age - 15))
+        : person.age + Math.floor(Math.random() * 15);
     return {
         name: capitalFirst,
         id: uuid(),
         sex: sex,
-        age: year - birthYear,
-        birth_year: birthYear,
-        old_year: inherentOldAge(birthYear),
+        age: spouse_age,
+        birth_year: year - spouse_age,
+        old_year: inherentOldAge(year - spouse_age),
         fertility: setFertility(),
         alive: true,
         relations: {
