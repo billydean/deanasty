@@ -1,4 +1,4 @@
-import { State, Action, Person } from "../types";
+import { State, Action, Person, House } from "../types";
 // import { firstPerson } from "../utils/PeopleMakers";
 import { initialState } from "./initialState";
 // import { livingToDead } from "../utils/livingToDead";
@@ -9,16 +9,18 @@ import { okay } from "../utils/masterFunctions";
 export default function reducer(state: State, action: Action): State {
     switch (action.type) {
         case 'START_SIM':
-            const newPerson: Person = firstPerson();
+            const { newPerson, firstHouse } = firstPerson(state.year.current)
             const birthMessage: string = newPerson.name + ' was born';
+            const houseMessage: string = `${firstHouse.name} begins with the birth of ${newPerson.name}`
             return {
                 ...state,
                 sim_check: true,
                 living_people: [newPerson],
+                houses: [firstHouse],
                 events: [
                     ...state.events,
                     { year: state.year.current,
-                        events: [birthMessage]
+                        events: [birthMessage, houseMessage]
                     }
             ]
             };
@@ -74,7 +76,7 @@ export default function reducer(state: State, action: Action): State {
              * 
              * Then a function to stitch all the people arrays together.
              */
-            const { updated_dead, updated_living, news_items } = okay(state.year.current,state.living_people,state.dead_people)
+            const { updated_dead, updated_living, news_items } = okay(state.year.current,state.living_people,state.dead_people, state.houses)
             return {
                 ...state,
                 year: {

@@ -1,6 +1,6 @@
-1. Titles to person
-2. House at gen
-3. House inherited
+1. Titles to person // DONE 2/8/23
+2. House at gen // DONE 2/8/23
+3. House inherited // DONE 2/8/23
 4. Title at worldgen
 5. Title check at death
 6. Title heir check with birth
@@ -8,3 +8,14 @@
 8. Title inherited
 
 What are the next ten steps?
+
+9.
+10.
+11.
+12.
+13.
+14.
+15.
+16.
+17.
+18.

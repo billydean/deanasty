@@ -1,22 +1,22 @@
-import type { People, Person } from "../types"
+import type { House, Houses, People, Person } from "../types"
 import { v4 as uuid } from "uuid";
 import { deathNews, dieOldAge, filterDeadFolks, handleMarriage, inherentOldAge, pickSex, setFertility, willYouMarryMe } from "./checks";
 import { nameMaker } from "./Naming";
+import { foundHouse, historicalHouse, pickHouse, whetherNewHouse } from "./houses";
 
 // People Makers
-export function firstPerson(): Person {
-    const birth_year: number = 1;
-    const {capitalFirst, capitalLast} = nameMaker();
-
+export function firstPerson(year:number): {newPerson: Person, firstHouse: House} {
+    // const birth_year = year;
+    const capitalName = nameMaker('shorter');
     const newbie: Person = {
-        name: `${capitalFirst} ${capitalLast}`,
+        name: "",
         id: uuid(),
-        sex: pickSex(),
+        sex: 'male', // pickSex() I HATE this, but until I can figure out how to handle different kinds of succession laws, everything is single-sex primogeniture. Must fix this as soon as possible, because it feels gross. But I'm modelling off history (at first). Lame excuse
         age: 0,
-        old_year: inherentOldAge(birth_year),
+        old_year: inherentOldAge(year),
         fertility: setFertility(),
         alive: true,
-        birth_year: birth_year,
+        birth_year: year,
         relations: {
             family: uuid(),
             mother: "",
@@ -24,19 +24,28 @@ export function firstPerson(): Person {
             spouse: "",
             offspring: []
         },
-        marital_status: false
+        marital_status: false,
+        house: ""
     }
-    return newbie;
+    const firstHouse = foundHouse(newbie,year)
+    newbie.house = firstHouse.name;
+    newbie.name = `${capitalName} ${firstHouse.name}`
+
+
+    return {
+        newPerson: newbie,
+        firstHouse: firstHouse
+    }
 }
 
 export function createSpouse(person: Person, year: number): Person {
-    const {capitalFirst, capitalLast} = nameMaker();
+    const capitalFirst = nameMaker('shorter');
     const sex = person.sex === 'female'
         ? 'male'
         : 'female'
     const birthYear = (person.birth_year - 3) + Math.floor(Math.random() * 7)
     return {
-        name: `${capitalFirst} ${capitalLast}`,
+        name: `${capitalFirst} `,
         id: uuid(),
         sex: sex,
         age: year - birthYear,
@@ -51,14 +60,16 @@ export function createSpouse(person: Person, year: number): Person {
             spouse: person.id,
             offspring: []
         },
-        marital_status: true
+        marital_status: true,
+        house: 'placeholder'
     }
 }
 
 export function createChild (parent1: Person, parent2: Person, year: number): Person {
-    const {capitalFirst, capitalLast} = nameMaker();
+    const capitalName = nameMaker('shorter');
+    const lastName = parent2.house;
     return {
-        name: `${capitalFirst} ${capitalLast}`,
+        name: `${capitalName} ${lastName}`,
         id: uuid(),
         sex: pickSex(),
         age: 0,
@@ -73,7 +84,8 @@ export function createChild (parent1: Person, parent2: Person, year: number): Pe
             spouse: "",
             offspring: []
         },
-        marital_status: false
+        marital_status: false,
+        house: lastName
     }
 }
 
@@ -96,9 +108,11 @@ export function death (year: number, living_people: People, dead_people: People)
 
 // Love and Marriage...
 
-export function marriageStuff (year: number, living_people: People): {new_spouses: People, marriage_news: string[], people: People} {
+export function marriageStuff (year: number, living_people: People, houses: Houses): {new_spouses: People, marriage_news: string[], people: People, new_houses: Houses} {
     let dummy = 0; // ignore this for now
     let new_spouses: People = [];
+    let new_houses: Houses = [];
+    let available_houses: Houses = new_houses.concat(houses)
     let marriage_news: string[] = [];
     let people = living_people;
     for (let i=0; i<people.length; i++) {
@@ -109,6 +123,17 @@ export function marriageStuff (year: number, living_people: People): {new_spouse
             if ( test === true ) {
                 people[i].marital_status = true;
                 const { spouseID, wedding_news, spouse} = handleMarriage(year, people[i]);
+                let house_test = whetherNewHouse(available_houses.length);
+                let spouseHouse;
+                if (house_test) {
+                    spouseHouse = historicalHouse(year);
+                    new_houses.push(spouseHouse);
+                    available_houses.push(spouseHouse);
+                } else {
+                    spouseHouse = pickHouse(available_houses)
+                };
+                spouse.house = spouseHouse.name;
+                spouse.name += spouseHouse.name;
                 people[i].relations.spouse = spouseID;
                 new_spouses.push(spouse);
                 marriage_news.push(wedding_news);
@@ -123,7 +148,8 @@ export function marriageStuff (year: number, living_people: People): {new_spouse
 return {
     new_spouses,
     marriage_news,
-    people
+    people,
+    new_houses
 }
 }
 

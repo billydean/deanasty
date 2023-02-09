@@ -48,6 +48,12 @@ interface Person {
     death_year?: number,
     relations: Relations,
     marital_status: boolean,
+    house: string,
+    title?: {
+        name: string, // pulled from 'rank' and 'name' of Title. 'Rank of Name'
+        address: string, // 'appellation' in Title
+        id: string, // matches Title id (for other checks/calculations)
+    }
     /**
      * avenir
      *  - claim (to titles extant or otherwise)
@@ -66,6 +72,7 @@ type EventfulYear = {
 interface State {
     dead_people: People;
     living_people: People;
+    houses: Houses;
     year: Year;
     sim_check: boolean;
     events: Events;
@@ -118,6 +125,8 @@ interface Title {
      */
 };
 
-export type { Year, Person, People, War, Plague, State, Action, Events, EventfulYear, Title, House };
+type Houses = House[];
+
+export type { Year, Person, People, War, Plague, State, Action, Events, EventfulYear, Title, House, Houses };
 
 

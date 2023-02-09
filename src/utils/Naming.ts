@@ -14,7 +14,7 @@ const V = () => {
 }
 
 const syllableCount = (name: string) => {
-    if (name === 'first') {
+    if (name === 'shorter') {
         return Math.ceil(Math.random() * 3)
     } else {
         return Math.ceil(Math.random() * 4)
@@ -37,37 +37,21 @@ const syllableMaker = (syllable: string) => {
     return product;
 }
 
-export function nameMaker (): {capitalFirst: string, capitalLast: string} {
-    let firstCount = syllableCount('first');
-    let lastCount = syllableCount('second');
-    let first = "";
-    let last = "";
-    let capitalFirst = "";
-    let capitalLast = "";
-
-    while (firstCount > 0) {
-        first += syllableMaker(picker(syllables));
-        firstCount--;
-    }
-    while (lastCount > 0) {
-        last += syllableMaker(picker(syllables));
-        lastCount--;
-    }
-
-    for (let i=0; i<first.length;i++) {
-        if (i === 0) {
-            capitalFirst += first[i].toUpperCase();
-        } else { capitalFirst += first[i]; }
+export function nameMaker (length: 'shorter'|'longer'): string {
+    let syllCount = syllableCount(length);
+    let miniName = "";
+    let majuName = "";
+    while (syllCount > 0) {
+        miniName += syllableMaker(picker(syllables));
+        syllCount--;
     }
     
-    for (let i=0; i<last.length;i++) {
+    for (let i=0; i<miniName.length;i++) {
         if (i === 0) {
-            capitalLast += last[i].toUpperCase();
-        } else { capitalLast += last[i]; }
+            majuName += miniName[i].toUpperCase();
+        } else { majuName += miniName[i]; }
     }
+ 
 
-    return {
-        capitalFirst, 
-        capitalLast
-    }
+    return majuName;
 }

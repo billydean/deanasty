@@ -4,8 +4,9 @@ import type { State } from '../types';
 export const initialState: Readonly<State> = {
     dead_people: [],
     living_people: [],
+    houses: [],
     year: {
-        current: 1,
+        current: 1000,
         total: 0,
         global_stability: 5,
         region_stability: 5,
