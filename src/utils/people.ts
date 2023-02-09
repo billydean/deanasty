@@ -45,7 +45,7 @@ export function createSpouse(person: Person, year: number): Person {
         : 'female'
     const birthYear = (person.birth_year - 3) + Math.floor(Math.random() * 7)
     return {
-        name: `${capitalFirst} `,
+        name: capitalFirst,
         id: uuid(),
         sex: sex,
         age: year - birthYear,
@@ -122,7 +122,7 @@ export function marriageStuff (year: number, living_people: People, houses: Hous
             let test = willYouMarryMe(people[i].age);
             if ( test === true ) {
                 people[i].marital_status = true;
-                const { spouseID, wedding_news, spouse} = handleMarriage(year, people[i]);
+                const { spouseID, spouse} = handleMarriage(year, people[i]);
                 let house_test = whetherNewHouse(available_houses.length);
                 let spouseHouse;
                 if (house_test) {
@@ -132,11 +132,11 @@ export function marriageStuff (year: number, living_people: People, houses: Hous
                 } else {
                     spouseHouse = pickHouse(available_houses)
                 };
-                spouse.house = spouseHouse.name;
-                spouse.name += spouseHouse.name;
                 people[i].relations.spouse = spouseID;
-                new_spouses.push(spouse);
-                marriage_news.push(wedding_news);
+                marriage_news.push(`${people[i].name} marries ${spouse.name} from House ${spouseHouse.name}`);
+                spouse.house = spouseHouse.name;
+                spouse.name += ` ${spouseHouse.name}`
+                new_spouses.push(spouse)
             } else {
                 dummy = 0; // eslint-disable-line
             }

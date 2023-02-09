@@ -131,16 +131,15 @@ export function willYouMarryMe (age: number): boolean {
 //      4. pushes the spouse to the "createdSpouses" array
 //      5. pushes an announcement about their marriage to the array of events in state
 
-export function handleMarriage (year: number, person: Person): { spouseID: string, wedding_news: string, spouse: Person } {
+export function handleMarriage (year: number, person: Person): { spouseID: string, spouse: Person } {
     
 
     const spouse = createSpouse(person, year);
     const spouseID = spouse.id;
-    const wedding_news = `${person.name} and ${spouse.name} joined hands in marriage.`
+    
 
     return {
         spouseID,
-        wedding_news,
         spouse
     }
 
