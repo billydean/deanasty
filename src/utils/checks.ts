@@ -66,8 +66,9 @@ export function pickSex (): string {
 };
 
 // Assigns fertility at birth.
+// Made it lower! Later when I have a "universal bracketing" function, I'll give up the ghost with these beta distributions. Just too finicky
 export function setFertility (): number {
-    return Math.ceil(beta(2.1,2) * 100);
+    return Math.ceil(beta(2,2.5) * 100);
 };
 
 // General-use death-handler

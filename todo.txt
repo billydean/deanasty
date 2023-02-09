@@ -7,13 +7,13 @@
 7. Ignore TS errors with title match handler, if appear
 8. Title inherited
 
-What are the next ten steps?
+*From here on out, just list issues/tasks in any order. I'll just mark when done. Start labelling commits with list number so easier to track?*
 
 9.  Fix: Fertility rate a bit too high. Tons of kids. Lower // DONE 2/8/23
 10. Fix: Repeat Houses too common early on. // DONE 2/8/23
-11. 
-12.
-13.
+11. New utility: A "Master" handler that takes in bracket sizes, total chances, rundown for each bracket, and then plugs it all into a switchboard. Model after current marriage handler.
+12. Dedicate a file to "age-based helpers," i.e., those using the bracket master in #11.
+13. BEGIN IMPLEMENTING FAMILY TREE...
 14.
 15.
 16.
@@ -21,3 +21,5 @@ What are the next ten steps?
 18.
 19.
 20.
+
+XX (perpetual) - clean up code, comments, and file hierarchy. Do Every 50 commits!

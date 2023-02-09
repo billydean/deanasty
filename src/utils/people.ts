@@ -135,7 +135,7 @@ export function marriageStuff (year: number, living_people: People, houses: Hous
                     spouseHouse = pickHouse(available_houses)
                 };
                 people[i].relations.spouse = spouseID;
-                marriage_news.push(`${people[i].name} marries ${spouse.name} from House ${spouseHouse.name}`);
+                marriage_news.push(`${people[i].name} marries ${spouse.name} from House ${spouseHouse.name}.`);
                 spouse.house = spouseHouse.name;
                 spouse.name += ` ${spouseHouse.name}`
                 new_spouses.push(spouse)
