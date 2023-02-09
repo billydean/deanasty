@@ -52,7 +52,7 @@ interface Person {
     title?: {
         name: string, // pulled from 'rank' and 'name' of Title. 'Rank of Name'
         address: string, // 'appellation' in Title
-        id: string, // matches Title id (for other checks/calculations)
+        id: number, // matches Title id (for other checks/calculations)
     }
     /**
      * avenir
@@ -73,6 +73,7 @@ interface State {
     dead_people: People;
     living_people: People;
     houses: Houses;
+    titles: Titles;
     year: Year;
     sim_check: boolean;
     events: Events;
@@ -126,6 +127,8 @@ interface Title {
 };
 
 type Houses = House[];
+
+type Titles = Title[];
 
 export type { Year, Person, People, War, Plague, State, Action, Events, EventfulYear, Title, House, Houses };
 

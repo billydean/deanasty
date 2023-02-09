@@ -5,6 +5,7 @@ export const initialState: Readonly<State> = {
     dead_people: [],
     living_people: [],
     houses: [],
+    titles: [],
     year: {
         current: 1000,
         total: 0,

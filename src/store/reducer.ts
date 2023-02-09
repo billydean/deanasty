@@ -5,6 +5,7 @@ import { initialState } from "./initialState";
 import { firstPerson } from "../utils/people";
 // import { agingFertility, checkOldAge, coordinateSpouseIDs, handleMarriages, stork, willYouMarryMe } from "../utils/PeopleCheckers";
 import { okay } from "../utils/masterFunctions";
+import { firstTitle } from "../utils/titles";
 
 export default function reducer(state: State, action: Action): State {
     switch (action.type) {
@@ -12,15 +13,22 @@ export default function reducer(state: State, action: Action): State {
             const { newPerson, firstHouse } = firstPerson(state.year.current)
             const birthMessage: string = newPerson.name + ' was born.';
             const houseMessage: string = `The ${firstHouse.name} dynasty begins with the birth of ${newPerson.name}.`
+            const {title, title_news} = firstTitle(state.year.current, newPerson);
+            newPerson.title = {
+                name: `${title.rank} of ${title.name}`,
+                address: title.appellation,
+                id: title.id
+            }
             return {
                 ...state,
                 sim_check: true,
                 living_people: [newPerson],
                 houses: [firstHouse],
+                titles: [title],
                 events: [
                     ...state.events,
                     { year: state.year.current,
-                        events: [birthMessage, houseMessage]
+                        events: [birthMessage, houseMessage, title_news]
                     }
             ]
             };
