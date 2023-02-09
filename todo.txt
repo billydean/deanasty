@@ -9,9 +9,9 @@
 
 What are the next ten steps?
 
-9.  Fix: Fertility rate a bit too high. Tons of kids. Lower
-10. Fix: Repeat Houses too common early on.
-11.
+9.  Fix: Fertility rate a bit too high. Tons of kids. Lower // DONE 2/8/23
+10. Fix: Repeat Houses too common early on. // DONE 2/8/23
+11. 
 12.
 13.
 14.
@@ -19,3 +19,5 @@ What are the next ten steps?
 16.
 17.
 18.
+19.
+20.
