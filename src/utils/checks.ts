@@ -100,16 +100,16 @@ export function willYouMarryMe (age: number): boolean {
     const picker: number = Math.ceil(Math.random() * 2560)
     
     switch (check) {
-        case 3: return picker <= 128
-        case 4: return picker <= 256
+        case 3: return picker <= 256
+        case 4: return picker <= 512
         case 5: return picker <= 384
-        case 6: return picker <= 128
-        case 7: return picker <= 64
+        case 6: return picker <= 256
+        case 7: return picker <= 128
         case 8: return picker <= 64
         case 9: return picker <= 32
-        case 10: return picker <= 16
-        case 11: return picker <= 8
-        case 12: return picker <= 4
+        case 10: return picker <= 32
+        case 11: return picker <= 16
+        case 12: return picker <= 8
         case 13: return picker <= 4
         case 14: return picker <= 2
         case 15: return picker === 1
