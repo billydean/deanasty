@@ -36,7 +36,7 @@ export function historicalHouse(year: number): House {
 //A new marriage--are they from a new house, or are they from a house we've heard of? Boolean: if TRUE, new house. if FALSE, pick...
 
 export function whetherNewHouse(houses_length: number): boolean {
-    const bar = 100 / houses_length;
+    const bar = 200 / houses_length;
     const check = Math.ceil(Math.random() * 100)
     return check < bar;
 }
