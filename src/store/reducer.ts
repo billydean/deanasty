@@ -84,7 +84,7 @@ export default function reducer(state: State, action: Action): State {
              * 
              * Then a function to stitch all the people arrays together.
              */
-            const { updated_dead, updated_living, news_items, updated_houses } = okay(state.year.current,state.living_people,state.dead_people, state.houses)
+            const { updated_dead, updated_living, news_items, updated_houses, updated_parents } = okay(state.year.current,state.living_people,state.dead_people, state.houses, state.parents)
             return {
                 ...state,
                 year: {
@@ -94,6 +94,7 @@ export default function reducer(state: State, action: Action): State {
                 },
                 living_people: updated_living,
                 dead_people: updated_dead,
+                parents: updated_parents,
                 houses: updated_houses,
                 events: [
                     ...other_year_events,

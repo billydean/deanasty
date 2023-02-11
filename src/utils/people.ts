@@ -1,4 +1,4 @@
-import type { House, Houses, People, Person } from "../types"
+import type { House, Houses, ParentPair, Parents, People, Person } from "../types"
 import { v4 as uuid } from "uuid";
 import { deathNews, dieOldAge, filterDeadFolks, handleMarriage, inherentOldAge, pickSex } from "./checks";
 import { nameMaker } from "./Naming";
@@ -108,12 +108,13 @@ export function death (year: number, living_people: People, dead_people: People)
 
 // Love and Marriage...
 
-export function marriageStuff (year: number, living_people: People, houses: Houses): {new_spouses: People, marriage_news: string[], people: People, new_houses: Houses} {
+export function marriageStuff (year: number, living_people: People, houses: Houses): {new_spouses: People, marriage_news: string[], people: People, new_houses: Houses, possible_parents: Parents} {
     let dummy = 0; // ignore this for now
     let new_spouses: People = [];
     let new_houses: Houses = [];
     let available_houses: Houses = new_houses.concat(houses)
     let marriage_news: string[] = [];
+    let possible_parents: Parents = [];
     let people = living_people;
     for (let i=0; i<people.length; i++) {
         if (people[i].marital_status === true) {
@@ -136,6 +137,7 @@ export function marriageStuff (year: number, living_people: People, houses: Hous
                 marriage_news.push(`${people[i].name} ${people[i].house} marries ${spouse.name} from House ${spouseHouse.name}.`);
                 spouse.house = spouseHouse.name;
                 new_spouses.push(spouse)
+                possible_parents.push([people[i].id,spouse.id]);
             } else {
                 dummy = 0; // eslint-disable-line
             }
@@ -148,7 +150,8 @@ return {
     new_spouses,
     marriage_news,
     people,
-    new_houses
+    new_houses,
+    possible_parents
 }
 }
 
