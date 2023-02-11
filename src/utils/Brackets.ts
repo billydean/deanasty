@@ -7,11 +7,13 @@
  *  @param age - Should be passed down.
  *  @param total_chances - 100 if chances are 1 in 100.
  *  @param chance_array - Array of 23 numbers for each five-year bracket (0-114yo).
+ *  @param modifier - In some cases, a modifier make success more or less likely. Should be passed down.
  * 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22  
  */
-function masterBracketLogic (age: number, total_chances: number, chance_array: number[]): boolean {
+function masterBracketLogic (age: number, total_chances: number, chance_array: number[], modifier: number): boolean {
     const level: number = Math.floor(age / 5);
-    const chances: number = Math.ceil(Math.random() * total_chances);
+    let chances: number = Math.ceil(Math.random() * total_chances);
+    chances *= modifier;
     switch (level) {
         case 0: return chances <= chance_array[0]
         case 1: return chances <= chance_array[1]
@@ -43,9 +45,10 @@ function masterBracketLogic (age: number, total_chances: number, chance_array: n
 /**
  * 
  * @param age - Age of the person checked.
+ * @param modifier - Modifier, when applicable. Defaults at 1 (100%).
  * @returns Married or not (boolean) after running age through probability brackets using masterBracketLogic
  */
-export function willYouMarryMe (age: number): boolean {
+export function willYouMarryMe (age: number, modifier: number = 1): boolean {
     /** Chances of getting married age...
      *      0-4     0
      *      5-9     0
@@ -73,5 +76,42 @@ export function willYouMarryMe (age: number): boolean {
      */
     const total = 5600;
     const chance_array = [0,0,0,56,280,560,280,187,112,56,37,37,28,18,9,8,7,0,0,0,0,0,0];
-    return masterBracketLogic(age,total,chance_array);
+    return masterBracketLogic(age,total,chance_array, modifier);
+};
+
+/**
+ * 
+ * @param age - Age of the person checked.
+ * @param modifier - Modifier, when applicable. Defaults at 1 (100%).
+ * @returns Married or not (boolean) after running age through probability brackets using masterBracketLogic
+ */
+export function babyOnTheWay (age: number, modifier: number = 1): boolean {
+    /** The chances of getting pregnant at age...
+     *      0-4     0
+     *      5-9     0
+     *      10-14   0
+     *      15-19   100 in 1000
+     *      20-24   180 in 1000
+     *      25-29   160 in 1000
+     *      30-34   140 in 1000
+     *      35-39   100 in 1000
+     *      40-44   40 in 1000
+     *      45-49   5 in 1000
+     *      50-54   0
+     *      55-59   0
+     *      60-64   0
+     *      65-69   0
+     *      70-74   0
+     *      75-79   0
+     *      80-84   0
+     *      85-89   0
+     *      90-94   0
+     *      95-99   0
+     *      100-104 0
+     *      105-109 0
+     *      110-114 0 
+     */
+    const total = 1000;
+    const chance_array = [0,0,0,100,180,160,140,100,40,5,0,0,0,0,0,0,0,0,0,0,0,0,0];
+    return masterBracketLogic(age,total,chance_array, modifier);
 };
