@@ -11,7 +11,7 @@ export default function reducer(state: State, action: Action): State {
     switch (action.type) {
         case 'START_SIM':
             const { newPerson, firstHouse } = firstPerson(state.year.current)
-            const birthMessage: string = newPerson.name + ' was born.';
+            const birthMessage: string = `${newPerson.name} ${newPerson.house} was born.`;
             const houseMessage: string = `The ${firstHouse.name} dynasty begins with the birth of ${newPerson.name}.`
             const {title, title_news} = firstTitle(state.year.current, newPerson);
             newPerson.title = {

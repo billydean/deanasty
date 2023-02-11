@@ -18,7 +18,7 @@ export function firstTitle(year: number, holder: Person): {title: Title, title_n
          */
     };
 
-    const title_news = `${holder.name} is the first ${title.appellation} of ${title.name}.`;
+    const title_news = `${holder.name} ${holder.house} is the first ${title.appellation} of ${title.name}.`;
 
     return {
         title,

@@ -29,14 +29,14 @@ export function firstPerson(year:number): {newPerson: Person, firstHouse: House}
     }
     const firstHouse = foundHouse(newbie,year)
     newbie.house = firstHouse.name;
-    newbie.name = `${capitalName} ${firstHouse.name}`
+    newbie.name = capitalName;
 
 
     return {
         newPerson: newbie,
         firstHouse: firstHouse
     }
-}
+};
 
 export function createSpouse(person: Person, year: number): Person {
     const capitalFirst = nameMaker('shorter');
@@ -70,7 +70,7 @@ export function createChild (parent1: Person, parent2: Person, year: number): Pe
     const capitalName = nameMaker('shorter');
     const lastName = parent2.house;
     return {
-        name: `${capitalName} ${lastName}`,
+        name: capitalName,
         id: uuid(),
         sex: pickSex(),
         age: 0,
@@ -133,9 +133,8 @@ export function marriageStuff (year: number, living_people: People, houses: Hous
                     spouseHouse = pickHouse(available_houses)
                 };
                 people[i].relations.spouse = spouseID;
-                marriage_news.push(`${people[i].name} marries ${spouse.name} from House ${spouseHouse.name}.`);
+                marriage_news.push(`${people[i].name} ${people[i].house} marries ${spouse.name} from House ${spouseHouse.name}.`);
                 spouse.house = spouseHouse.name;
-                spouse.name += ` ${spouseHouse.name}`
                 new_spouses.push(spouse)
             } else {
                 dummy = 0; // eslint-disable-line
@@ -202,7 +201,7 @@ export function allStorks(people: People, year: number): {new_people: People, ne
 
 export function individualStork (mother: Person, father: Person, year: number): { baby: Person, baby_announcement: string} {
     const baby = createChild(mother,father,year);
-    const baby_announcement = `${baby.name} was born to ${mother.name} and ${father.name}.`
+    const baby_announcement = `${baby.name} was born to ${mother.name} and ${father.name} ${father.house}.`
     return {
         baby,
         baby_announcement

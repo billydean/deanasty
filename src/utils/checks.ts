@@ -15,7 +15,7 @@ export function deathNews (dead: People): string[] {
     let array: string[] = [];
     dead.forEach((person: Person) => {
         if (person.death_year) {
-            array.push(`${person.name} died at age ${person.age}.`);
+            array.push(`${person.name} ${person.house} died at age ${person.age}.`);
         }
     });
     return array;
