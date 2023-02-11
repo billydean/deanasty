@@ -76,6 +76,7 @@ interface State {
     year: Year;
     sim_check: boolean;
     events: Events;
+    parents: Parents;
 }
 
 type Action = any;
@@ -129,6 +130,10 @@ type Houses = House[];
 
 type Titles = Title[];
 
-export type { Year, Person, People, War, Plague, State, Action, Events, EventfulYear, Title, House, Houses };
+type ParentPair = [string, string];
+
+type Parents = ParentPair[];
+
+export type { Year, Person, People, War, Plague, State, Action, Events, EventfulYear, Title, House, Houses, ParentPair, Parents };
 
 
