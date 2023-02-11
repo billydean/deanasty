@@ -10,7 +10,7 @@
  *  @param modifier - In some cases, a modifier make success more or less likely. Should be passed down.
  * 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22  
  */
-function masterBracketLogic (age: number, total_chances: number, chance_array: number[], modifier: number): boolean {
+function masterBracketLogic (age: number, total_chances: number, chance_array: number[], modifier: number = 1): boolean {
     const level: number = Math.floor(age / 5);
     let chances: number = Math.ceil(Math.random() * total_chances);
     chances *= modifier;
@@ -76,6 +76,7 @@ export function willYouMarryMe (age: number, modifier: number = 1): boolean {
      */
     const total = 5600;
     const chance_array = [0,0,0,56,280,560,280,187,112,56,37,37,28,18,9,8,7,0,0,0,0,0,0];
+
     return masterBracketLogic(age,total,chance_array, modifier);
 };
 

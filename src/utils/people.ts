@@ -1,8 +1,9 @@
 import type { House, Houses, People, Person } from "../types"
 import { v4 as uuid } from "uuid";
-import { deathNews, dieOldAge, filterDeadFolks, handleMarriage, inherentOldAge, pickSex, setFertility, willYouMarryMe } from "./checks";
+import { deathNews, dieOldAge, filterDeadFolks, handleMarriage, inherentOldAge, pickSex } from "./checks";
 import { nameMaker } from "./Naming";
 import { foundHouse, historicalHouse, pickHouse, whetherNewHouse } from "./houses";
+import { babyOnTheWay, willYouMarryMe } from "./Brackets";
 
 // People Makers
 export function firstPerson(year:number): {newPerson: Person, firstHouse: House} {
@@ -14,7 +15,6 @@ export function firstPerson(year:number): {newPerson: Person, firstHouse: House}
         sex: 'male', // pickSex() I HATE this, but until I can figure out how to handle different kinds of succession laws, everything is single-sex primogeniture. Must fix this as soon as possible, because it feels gross. But I'm modelling off history (at first). Lame excuse
         age: 0,
         old_year: inherentOldAge(year),
-        fertility: 80,
         alive: true,
         birth_year: year,
         relations: {
@@ -53,7 +53,6 @@ export function createSpouse(person: Person, year: number): Person {
         age: spouse_age,
         birth_year: year - spouse_age,
         old_year: inherentOldAge(year - spouse_age),
-        fertility: setFertility(),
         alive: true,
         relations: {
             family: uuid(),
@@ -76,7 +75,6 @@ export function createChild (parent1: Person, parent2: Person, year: number): Pe
         sex: pickSex(),
         age: 0,
         old_year: inherentOldAge(year),
-        fertility: setFertility(),
         alive: true,
         birth_year: year,
         relations: {
@@ -160,12 +158,12 @@ export function allStorks(people: People, year: number): {new_people: People, ne
     let baby_news: string[] = [];
     let dummy = 0; // ignore for now...
 
-    const mothers = people.filter((person: Person) => person.sex === 'female' && person.marital_status === true && person.fertility > 0);
+    const mothers = people.filter((person: Person) => person.sex === 'female' && person.marital_status === true);
 
     for (let i=0; i<mothers.length; i++) {
         const seed = Math.ceil(Math.random() * 100);
         const match = people.find((person) => person.id === mothers[i].relations.spouse);
-        if (typeof match !== 'undefined' && mothers[i].fertility > seed && match.fertility > seed) {
+        if (typeof match !== 'undefined' && babyOnTheWay(mothers[i].age)) {
 
             const {baby, baby_announcement} = individualStork(mothers[i],match,year);
 
