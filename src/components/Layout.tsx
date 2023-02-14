@@ -61,7 +61,13 @@ function Layout() {
                         >
                             Next
                         </Button>
-                        <Button variant="contained" disableElevation>Save</Button>
+                        {/*temporary-- the SAVE button repurposed for debugging. Just to see state...*/}
+                        <Button variant="contained" 
+                        disableElevation
+                        onClick={()=>{console.log(state)}}
+                        >
+                            Save
+                        </Button>
                     </Stack>
                     </Toolbar>
                 </AppBar>
