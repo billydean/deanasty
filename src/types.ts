@@ -53,7 +53,7 @@ interface Person {
         address: string, // 'appellation' in Title
         id: number, // matches Title id (for other checks/calculations)
     },
-    title_claim: string | undefined,
+    title_claim: number | undefined,
     /**
      * avenir
      *  - claim (to titles extant or otherwise)

@@ -71,6 +71,14 @@ export function createSpouse(person: Person, year: number): Person {
 export function createChild (parent1: Person, parent2: Person, year: number): Person {
     const capitalName = nameMaker('shorter');
     const lastName = parent2.house;
+    let babysClaim = undefined;
+    // if (parent1.title_claim !== undefined) {
+    //     babysClaim = parent1.title_claim;
+    // } else if (parent2.title_claim !== undefined) {
+    //     babysClaim = parent2.title_claim;
+    // } else {
+    //     babysClaim = undefined;
+    // }
     return {
         name: capitalName,
         id: uuid(),
@@ -87,7 +95,7 @@ export function createChild (parent1: Person, parent2: Person, year: number): Pe
             offspring: []
         },
         marital_status: false,
-        title_claim: undefined,
+        title_claim: babysClaim,
         house: lastName
     }
 }

@@ -18,7 +18,8 @@ export default function reducer(state: State, action: Action): State {
                 name: `${title.rank} of ${title.name}`,
                 address: title.appellation,
                 id: title.id
-            }
+            };
+            newPerson.title_claim = title.id;
             return {
                 ...state,
                 sim_check: true,
