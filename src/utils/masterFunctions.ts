@@ -12,7 +12,7 @@ export function okay (current_year: number, living_people: People, dead_people: 
 
     const {new_spouses, marriage_news, people, new_houses, possible_parents } = marriageStuff(current_year, aged_living, current_houses);
 
-    const { new_people, new_children, baby_news } = allStorks(people, current_year)
+    const { new_people, new_children, baby_news } = allStorks(people, current_year, parents)
 
     const updated_living = new_people.concat(new_spouses, new_children);
  

@@ -38,7 +38,7 @@ export function firstPerson(year:number): {newPerson: Person, firstHouse: House}
         firstHouse: firstHouse
     }
 };
-
+ 
 export function createSpouse(person: Person, year: number): Person {
     const capitalFirst = nameMaker('shorter');
     const sex = person.sex === 'female'
@@ -158,45 +158,78 @@ return {
 }
 }
 
-export function allStorks(people: People, year: number): {new_people: People, new_children: People, baby_news: string[]} {
+export function allStorks(people: People, year: number, parents: Parents): {new_people: People, new_children: People, baby_news: string[]} {
     let new_children: People = [];
     let baby_news: string[] = [];
+
     let dummy = 0; // ignore for now...
 
-    const mothers = people.filter((person: Person) => person.sex === 'female' && person.marital_status === true);
+    for (let i=0; i<parents.length; i++) {
+        // const parent1Index: number | undefined = people.findIndex(x => x.id === couple[0]);
+        // const parent2Index: number | undefined = people.findIndex(x => x.id === couple[1]);
+        // const parent1: Person | undefined = people[parent1Index];
+        // const parent2: Person | undefined  = people[parent2Index];
 
-    for (let i=0; i<mothers.length; i++) {
-        const seed = Math.ceil(Math.random() * 100);
-        const match = people.find((person) => person.id === mothers[i].relations.spouse);
-        if (typeof match !== 'undefined' && babyOnTheWay(mothers[i].age)) {
+        const parent1: Person | undefined = people.find((person) => person.id === parents[i][0]);
+        const parent2: Person | undefined = people.find((person) => person.id === parents[i][1]);
 
-            const {baby, baby_announcement} = individualStork(mothers[i],match,year);
-
-            new_children.push(baby);
-
-            baby_news.push(baby_announcement);
-        } else {
-            dummy = 0; // eslint-disable-line
-        }
-    }
- 
-    const new_people: People = people.map((person: Person) => {
-        const spawn = new_children.find((kid) => person.id === kid.relations.mother || person.id === kid.relations.father);
-        if (typeof spawn !== 'undefined') {
-            return {
-                ...person,
-                relations: {
-                    ...person.relations,
-                    offspring: [
-                        ...person.relations.offspring,
-                        spawn.id
-                    ]
-                }
+        if (parent1 !== undefined && parent2 !== undefined) {
+            if (parent1.sex === 'female' && babyOnTheWay(parent1.age)) {
+                const {baby, baby_announcement} = individualStork(parent1,parent2,year);
+                new_children.push(baby);
+                baby_news.push(baby_announcement);
+                parent1.relations.offspring.push(baby.id);
+                parent2.relations.offspring.push(baby.id);
             }
-        } else {
-            return person 
+            else if (parent2.sex === 'female' && babyOnTheWay(parent2.age)) {
+                const {baby, baby_announcement} = individualStork(parent2,parent1,year);
+                new_children.push(baby);
+                baby_news.push(baby_announcement);
+                parent1.relations.offspring.push(baby.id);
+                parent2.relations.offspring.push(baby.id);
+            }
         }
-    });
+
+        // this is silly, but...
+       
+        // parent not undefined, if parent female, babyontheway(age)
+
+    }
+    const new_people = people.map(person => person);
+
+    // const mothers = people.filter((person: Person) => person.sex === 'female' && person.marital_status === true);
+
+    // for (let i=0; i<mothers.length; i++) {
+    //     const match = people.find((person) => person.id === mothers[i].relations.spouse);
+    //     if (typeof match !== 'undefined' && babyOnTheWay(mothers[i].age)) {
+
+    //         const {baby, baby_announcement} = individualStork(mothers[i],match,year);
+
+    //         new_children.push(baby);
+
+    //         baby_news.push(baby_announcement);
+    //     } else {
+    //         dummy = 0; // eslint-disable-line
+    //     }
+    // }
+ 
+    // const new_people: People = people.map((person: Person) => {
+    //     const spawn = new_children.find((kid) => person.id === kid.relations.mother || person.id === kid.relations.father);
+    //     if (typeof spawn !== 'undefined') {
+    //         return {
+    //             ...person,
+    //             relations: {
+    //                 ...person.relations,
+    //                 offspring: [
+    //                     ...person.relations.offspring,
+    //                     spawn.id
+    //                 ]
+    //             }
+    //         }
+    //     } else {
+    //         return person 
+    //     }
+    // });
 
     return {
         new_people,
@@ -207,7 +240,7 @@ export function allStorks(people: People, year: number): {new_people: People, ne
 
 export function individualStork (mother: Person, father: Person, year: number): { baby: Person, baby_announcement: string} {
     const baby = createChild(mother,father,year);
-    const baby_announcement = `${baby.name} was born to ${mother.name} and ${father.name} ${father.house}.`
+    const baby_announcement = `${baby.name} of House ${baby.house} was born to ${mother.name} ${mother.house} and ${father.name} ${father.house}.`
     return {
         baby,
         baby_announcement
