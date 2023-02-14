@@ -1,9 +1,10 @@
-import type { House, Houses, ParentPair, Parents, People, Person } from "../types"
+import type { House, Houses, ParentPair, Parents, People, Person, Title } from "../types"
 import { v4 as uuid } from "uuid";
 import { deathNews, dieOldAge, filterDeadFolks, handleMarriage, inherentOldAge, pickSex } from "./checks";
 import { nameMaker } from "./Naming";
 import { foundHouse, historicalHouse, pickHouse, whetherNewHouse } from "./houses";
 import { babyOnTheWay, willYouMarryMe } from "./Brackets";
+import { checkSuccessionAtBirth } from "./titles";
 
 // People Makers
 export function firstPerson(year:number): {newPerson: Person, firstHouse: House} {
@@ -166,10 +167,9 @@ return {
 }
 }
 
-export function allStorks(people: People, year: number, parents: Parents): {new_people: People, new_children: People, baby_news: string[]} {
+export function allStorks(people: People, year: number, parents: Parents, titles: Title[]): {new_people: People, new_children: People, baby_news: string[], updated_titles: Title[]} {
     let new_children: People = [];
     let baby_news: string[] = [];
-
     let dummy = 0; // ignore for now...
 
     for (let i=0; i<parents.length; i++) {
@@ -184,6 +184,22 @@ export function allStorks(people: People, year: number, parents: Parents): {new_
         if (parent1 !== undefined && parent2 !== undefined) {
             if (parent1.sex === 'female' && babyOnTheWay(parent1.age)) {
                 const {baby, baby_announcement} = individualStork(parent1,parent2,year);
+                if (parent1.title_claim !== undefined) {
+                    const relevant_title = titles.find(title => title.id === parent1.title_claim);
+                    if (relevant_title !== undefined) {
+                        const {updated_succession_list, child_title} = checkSuccessionAtBirth(relevant_title, parent1, baby); 
+                        relevant_title.succession_list = updated_succession_list;
+                        baby.title_claim = child_title;
+                    }
+                };
+                if (parent2.title_claim !== undefined) {
+                    const relevant_title = titles.find(title => title.id === parent2.title_claim);
+                    if (relevant_title !== undefined) {
+                        const {updated_succession_list, child_title} = checkSuccessionAtBirth(relevant_title, parent2, baby); 
+                        relevant_title.succession_list = updated_succession_list;
+                        baby.title_claim = child_title;
+                    }
+                };
                 new_children.push(baby);
                 baby_news.push(baby_announcement);
                 parent1.relations.offspring.push(baby.id);
@@ -191,10 +207,27 @@ export function allStorks(people: People, year: number, parents: Parents): {new_
             }
             else if (parent2.sex === 'female' && babyOnTheWay(parent2.age)) {
                 const {baby, baby_announcement} = individualStork(parent2,parent1,year);
+                if (parent1.title_claim !== undefined) {
+                    const relevant_title = titles.find(title => title.id === parent1.title_claim);
+                    if (relevant_title !== undefined) {
+                        const {updated_succession_list, child_title} = checkSuccessionAtBirth(relevant_title, parent1, baby); 
+                        relevant_title.succession_list = updated_succession_list;
+                        baby.title_claim = child_title;
+                    }
+                };
+                if (parent2.title_claim !== undefined) {
+                    const relevant_title = titles.find(title => title.id === parent2.title_claim);
+                    if (relevant_title !== undefined) {
+                        const {updated_succession_list, child_title} = checkSuccessionAtBirth(relevant_title, parent2, baby); 
+                        relevant_title.succession_list = updated_succession_list;
+                        baby.title_claim = child_title;
+                    }
+                };
                 new_children.push(baby);
                 baby_news.push(baby_announcement);
                 parent1.relations.offspring.push(baby.id);
                 parent2.relations.offspring.push(baby.id);
+                
             }
         }
 
@@ -204,7 +237,7 @@ export function allStorks(people: People, year: number, parents: Parents): {new_
 
     }
     const new_people = people.map(person => person);
-
+    const updated_titles = titles.map(title => title);
     // const mothers = people.filter((person: Person) => person.sex === 'female' && person.marital_status === true);
 
     // for (let i=0; i<mothers.length; i++) {
@@ -242,7 +275,8 @@ export function allStorks(people: People, year: number, parents: Parents): {new_
     return {
         new_people,
         new_children,
-        baby_news
+        baby_news, 
+        updated_titles
     }
 }
 

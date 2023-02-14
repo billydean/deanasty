@@ -124,7 +124,9 @@ interface Title {
      */
 };
 
-type SuccessionList = string[];
+type SuccessionList = SuccessionTuple[];
+
+type SuccessionTuple = [string, string[]]
 
 type Houses = House[];
 
@@ -134,6 +136,6 @@ type ParentPair = [string, string];
 
 type Parents = ParentPair[];
 
-export type { Year, Person, People, War, Plague, State, Action, Events, EventfulYear, Title, House, Houses, ParentPair, Parents };
+export type { Year, Person, People, War, Plague, State, Action, Events, EventfulYear, Title, House, Houses, ParentPair, Parents, SuccessionList, SuccessionTuple };
 
 
