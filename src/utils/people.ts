@@ -25,6 +25,7 @@ export function firstPerson(year:number): {newPerson: Person, firstHouse: House}
             offspring: []
         },
         marital_status: false,
+        title_claim: undefined,
         house: ""
     }
     const firstHouse = foundHouse(newbie,year)
@@ -62,6 +63,7 @@ export function createSpouse(person: Person, year: number): Person {
             offspring: []
         },
         marital_status: true,
+        title_claim: undefined,
         house: 'placeholder'
     }
 }
@@ -85,6 +87,7 @@ export function createChild (parent1: Person, parent2: Person, year: number): Pe
             offspring: []
         },
         marital_status: false,
+        title_claim: undefined,
         house: lastName
     }
 }

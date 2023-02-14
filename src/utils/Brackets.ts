@@ -53,20 +53,20 @@ export function willYouMarryMe (age: number, modifier: number = 1): boolean {
      *      0-4     0
      *      5-9     0
      *      10-14   0
-     *      15-19   56 in 5600
-     *      20-24   280 in 5600
-     *      25-29   560 in 5600
-     *      30-34   280 in 5600
-     *      35-39   187 in 5600
-     *      40-44   112 in 5600
-     *      45-49   56 in 5600
-     *      50-54   37 in 5600
-     *      55-59   37 in 5600
-     *      60-64   28 in 5600
-     *      65-69   18 in 5600
-     *      70-74   9 in 5600
-     *      75-79   8 in 5600
-     *      80-84   7 in 5600
+     *      15-19   56 in 5600  TO 84?
+     *      20-24   280 in 5600 420?
+     *      25-29   560 in 5600 840?
+     *      30-34   280 in 5600 420?
+     *      35-39   187 in 5600 281?
+     *      40-44   112 in 5600 168?
+     *      45-49   56 in 5600  84?
+     *      50-54   37 in 5600  56?
+     *      55-59   37 in 5600  56?
+     *      60-64   28 in 5600  42
+     *      65-69   18 in 5600  27
+     *      70-74   9 in 5600   14
+     *      75-79   8 in 5600   12
+     *      80-84   7 in 5600   10
      *      85-89   0
      *      90-94   0
      *      95-99   0
@@ -75,7 +75,7 @@ export function willYouMarryMe (age: number, modifier: number = 1): boolean {
      *      110-114 0 
      */
     const total = 5600;
-    const chance_array = [0,0,0,56,280,560,280,187,112,56,37,37,28,18,9,8,7,0,0,0,0,0,0];
+    const chance_array = [0,0,0,84,420,840,420,281,168,84,56,56,42,27,14,12,10,0,0,0,0,0,0];
 
     return masterBracketLogic(age,total,chance_array, modifier);
 };
@@ -91,13 +91,13 @@ export function babyOnTheWay (age: number, modifier: number = 1): boolean {
      *      0-4     0
      *      5-9     0
      *      10-14   0
-     *      15-19   100 in 1000
-     *      20-24   180 in 1000
-     *      25-29   160 in 1000
-     *      30-34   140 in 1000
-     *      35-39   100 in 1000
-     *      40-44   40 in 1000
-     *      45-49   5 in 1000
+     *      15-19   100 in 1000 150
+     *      20-24   180 in 1000 270
+     *      25-29   160 in 1000 240
+     *      30-34   140 in 1000 210
+     *      35-39   100 in 1000 150
+     *      40-44   40 in 1000  60
+     *      45-49   5 in 1000   8
      *      50-54   0
      *      55-59   0
      *      60-64   0
@@ -113,6 +113,6 @@ export function babyOnTheWay (age: number, modifier: number = 1): boolean {
      *      110-114 0 
      */
     const total = 1000;
-    const chance_array = [0,0,0,100,180,160,140,100,40,5,0,0,0,0,0,0,0,0,0,0,0,0,0];
+    const chance_array = [0,0,0,200,360,320,280,200,80,10,0,0,0,0,0,0,0,0,0,0,0,0,0];
     return masterBracketLogic(age,total,chance_array, modifier);
 };

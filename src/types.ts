@@ -52,7 +52,8 @@ interface Person {
         name: string, // pulled from 'rank' and 'name' of Title. 'Rank of Name'
         address: string, // 'appellation' in Title
         id: number, // matches Title id (for other checks/calculations)
-    }
+    },
+    title_claim: string | undefined,
     /**
      * avenir
      *  - claim (to titles extant or otherwise)
@@ -106,12 +107,9 @@ interface Title {
     eta: number,
     status: string,
     dissolved?: number,
-    succession: string, // will eventually delineate different succession models
+    succession: string, // will eventually delineate different succession models,
+    succession_list: SuccessionList,
     holder?: {
-        name: string,
-        id: string
-    },
-    heir?: {
         name: string,
         id: string
     },
@@ -125,6 +123,8 @@ interface Title {
      *  - claimants
      */
 };
+
+type SuccessionList = string[];
 
 type Houses = House[];
 

@@ -11,6 +11,7 @@ export function firstTitle(year: number, holder: Person): {title: Title, title_n
         eta: year,
         status: 'extant',
         succession: 'primogen',
+        succession_list: [],
         seat: 'Examplia'
         /**
          * avenir:
