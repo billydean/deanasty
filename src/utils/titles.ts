@@ -84,7 +84,7 @@ export function findHeir (title: Title, people: People) {
                 name: `${heir!.name} of House ${heir!.house}`,
                 id: heir!.id
             };
-            title.succession_list = title.succession_list.slice(title.succession_list.findIndex(id => id === heir!.id))
+            // title.succession_list = title.succession_list.slice(title.succession_list.findIndex(id => id === heir!.id))
             heir_found = true;
         } else {
             while_count++;

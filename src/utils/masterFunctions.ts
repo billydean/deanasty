@@ -6,7 +6,7 @@ export function okay (current_year: number, living_people: People, dead_people: 
     updated_dead: People, updated_living: People, news_items: string[], updated_houses: Houses, updated_parents: Parents, updated_titles: Title[]
 } {
 
-    const { new_deaths, the_living, updated_dead } = death(current_year, living_people, dead_people);
+    const { new_deaths, the_living, updated_dead } = death(current_year, living_people, dead_people, titles);
 
     const aged_living = timeMarchesOn(the_living);
 

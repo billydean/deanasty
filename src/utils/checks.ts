@@ -1,13 +1,24 @@
 // This file contains any logic, tests, or filters used to create or transform slices of state related to the current year or to any generated people
-import { People, Person } from "../types";
+import { People, Person, Title } from "../types";
 import { beta } from '@stdlib/random/base';
 import { createSpouse } from "./people";
+import { findHeir } from "./titles";
 
 // Takes array of folks and filters both living and dead arrays
-export function filterDeadFolks (living: People): { the_living: People, the_dead: People} {
+// If a title holder is included among the dead, looks for heir...
+export function filterDeadFolks (living: People, titles: Title[]): { the_living: People, the_dead: People} {
+    const the_living = living.filter((person: Person) => person.alive === true);
+    const the_dead = living.filter((person: Person) => person.alive === false);
+
+    const test = the_dead.find(person => person.title);
+    if (test !== undefined) {
+        const vacant_title = titles.find(entry => entry.id === test.title!.id);
+        findHeir(vacant_title!, the_living);
+    }
     return {
-        the_living : living.filter((person: Person) => person.alive === true),
-        the_dead: living.filter((person: Person) => person.alive === false)}
+        the_living,
+        the_dead
+    }
 };
 
 // Creates array of new news items based on people array: new deaths
@@ -53,8 +64,9 @@ export function timeMarchesOn (people: People): People {
 };
 
 // Determines inherent year of death -- will die of "old age" if nothing kills them sooner.
+// Lowered the "+50" to "+20" since, there being no other causes of death, folks live a long time haha
 export function inherentOldAge (birth_year: number, modifier: number = 0): number {
-    return Math.ceil(beta(5,3) * 60) + 50 + modifier + birth_year
+    return Math.ceil(beta(5,3) * 60) + 20 + modifier + birth_year
 };
 
 // Assigns sex at birth.
