@@ -12,7 +12,7 @@ export function firstPerson(year:number): {newPerson: Person, firstHouse: House}
     const capitalName = nameMaker('shorter');
     const newbie: Person = {
         name: "",
-        id: uuid(),
+        id: `${uuid()}M`,
         sex: 'male', // pickSex() I HATE this, but until I can figure out how to handle different kinds of succession laws, everything is single-sex primogeniture. Must fix this as soon as possible, because it feels gross. But I'm modelling off history (at first). Lame excuse
         age: 0,
         old_year: inherentOldAge(year),
@@ -45,12 +45,15 @@ export function createSpouse(person: Person, year: number): Person {
     const sex = person.sex === 'female'
         ? 'male'
         : 'female'
+    const sexed_id = sex === 'female'
+        ? 'F'
+        : 'M'
     const spouse_age = person.sex === 'male'
         ? 15 + Math.floor(Math.random() * (person.age - 15))
         : person.age + Math.floor(Math.random() * 15);
     return {
         name: capitalFirst,
-        id: uuid(),
+        id: `${uuid()}${sexed_id}`,
         sex: sex,
         age: spouse_age,
         birth_year: year - spouse_age,
@@ -73,17 +76,15 @@ export function createChild (parent1: Person, parent2: Person, year: number): Pe
     const capitalName = nameMaker('shorter');
     const lastName = parent2.house;
     let babysClaim = undefined;
-    // if (parent1.title_claim !== undefined) {
-    //     babysClaim = parent1.title_claim;
-    // } else if (parent2.title_claim !== undefined) {
-    //     babysClaim = parent2.title_claim;
-    // } else {
-    //     babysClaim = undefined;
-    // }
+    const assigned_sex = pickSex();
+    const sexed_id = assigned_sex === 'female'
+        ? 'F'
+        : 'M'
+        
     return {
         name: capitalName,
-        id: uuid(),
-        sex: pickSex(),
+        id: `${uuid()}${sexed_id}`,
+        sex: assigned_sex,
         age: 0,
         old_year: inherentOldAge(year),
         alive: true,

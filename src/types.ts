@@ -108,7 +108,7 @@ interface Title {
     status: string,
     dissolved?: number,
     succession: string, // will eventually delineate different succession models,
-    succession_list: SuccessionList,
+    succession_list: string[],
     holder?: {
         name: string,
         id: string
@@ -124,9 +124,9 @@ interface Title {
      */
 };
 
-type SuccessionList = SuccessionTuple[];
+// type SuccessionList = SuccessionTuple[];
 
-type SuccessionTuple = [string, string[]]
+// type SuccessionTuple = [string, string[]]
 
 type Houses = House[];
 
@@ -136,6 +136,6 @@ type ParentPair = [string, string];
 
 type Parents = ParentPair[];
 
-export type { Year, Person, People, War, Plague, State, Action, Events, EventfulYear, Title, House, Houses, ParentPair, Parents, SuccessionList, SuccessionTuple };
+export type { Year, Person, People, War, Plague, State, Action, Events, EventfulYear, Title, House, Houses, ParentPair, Parents };
 
 

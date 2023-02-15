@@ -1,4 +1,4 @@
-import type { Person, SuccessionList, SuccessionTuple, Title } from "../types";
+import type { Person, Title } from "../types";
 
 //Only one title for now. Eventually titles will be more dynamic. Appearing, disappearing, changing hands. And there will be disputes among claimants.
 
@@ -27,27 +27,30 @@ export function firstTitle(year: number, holder: Person): {title: Title, title_n
     }
 }
 
-export function primogeniture (title: Title, parent: Person, child: Person): {updated_succession_list: SuccessionList, child_title: number | undefined} {
-    let newline: SuccessionList = []
+export function primogeniture (title: Title, parent: Person, child: Person): {updated_succession_list: string[], child_title: number | undefined} {
+    let exported_list = title.succession_list.map(id => id);
     let child_title = undefined;
-    if (child.sex === 'male') {
-        child_title = parent.title_claim;
-        let found_index: number = title.succession_list.findIndex(tuple => tuple[0] === parent.id);
-        if (found_index === -1) {
-            newline = [[parent.id, [child.id]]];
-        } else {
-            title.succession_list[found_index][1].push(child.id)
+    let male_siblings: number = 0;
+
+    for (let i=0;i<parent.relations.offspring.length; i++) {
+        if (parent.relations.offspring[i].slice(-1) === 'M') {
+            male_siblings++;
         }
     }
-    const updated_succession_list: SuccessionList = newline.concat(title.succession_list);
 
+    if (child.sex === 'male') {
+        child_title = parent.title_claim;
+        let found_index: number = exported_list.findIndex(id => id === parent.id);
+        found_index = found_index + male_siblings + 1;
+        exported_list.splice(found_index,0,child.id);
+    }
     return {
-        updated_succession_list,
+        updated_succession_list: exported_list,
         child_title
     }
 }
 
-export function checkSuccessionAtBirth (title: Title, parent: Person, child: Person): {updated_succession_list: SuccessionList, child_title: number | undefined} {
+export function checkSuccessionAtBirth (title: Title, parent: Person, child: Person): {updated_succession_list: string[], child_title: number | undefined} {
     if (title.succession === 'primogen') {
         const {updated_succession_list, child_title} = primogeniture(title, parent, child)
         return {updated_succession_list, child_title};
