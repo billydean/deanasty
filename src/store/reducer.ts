@@ -21,6 +21,10 @@ export default function reducer(state: State, action: Action): State {
             };
             newPerson.title_claim = title.id;
             title.succession_list = [newPerson.id];
+            title.holder = {
+                name: `${newPerson.name} of House ${newPerson.house}`,
+                id: newPerson.id
+            }
             return {
                 ...state,
                 sim_check: true,

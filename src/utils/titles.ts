@@ -1,4 +1,4 @@
-import type { Person, Title } from "../types";
+import type { People, Person, Title } from "../types";
 
 //Only one title for now. Eventually titles will be more dynamic. Appearing, disappearing, changing hands. And there will be disputes among claimants.
 
@@ -58,3 +58,70 @@ export function checkSuccessionAtBirth (title: Title, parent: Person, child: Per
         return {updated_succession_list: title.succession_list, child_title: undefined}
     }
 }
+
+// title?: {
+//     name: string, // pulled from 'rank' and 'name' of Title. 'Rank of Name'
+//     address: string, // 'appellation' in Title
+//     id: number, // matches Title id (for other checks/calculations)
+// },
+
+// Find heir
+// Add title info to new title holder
+
+export function findHeir (title: Title, people: People) {
+    let heir_found = false;
+    let while_count = 0;
+    while (heir_found === false && while_count < title.succession_list.length) {
+        const candidate = title.succession_list[while_count];
+        if (people.some(person => person.id === candidate)) {
+            const heir = people.find(person => person.id === candidate);
+            heir!.title = {
+                name: `${title.rank} of ${title.name}`,
+                address: title.appellation,
+                id: title.id
+            };
+            title.holder = {
+                name: `${heir!.name} of House ${heir!.house}`,
+                id: heir!.id
+            };
+            title.succession_list = title.succession_list.slice(title.succession_list.findIndex(id => id === heir!.id))
+            heir_found = true;
+        } else {
+            while_count++;
+        }
+    };
+}
+
+// {
+//     let heir_found = false;
+//     let holder_info = {
+//         name: "",
+//         id: ""
+//     }
+//     let while_count = 0;
+//     while (heir_found === false) {
+//         const candidate = title.succession_list[while_count];
+//         if (people.some(person => person.id === candidate)) {
+//             const heir = people.find(person => person.id === candidate);
+//             if (heir) {
+//                 holder_info.name = heir.name;
+//                 holder_info.id = heir.id;
+//             }
+            
+//         }
+//     }
+
+//     return {
+//         holder_info,
+//         title_info: {
+//             name,
+//             address,
+//             id
+//         }
+//     }
+// }
+
+// Add title info to new title holder
+
+// Change title info: new holder, trimmed succession list
+
