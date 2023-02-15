@@ -64,9 +64,9 @@ export function timeMarchesOn (people: People): People {
 };
 
 // Determines inherent year of death -- will die of "old age" if nothing kills them sooner.
-// Lowered the "+50" to "+20" since, there being no other causes of death, folks live a long time haha
+// Lowered the "+50" to "+10" since, there being no other causes of death, folks live a long time haha
 export function inherentOldAge (birth_year: number, modifier: number = 0): number {
-    return Math.ceil(beta(5,3) * 60) + 20 + modifier + birth_year
+    return Math.ceil(beta(5,3) * 60) + 10 + modifier + birth_year
 };
 
 // Assigns sex at birth.

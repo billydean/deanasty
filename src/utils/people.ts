@@ -40,6 +40,19 @@ export function firstPerson(year:number): {newPerson: Person, firstHouse: House}
     }
 };
  
+
+// distance from 15yo
+// distance / 2
+// random times that!
+// + 15
+// (age - 15) / 2
+function wifeAge (husband: number): number {
+    const threshold = husband - ((husband - 15)/2);
+    const minimum = Math.max(15, threshold)
+    const maximum = husband + 2
+    return Math.floor(Math.random() * (maximum - minimum)) + 15;
+}
+
 export function createSpouse(person: Person, year: number): Person {
     const capitalFirst = nameMaker('shorter');
     const sex = person.sex === 'female'
@@ -49,7 +62,7 @@ export function createSpouse(person: Person, year: number): Person {
         ? 'F'
         : 'M'
     const spouse_age = person.sex === 'male'
-        ? 15 + Math.floor(Math.random() * (person.age - 15))
+        ? wifeAge(person.age)
         : person.age + Math.floor(Math.random() * 15);
     return {
         name: capitalFirst,
