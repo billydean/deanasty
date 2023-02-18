@@ -75,7 +75,7 @@ export function willYouMarryMe (age: number, modifier: number = 1): boolean {
      *      110-114 0 
      */
     const total = 5600;
-    const chance_array = [0,0,0,84,420,840,420,281,168,84,56,56,42,27,14,12,10,0,0,0,0,0,0];
+    const chance_array = [0,0,0,300,900,900,560,281,168,84,56,56,42,27,14,12,10,0,0,0,0,0,0];
 
     return masterBracketLogic(age,total,chance_array, modifier);
 };
@@ -113,6 +113,6 @@ export function babyOnTheWay (age: number, modifier: number = 1): boolean {
      *      110-114 0 
      */
     const total = 1000;
-    const chance_array = [0,0,0,200,360,320,280,200,80,10,0,0,0,0,0,0,0,0,0,0,0,0,0];
+    const chance_array = [0,0,0,120,220,200,180,125,50,8,0,0,0,0,0,0,0,0,0,0,0,0,0];
     return masterBracketLogic(age,total,chance_array, modifier);
 };
