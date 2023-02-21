@@ -122,8 +122,7 @@ export function createChild (parent1: Person, parent2: Person, year: number): Pe
 // Returns news, updated living array, and updated dead array
 export function death (year: number, living_people: People, dead_people: People, titles: Title[]): {new_deaths: string[], the_living: People, updated_dead: People} {
     const sorted = dieOldAge(year,living_people);
-    const {the_living, the_dead} = filterDeadFolks(sorted, titles);
-    const new_deaths = deathNews(the_dead);
+    const {the_living, the_dead, new_deaths} = filterDeadFolks(sorted, titles);
     const updated_dead = dead_people.concat(the_dead);
     return {
         new_deaths,

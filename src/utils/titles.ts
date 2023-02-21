@@ -68,7 +68,7 @@ export function checkSuccessionAtBirth (title: Title, parent: Person, child: Per
 // Find heir
 // Add title info to new title holder
 
-export function findHeir (title: Title, people: People) {
+export function findHeir (title: Title, people: People, news: string[] ) {
     let heir_found = false;
     let while_count = 0;
     while (heir_found === false && while_count < title.succession_list.length) {
@@ -84,12 +84,14 @@ export function findHeir (title: Title, people: People) {
                 name: `${heir!.name} of House ${heir!.house}`,
                 id: heir!.id
             };
+            news.push(`Hail ${title.appellation} ${title.holder.name}, the new ${title.appellation} of ${title.name}.`);
             // title.succession_list = title.succession_list.slice(title.succession_list.findIndex(id => id === heir!.id))
             heir_found = true;
         } else {
             while_count++;
         }
     };
+    
 }
 
 // {

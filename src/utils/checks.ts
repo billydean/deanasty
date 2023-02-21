@@ -6,27 +6,32 @@ import { findHeir } from "./titles";
 
 // Takes array of folks and filters both living and dead arrays
 // If a title holder is included among the dead, looks for heir...
-export function filterDeadFolks (living: People, titles: Title[]): { the_living: People, the_dead: People} {
+export function filterDeadFolks (living: People, titles: Title[]): { the_living: People, the_dead: People, new_deaths: string[]} {
     const the_living = living.filter((person: Person) => person.alive === true);
     const the_dead = living.filter((person: Person) => person.alive === false);
-
-    const test = the_dead.find(person => person.title);
-    if (test !== undefined) {
-        const vacant_title = titles.find(entry => entry.id === test.title!.id);
-        findHeir(vacant_title!, the_living);
-    }
+    const new_deaths = deathNews(the_dead, titles, the_living);
+    
     return {
         the_living,
-        the_dead
+        the_dead,
+        new_deaths,
     }
 };
 
+
+
+
 // Creates array of new news items based on people array: new deaths
-export function deathNews (dead: People): string[] {
+export function deathNews (dead: People, titles: Title[], living: People): string[] {
     let array: string[] = [];
     dead.forEach((person: Person) => {
         if (person.death_year) {
             array.push(`${person.name} ${person.house} died at age ${person.age}.`);
+        }
+        if (person.title !== undefined) {
+            const vacant_title = titles.find(entry => entry.id === person.title!.id)
+            array.push(`${person.title.address} ${person.name} was the ${vacant_title!.appellation} of ${vacant_title!.name}.`)
+            findHeir(vacant_title!, living, array);
         }
     });
     return array;
