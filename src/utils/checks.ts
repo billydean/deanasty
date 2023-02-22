@@ -3,18 +3,25 @@ import { People, Person, Title } from "../types";
 import { beta } from '@stdlib/random/base';
 import { createSpouse } from "./people";
 import { findHeir } from "./titles";
+import { fatalSlapstickOdds, slapstickOdds } from "./Brackets";
+import { fatalAccidents } from "./deathCauses";
 
 // Takes array of folks and filters both living and dead arrays
 // If a title holder is included among the dead, looks for heir...
-export function filterDeadFolks (living: People, titles: Title[]): { the_living: People, the_dead: People, new_deaths: string[]} {
+export function filterDeadFolks (living: People, titles: Title[], year: number): { the_living: People, the_dead: People, title_news: string[]} {
+    living.forEach(person => {
+        if (person.alive === false) {
+            person.death_year = year
+        }
+    });
     const the_living = living.filter((person: Person) => person.alive === true);
     const the_dead = living.filter((person: Person) => person.alive === false);
-    const new_deaths = deathNews(the_dead, titles, the_living);
+    const title_news = titleOnDeath(the_dead, titles, the_living);
     
     return {
         the_living,
         the_dead,
-        new_deaths,
+        title_news,
     }
 };
 
@@ -22,12 +29,9 @@ export function filterDeadFolks (living: People, titles: Title[]): { the_living:
 
 
 // Creates array of new news items based on people array: new deaths
-export function deathNews (dead: People, titles: Title[], living: People): string[] {
+export function titleOnDeath (dead: People, titles: Title[], living: People): string[] {
     let array: string[] = [];
     dead.forEach((person: Person) => {
-        if (person.death_year) {
-            array.push(`${person.name} ${person.house} died at age ${person.age}.`);
-        }
         if (person.title !== undefined) {
             const vacant_title = titles.find(entry => entry.id === person.title!.id)
             array.push(`${person.title.address} ${person.name} was the ${vacant_title!.appellation} of ${vacant_title!.name}.`)
@@ -89,24 +93,41 @@ export function pickSex (): string {
 // };
 
 // General-use death-handler
-export function reaper (person: Person, year: number): Person {
-    return { ...person,
-        alive: false,
-        death_year: year
+// export function reaper (person: Person, year: number): Person {
+//     return { ...person,
+//         alive: false,
+//         death_year: year
+//     }
+// };
+
+// People die of old age.
+// returns old-age-death news items and list of ids.
+export function dieOldAge (year: number, people: People): { oldAgeNews: string[] } {
+    let oldAgeNews = [];
+    for (let i=0; i<people.length;i++){
+        if (people[i].alive === true && people[i].old_year <= year) {
+            oldAgeNews.push(`${people[i].name} ${people[i].house} died of natural causes at the age of ${people[i].age}.`);
+            people[i].alive = false;
+        }
+    }
+    return {
+        oldAgeNews
     }
 };
 
-// People die of old age.
-export function dieOldAge (year: number, people: People): People {
-    return people.map((person)=> {
-        if (person.old_year <= year) {
-            return reaper(person, year)
-        } else {
-            return person
+export function dieAccident (people: People): { fatalAccidentNews: string[] } {
+    let fatalAccidentNews = [];
+    for (let i=0; i<people.length;i++){
+        if (people[i].alive === true && slapstickOdds(people[i].age) && fatalSlapstickOdds(people[i].age)) {
+            let death_cause = fatalAccidents();
+            fatalAccidentNews.push(`${people[i].name} ${people[i].house} died at the age of ${people[i].age} after ${death_cause}.`);
+            people[i].alive = false;
         }
-    })
-};
-
+    }
+    return {
+        fatalAccidentNews
+    }
+}
 
 // iterates over People and adjusts marital status based on the marriageRate function above.
 // export function willYouMarryMe (people: People) {

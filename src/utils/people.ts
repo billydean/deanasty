@@ -1,6 +1,6 @@
-import type { House, Houses, ParentPair, Parents, People, Person, Title } from "../types"
+import type { House, Houses, Parents, People, Person, Title } from "../types"
 import { v4 as uuid } from "uuid";
-import { dieOldAge, filterDeadFolks, handleMarriage, inherentOldAge, pickSex } from "./checks";
+import { dieAccident, dieOldAge, filterDeadFolks, handleMarriage, inherentOldAge, pickSex } from "./checks";
 import { nameMaker } from "./Naming";
 import { foundHouse, historicalHouse, pickHouse, whetherNewHouse } from "./houses";
 import { babyOnTheWay, willYouMarryMe } from "./Brackets";
@@ -121,9 +121,13 @@ export function createChild (parent1: Person, parent2: Person, year: number): Pe
 // Creates news items for newly departed
 // Returns news, updated living array, and updated dead array
 export function death (year: number, living_people: People, dead_people: People, titles: Title[]): {new_deaths: string[], the_living: People, updated_dead: People} {
-    const sorted = dieOldAge(year,living_people);
-    const {the_living, the_dead, new_deaths} = filterDeadFolks(sorted, titles);
+    const { oldAgeNews} = dieOldAge(year,living_people);
+    const { fatalAccidentNews} = dieAccident(living_people);
+
+    const {the_living, the_dead, title_news } = filterDeadFolks(living_people, titles, year);
     const updated_dead = dead_people.concat(the_dead);
+
+    const new_deaths = oldAgeNews.concat(fatalAccidentNews, title_news);
     return {
         new_deaths,
         the_living,
@@ -183,7 +187,6 @@ return {
 export function allStorks(people: People, year: number, parents: Parents, titles: Title[]): {new_people: People, new_children: People, baby_news: string[], updated_titles: Title[]} {
     let new_children: People = [];
     let baby_news: string[] = [];
-    let dummy = 0; // ignore for now...
 
     for (let i=0; i<parents.length; i++) {
         // const parent1Index: number | undefined = people.findIndex(x => x.id === couple[0]);

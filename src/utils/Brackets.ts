@@ -155,7 +155,8 @@ export function slapstickOdds (age: number, modifier: number = 1): boolean {
 }
 
 // Chances of slapstick accident being fatal
-export function fatalSlapstickOdds (age: number, modifier: number = 1): boolean {
+// LOWERED MODIFIER TO SEE IF I SHOULD ADJUST ODDS
+export function fatalSlapstickOdds (age: number, modifier: number = 0.5): boolean {
     /** The odds of a physical accident being fatal at age... 
          *      0-4     0
          *      5-9     100
