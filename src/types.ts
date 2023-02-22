@@ -136,6 +136,8 @@ type ParentPair = [string, string];
 
 type Parents = ParentPair[];
 
-export type { Year, Person, People, War, Plague, State, Action, Events, EventfulYear, Title, House, Houses, ParentPair, Parents };
+type Accidents = "slapstick" | "fauxpas" | "error";
+
+export type { Year, Person, People, War, Plague, State, Action, Events, EventfulYear, Title, House, Houses, ParentPair, Parents, Accidents };
 
 

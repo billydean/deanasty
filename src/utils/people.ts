@@ -1,6 +1,6 @@
 import type { House, Houses, ParentPair, Parents, People, Person, Title } from "../types"
 import { v4 as uuid } from "uuid";
-import { deathNews, dieOldAge, filterDeadFolks, handleMarriage, inherentOldAge, pickSex } from "./checks";
+import { dieOldAge, filterDeadFolks, handleMarriage, inherentOldAge, pickSex } from "./checks";
 import { nameMaker } from "./Naming";
 import { foundHouse, historicalHouse, pickHouse, whetherNewHouse } from "./houses";
 import { babyOnTheWay, willYouMarryMe } from "./Brackets";

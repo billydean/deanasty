@@ -116,3 +116,72 @@ export function babyOnTheWay (age: number, modifier: number = 1): boolean {
     const chance_array = [0,0,0,120,220,200,180,125,50,8,0,0,0,0,0,0,0,0,0,0,0,0,0];
     return masterBracketLogic(age,total,chance_array, modifier);
 };
+
+// Chances of having a slapstick accident
+/**
+ * 
+ * @param age 
+ * @param modifier - Possible modifiers: sickness, frailty, stress/morale?
+ */
+export function slapstickOdds (age: number, modifier: number = 1): boolean {
+/** The chances of having a PHYSICAL accident at age... 
+     *      0-4     0
+     *      5-9     20
+     *      10-14   40
+     *      15-19   80
+     *      20-24   100
+     *      25-29   60
+     *      30-34   40
+     *      35-39   20
+     *      40-44   20
+     *      45-49   20
+     *      50-54   40
+     *      55-59   60
+     *      60-64   80
+     *      65-69   80
+     *      70-74   80
+     *      75-79   80
+     *      80-84   80
+     *      85-89   80
+     *      90-94   80
+     *      95-99   80
+     *      100-104 80
+     *      105-109 80
+     *      110-114 80 
+     */
+    const total = 5000;
+    const chance_array = [0,20,40,80,100,60,40,20,20,20,40,60,80,80,80,80,80,80,80,80,80,80,80];
+    return masterBracketLogic(age,total,chance_array, modifier);
+}
+
+// Chances of slapstick accident being fatal
+export function fatalSlapstickOdds (age: number, modifier: number = 1): boolean {
+    /** The odds of a physical accident being fatal at age... 
+         *      0-4     0
+         *      5-9     100
+         *      10-14   50
+         *      15-19   100
+         *      20-24   150
+         *      25-29   50
+         *      30-34   50
+         *      35-39   60
+         *      40-44   80
+         *      45-49   120
+         *      50-54   160
+         *      55-59   200
+         *      60-64   350
+         *      65-69   500
+         *      70-74   600
+         *      75-79   650
+         *      80-84   700
+         *      85-89   750
+         *      90-94   800
+         *      95-99   850
+         *      100-104 900
+         *      105-109 900
+         *      110-114 950 
+         */
+        const total = 1000;
+        const chance_array = [0,100,50,100,150,50,50,60,80,120,160,200,350,500,600,650,700,750,800,850,900,900,950];
+        return masterBracketLogic(age,total,chance_array, modifier);
+    }
