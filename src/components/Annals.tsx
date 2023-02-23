@@ -1,6 +1,6 @@
 import type { People, Year, Events } from '../types';
 import Annal from './Annal';
-
+import { Divider } from '@mui/material';
 function Annals({year, people, events}: {year: Year, people: People, events: Events}) {
     
     const filteredEvents = events.filter((eachYear) => eachYear.events.length > 0)
@@ -10,13 +10,16 @@ function Annals({year, people, events}: {year: Year, people: People, events: Eve
         <div>
             The year is { year.current }.
         </div>
-
+        <Divider variant="middle" />
         { filteredEvents.map(eachYear => (
             <div key={eachYear.year}>
-            <Annal year={eachYear.year} events={eachYear.events} />
+                {eachYear.year !== 1000 &&
+                <Divider variant="middle" light /> }
+                <Annal year={eachYear.year} events={eachYear.events} />
             </div>
         ))   
         }
+        <Divider variant="middle" />
         {
         people.map(each => (
              <div key={each.id}>
