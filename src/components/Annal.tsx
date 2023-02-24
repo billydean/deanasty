@@ -14,14 +14,14 @@ function Annal ({year, events}: EventfulYear) {
         event.currentTarget.parentElement?.parentElement?.classList.toggle('toggle-annal')
         event.currentTarget.nextElementSibling?.nextElementSibling?.classList.toggle('tuxedo-mask');
     }
-    
+   
     return (
         <Box
             sx={{ 
                 display: 'flex',
                 justifyContent: 'flex-start',
                 height: '1.5rem',
-                width: '80%',
+                width: '85%',
                 overflow: 'hidden',
                 marginLeft: '0.5rem'
             }}
@@ -29,7 +29,7 @@ function Annal ({year, events}: EventfulYear) {
         >
             <Button variant="text" 
                         disableElevation
-                        sx={{alignSelf: 'center', paddingLeft: '0.25rem', width: '1.2rem', height: '1.2rem' }}
+                        sx={{alignSelf: 'center', paddingLeft: '0.25rem', minWidth: '0',  height: '1.2rem' }}
                         onClick={toggleAnnals}
                         >
                             <ArrowForwardIosIcon sx={{ fontSize: '0.8rem', transform: 'none' }}  />
@@ -38,7 +38,9 @@ function Annal ({year, events}: EventfulYear) {
                 { year }
             </Typography>
             <Typography sx={{
-                paddingLeft: '1.5rem'}}
+                paddingLeft: '1.5rem',
+                width: '100%'
+            }}
                 className="tuxedo-mask">
                 { annal_records }
             </Typography>
