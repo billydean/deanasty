@@ -17,10 +17,23 @@ import { initialState } from '../store/initialState';
 import reducer from '../store/reducer';
 
 
+
 function Layout() {
     const myTheme = createTheme();
     const drawerWidth: number = 240;
     const [state, dispatch] = useReducer(reducer, initialState);
+
+    // DEBUG TOOL for checking TITLE SUCCESSION
+    function DEBUGTITLE() {
+        let list: string[] = [];
+        const title = state.titles[0].succession_list
+        const people = state.living_people
+        for (let i=0; i<title.length; i++) {
+            let heir = people.find(person => person.id === title[i]);
+            if (heir !== undefined) { list.push(heir.name)};
+        };
+        console.log(list);    
+    }
 
     return (
         <ThemeProvider theme={ myTheme }>
@@ -64,7 +77,7 @@ function Layout() {
                         {/*temporary-- the SAVE button repurposed for debugging. Just to see state...*/}
                         <Button variant="contained" 
                         disableElevation
-                        onClick={()=>{console.log(state)}}
+                        onClick={()=>{DEBUGTITLE()}}
                         >
                             Save
                         </Button>
