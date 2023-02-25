@@ -30,7 +30,7 @@ function Layout() {
         const people = state.living_people
         for (let i=0; i<title.length; i++) {
             let heir = people.find(person => person.id === title[i]);
-            if (heir !== undefined) { list.push(`${heir.name}, age ${heir.age}`)};
+            if (heir !== undefined) { list.push(`${heir.name}, ${heir.sex}, age ${heir.age}`)};
         };
         console.log(`Year ${state.year.current}`, list);
         console.log(state);    
