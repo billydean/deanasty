@@ -26,3 +26,23 @@ code {
   -webkit-text-fill-color: transparent;
 }
 
+/* RANDOM COLORS BELOW -- CHANGE LATER!! */
+.birth-news {
+  color: #1a1e45;
+}
+
+.death-news {
+  color: #6408c5;
+}
+
+.marriage-news {
+  color: #a89c1a;
+}
+
+.title-news {
+  color: #df2aa6;
+}
+
+.house-news {
+  color: #66194f;
+}

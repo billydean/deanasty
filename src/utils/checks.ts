@@ -1,5 +1,5 @@
 // This file contains any logic, tests, or filters used to create or transform slices of state related to the current year or to any generated people
-import { People, Person, Title } from "../types";
+import { NewsItem, People, Person, Title } from "../types";
 import { beta } from '@stdlib/random/base';
 import { createSpouse } from "./people";
 import { findHeir } from "./titles";
@@ -8,7 +8,7 @@ import { fatalAccidents } from "./deathCauses";
 
 // Takes array of folks and filters both living and dead arrays
 // If a title holder is included among the dead, looks for heir...
-export function filterDeadFolks (living: People, titles: Title[], year: number): { the_living: People, the_dead: People, title_news: string[]} {
+export function filterDeadFolks (living: People, titles: Title[], year: number): { the_living: People, the_dead: People, title_news: NewsItem[]} {
     living.forEach(person => {
         if (person.alive === false) {
             person.death_year = year
@@ -29,12 +29,12 @@ export function filterDeadFolks (living: People, titles: Title[], year: number):
 
 
 // Creates array of new news items based on people array: new deaths
-export function titleOnDeath (dead: People, titles: Title[], living: People): string[] {
-    let array: string[] = [];
+export function titleOnDeath (dead: People, titles: Title[], living: People): NewsItem[] {
+    let array: NewsItem[] = [];
     dead.forEach((person: Person) => {
         if (person.title !== undefined) {
             const vacant_title = titles.find(entry => entry.id === person.title!.id)
-            array.push(`${person.title.address} ${person.name} was the ${vacant_title!.appellation} of ${vacant_title!.name}.`)
+            array.push({ category: 'title', content: `${person.title.address} ${person.name} was the ${vacant_title!.appellation} of ${vacant_title!.name}.`})
             findHeir(vacant_title!, living, array);
         }
     });
@@ -101,11 +101,11 @@ export function pickSex (): string {
 
 // People die of old age.
 // returns old-age-death news items and list of ids.
-export function dieOldAge (year: number, people: People): { oldAgeNews: string[] } {
+export function dieOldAge (year: number, people: People): { oldAgeNews: NewsItem[] } {
     let oldAgeNews = [];
     for (let i=0; i<people.length;i++){
         if (people[i].alive === true && people[i].old_year <= year) {
-            oldAgeNews.push(`${people[i].name} ${people[i].house} died of natural causes at the age of ${people[i].age}.`);
+            oldAgeNews.push({category: "death", content: `${people[i].name} ${people[i].house} died of natural causes at the age of ${people[i].age}.`});
             people[i].alive = false;
         }
     }
@@ -114,12 +114,12 @@ export function dieOldAge (year: number, people: People): { oldAgeNews: string[]
     }
 };
 
-export function dieAccident (people: People): { fatalAccidentNews: string[] } {
-    let fatalAccidentNews = [];
+export function dieAccident (people: People): { fatalAccidentNews: NewsItem[] } {
+    let fatalAccidentNews: NewsItem[] = [];
     for (let i=0; i<people.length;i++){
         if (people[i].alive === true && slapstickOdds(people[i].age) && fatalSlapstickOdds(people[i].age)) {
             let death_cause = fatalAccidents();
-            fatalAccidentNews.push(`${people[i].name} ${people[i].house} died at the age of ${people[i].age} after ${death_cause}.`);
+            fatalAccidentNews.push({category: 'death', content: `${people[i].name} ${people[i].house} died at the age of ${people[i].age} after ${death_cause}.`});
             people[i].alive = false;
         }
     }

@@ -1,20 +1,21 @@
 
-import type { EventfulYear } from "../types";
+import type { EventfulYear, NewsItem } from "../types";
 import {  Box, Button, Typography } from "@mui/material";
 
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
+import AnnalEntry from "./AnnalEntry";
 
 
 
 function Annal ({year, events}: EventfulYear) {
-    let annal_records: string = events.join(' ');
+    // let annal_records: string = events.join(' ');
 
     const toggleAnnals = (event: React.SyntheticEvent): void => {
         event.currentTarget.classList.toggle('toggle-annal')
         event.currentTarget.parentElement?.parentElement?.classList.toggle('toggle-annal')
         event.currentTarget.nextElementSibling?.nextElementSibling?.classList.toggle('tuxedo-mask');
     }
-   
+    let id = 0
     return (
         <Box
             sx={{ 
@@ -42,7 +43,11 @@ function Annal ({year, events}: EventfulYear) {
                 width: '100%'
             }}
                 className="tuxedo-mask">
-                { annal_records }
+                { events.map((element: NewsItem) => (
+                    <span key={id++}>
+                    <AnnalEntry category={element.category} content={element.content} />
+                    </span>
+                ))}
             </Typography>
         </Box>
     )

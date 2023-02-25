@@ -1,8 +1,8 @@
-import type { People, Person, Title } from "../types";
+import type { NewsItem, People, Person, Title } from "../types";
 
 //Only one title for now. Eventually titles will be more dynamic. Appearing, disappearing, changing hands. And there will be disputes among claimants.
 
-export function firstTitle(year: number, holder: Person): {title: Title, title_news: string} {
+export function firstTitle(year: number, holder: Person): {title: Title, title_news: NewsItem} {
     const title = {
         name: 'Examplia',
         id: 1,
@@ -19,7 +19,7 @@ export function firstTitle(year: number, holder: Person): {title: Title, title_n
          */
     };
 
-    const title_news = `${holder.name} ${holder.house} is the first ${title.appellation} of ${title.name}.`;
+    const title_news = {category: 'title', content: `${holder.name} ${holder.house} is the first ${title.appellation} of ${title.name}.`};
 
     return {
         title,
@@ -68,7 +68,7 @@ export function checkSuccessionAtBirth (title: Title, parent: Person, child: Per
 // Find heir
 // Add title info to new title holder
 
-export function findHeir (title: Title, people: People, news: string[] ) {
+export function findHeir (title: Title, people: People, news: NewsItem[] ) {
     let heir_found = false;
     let while_count = 0;
     while (heir_found === false && while_count < title.succession_list.length) {
@@ -84,7 +84,7 @@ export function findHeir (title: Title, people: People, news: string[] ) {
                 name: `${heir!.name} of House ${heir!.house}`,
                 id: heir!.id
             };
-            news.push(`Hail ${title.appellation} ${title.holder.name}, the new ${title.appellation} of ${title.name}.`);
+            news.push({category: 'title', content: `Hail ${title.appellation} ${title.holder.name}, the new ${title.appellation} of ${title.name}.`});
             // title.succession_list = title.succession_list.slice(title.succession_list.findIndex(id => id === heir!.id))
             heir_found = true;
         } else {

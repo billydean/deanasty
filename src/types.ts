@@ -66,7 +66,7 @@ type Events = EventfulYear[]
 
 type EventfulYear = {
     year: number;
-    events: (string | undefined)[]
+    events: NewsItem[];
 }
 
 interface State {
@@ -147,6 +147,6 @@ type NewsItem = {
     content: string
 }
 
-export type { Year, Person, People, War, Plague, State, Action, Events, EventfulYear, Title, House, Houses, ParentPair, Parents, Accidents };
+export type { Year, Person, People, War, Plague, State, Action, Events, EventfulYear, NewsItem, Title, House, Houses, ParentPair, Parents, Accidents };
 
 

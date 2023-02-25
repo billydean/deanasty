@@ -1,4 +1,4 @@
-import type { House, Houses, Parents, People, Person, Title } from "../types"
+import type { House, Houses, NewsItem, Parents, People, Person, Title } from "../types"
 import { v4 as uuid } from "uuid";
 import { dieAccident, dieOldAge, filterDeadFolks, handleMarriage, inherentOldAge, pickSex } from "./checks";
 import { nameMaker } from "./Naming";
@@ -120,7 +120,7 @@ export function createChild (parent1: Person, parent2: Person, year: number): Pe
 // Sorts out newly departed and survivors
 // Creates news items for newly departed
 // Returns news, updated living array, and updated dead array
-export function death (year: number, living_people: People, dead_people: People, titles: Title[]): {new_deaths: string[], the_living: People, updated_dead: People} {
+export function death (year: number, living_people: People, dead_people: People, titles: Title[]): {new_deaths: NewsItem[], the_living: People, updated_dead: People} {
     const { oldAgeNews} = dieOldAge(year,living_people);
     const { fatalAccidentNews} = dieAccident(living_people);
 
@@ -137,12 +137,12 @@ export function death (year: number, living_people: People, dead_people: People,
 
 // Love and Marriage...
 
-export function marriageStuff (year: number, living_people: People, houses: Houses): {new_spouses: People, marriage_news: string[], people: People, new_houses: Houses, possible_parents: Parents} {
+export function marriageStuff (year: number, living_people: People, houses: Houses): {new_spouses: People, marriage_news: NewsItem[], people: People, new_houses: Houses, possible_parents: Parents} {
     let dummy = 0; // ignore this for now
     let new_spouses: People = [];
     let new_houses: Houses = [];
     let available_houses: Houses = new_houses.concat(houses)
-    let marriage_news: string[] = [];
+    let marriage_news: NewsItem[] = [];
     let possible_parents: Parents = [];
     let people = living_people;
     for (let i=0; i<people.length; i++) {
@@ -163,7 +163,7 @@ export function marriageStuff (year: number, living_people: People, houses: Hous
                     spouseHouse = pickHouse(available_houses)
                 };
                 people[i].relations.spouse = spouseID;
-                marriage_news.push(`${people[i].name} ${people[i].house} marries ${spouse.name} from House ${spouseHouse.name}.`);
+                marriage_news.push({category: 'marriage', content: `${people[i].name} ${people[i].house} marries ${spouse.name} from House ${spouseHouse.name}.`});
                 spouse.house = spouseHouse.name;
                 new_spouses.push(spouse)
                 possible_parents.push([people[i].id,spouse.id]);
@@ -184,9 +184,9 @@ return {
 }
 }
 
-export function allStorks(people: People, year: number, parents: Parents, titles: Title[]): {new_people: People, new_children: People, baby_news: string[], updated_titles: Title[]} {
+export function allStorks(people: People, year: number, parents: Parents, titles: Title[]): {new_people: People, new_children: People, baby_news: NewsItem[], updated_titles: Title[]} {
     let new_children: People = [];
-    let baby_news: string[] = [];
+    let baby_news: NewsItem[] = [];
 
     for (let i=0; i<parents.length; i++) {
         // const parent1Index: number | undefined = people.findIndex(x => x.id === couple[0]);
@@ -296,9 +296,9 @@ export function allStorks(people: People, year: number, parents: Parents, titles
     }
 }
 
-export function individualStork (mother: Person, father: Person, year: number): { baby: Person, baby_announcement: string} {
+export function individualStork (mother: Person, father: Person, year: number): { baby: Person, baby_announcement: NewsItem} {
     const baby = createChild(mother,father,year);
-    const baby_announcement = `${baby.name} of House ${baby.house} was born to ${mother.name} ${mother.house} and ${father.name} ${father.house}.`
+    const baby_announcement = {category: 'birth', content: `${baby.name} of House ${baby.house} was born to ${mother.name} ${mother.house} and ${father.name} ${father.house}.`}
     return {
         baby,
         baby_announcement
