@@ -63,7 +63,7 @@ export function femalePrimo (title: Title, parent: Person, child: Person): {upda
         }
     }
 
-    if (child.sex === 'male') {
+    if (child.sex === 'female') {
         child_title = parent.title_claim;
         let found_index: number = exported_list.findIndex(id => id === parent.id);
         found_index = found_index + female_siblings + 1;
@@ -86,12 +86,11 @@ export function absolutePrimo (title: Title, parent: Person, child: Person): {up
         }
     }
 
-    if (child.sex === 'male') {
         child_title = parent.title_claim;
         let found_index: number = exported_list.findIndex(id => id === parent.id);
         found_index = found_index + siblings + 1;
         exported_list.splice(found_index,0,child.id);
-    }
+    
     return {
         updated_succession_list: exported_list,
         child_title
