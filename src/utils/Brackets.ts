@@ -123,7 +123,7 @@ export function babyOnTheWay (age: number, modifier: number = 1): boolean {
  * @param age 
  * @param modifier - Possible modifiers: sickness, frailty, stress/morale?
  */
-export function slapstickOdds (age: number, modifier: number = 1): boolean {
+export function slapstickOdds (age: number, modifier: number = .85): boolean {
 /** The chances of having a PHYSICAL accident at age... 
      *      0-4     0
      *      5-9     20

@@ -1,4 +1,4 @@
-import { State, Action, Person, House } from "../types";
+import { State, Action } from "../types";
 // import { firstPerson } from "../utils/PeopleMakers";
 import { initialState } from "./initialState";
 // import { livingToDead } from "../utils/livingToDead";
@@ -91,6 +91,9 @@ export default function reducer(state: State, action: Action): State {
              * Then a function to stitch all the people arrays together.
              */
             const { updated_dead, updated_living, news_items, updated_houses, updated_parents, updated_titles } = okay(state.year.current,state.living_people,state.dead_people, state.houses, state.parents, state.titles)
+            //testing something...
+            const this_yearly_events = current_year_events.concat(news_items);
+
             return {
                 ...state,
                 year: {
@@ -103,13 +106,11 @@ export default function reducer(state: State, action: Action): State {
                 parents: updated_parents,
                 houses: updated_houses,
                 titles: updated_titles,
-                events: [
-                    ...other_year_events,
-                    {
-                        year: state.year.current,
-                        events: [...current_year_events, ...news_items]
-                    }
-                ]
+                events: 
+                    this_yearly_events.length > 0
+                        ? [...other_year_events, { year: state.year.current, events: [...this_yearly_events]}]
+                        : [...other_year_events]
+                
             }
 
         default:

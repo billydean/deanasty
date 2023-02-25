@@ -138,6 +138,15 @@ type Parents = ParentPair[];
 
 type Accidents = "slapstick" | "fauxpas" | "error";
 
+// news need 1) category, 2) content
+// categories can be.... we'll see;
+// some handler will have to decide important vs unimportant categories
+
+type NewsItem = {
+    category: string,
+    content: string
+}
+
 export type { Year, Person, People, War, Plague, State, Action, Events, EventfulYear, Title, House, Houses, ParentPair, Parents, Accidents };
 
 
