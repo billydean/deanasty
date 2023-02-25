@@ -20,10 +20,12 @@ code {
   height: fit-content;
 }
 
+/* PROBLEM -- any way to NOT block color below? maybe.... gradient to white??*/
 .tuxedo-mask {
-  background: linear-gradient(to right, black 75%, transparent);
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  /* background: linear-gradient(to right,transparent, 10%, black); */
+  mask-clip: fill-box;
+  mask-image: linear-gradient(to right,black, 90%, transparent);
+  /* background-clip: fill-box; */
 }
 
 /* RANDOM COLORS BELOW -- CHANGE LATER!! */
