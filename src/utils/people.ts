@@ -123,7 +123,10 @@ export function createChild (parent1: Person, parent2: Person, year: number): Pe
 export function death (year: number, living_people: People, dead_people: People, titles: Title[]): {new_deaths: NewsItem[], the_living: People, updated_dead: People} {
     const { oldAgeNews} = dieOldAge(year,living_people);
     const { fatalAccidentNews} = dieAccident(living_people);
-
+    /* TBD: { contagionDeathNews } = dieContagion(living_people);
+            { conditionDeathNews } = dieCondition(living_people);
+            { killedNews } = dieKilled(living_people...?);
+    */
     const {the_living, the_dead, title_news } = filterDeadFolks(living_people, titles, year);
     const updated_dead = dead_people.concat(the_dead);
 

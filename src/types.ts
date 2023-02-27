@@ -54,6 +54,8 @@ interface Person {
         id: number, // matches Title id (for other checks/calculations)
     },
     title_claim: number | undefined,
+    disease?: Disease,
+    immunity?: string[],
     /**
      * avenir
      *  - claim (to titles extant or otherwise)
@@ -124,9 +126,27 @@ interface Title {
      */
 };
 
-// type SuccessionList = SuccessionTuple[];
+interface Disease {
+    type_key: string,
+    manifest: boolean,
+    effects: {
+        mortality: number,
+    }
+}
 
-// type SuccessionTuple = [string, string[]]
+interface Contagion {
+    type_key: string,
+    duration: number[],
+    onset_delay: boolean,
+    incubation: number[],
+    infection_rate: number, // %
+    reinfection: boolean,
+    effects: {
+        // effects are modifiers for different bracket functions (or otherwise??)
+        // right now only mortality, but others TBD
+        mortality: number 
+    }
+}
 
 type Houses = House[];
 
@@ -147,6 +167,6 @@ type NewsItem = {
     content: string
 }
 
-export type { Year, Person, People, War, Plague, State, Action, Events, EventfulYear, NewsItem, Title, House, Houses, ParentPair, Parents, Accidents };
+export type { Year, Person, People, War, Plague, State, Action, Events, EventfulYear, NewsItem, Title, House, Houses, ParentPair, Parents, Accidents, Contagion };
 
 
