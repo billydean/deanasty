@@ -131,7 +131,7 @@ export function death (year: number, living_people: People, dead_people: People,
     const {the_living, the_dead, title_news } = filterDeadFolks(living_people, titles, year);
     const updated_dead = dead_people.concat(the_dead);
 
-    const new_deaths = oldAgeNews.concat(fatalAccidentNews, title_news, contagionNews);
+    const new_deaths = contagionNews.concat(oldAgeNews, fatalAccidentNews, title_news);
     return {
         new_deaths,
         the_living,

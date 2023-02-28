@@ -24,10 +24,10 @@ const contagions: Contagion[] = [
         duration: [0,0],
         onset_delay: true,
         incubation: [0,20],
-        infection_rate: 5,
+        infection_rate: 1,
         reinfection: false,
         effects: {
-            mortality: 0.95
+            mortality: 6
         }
     },
     {
@@ -35,10 +35,10 @@ const contagions: Contagion[] = [
         duration: [1,1],
         onset_delay: false,
         incubation: [0,0],
-        infection_rate: 20,
+        infection_rate: 4,
         reinfection: false,
         effects: {
-            mortality: 0.40,
+            mortality: 0.50,
         }
     },
     {
@@ -49,29 +49,29 @@ const contagions: Contagion[] = [
         infection_rate: 5,
         reinfection: false,
         effects: {
-            mortality: 0.95,
+            mortality: 6,
         }
     },
-    {
-        type_key: "plague",
-        duration: [1,1],
-        onset_delay: false,
-        incubation: [0,0],
-        infection_rate: 20,
-        reinfection: false,
-        effects: {
-            mortality: 0.40,
-        }
-    },
+    // {
+    //     type_key: "plague",
+    //     duration: [1,1],
+    //     onset_delay: false,
+    //     incubation: [0,0],
+    //     infection_rate: 20,
+    //     reinfection: false,
+    //     effects: {
+    //         mortality: 0.40,
+    //     }
+    // },
     {
         type_key: "typhoid",
         duration: [1,1],
         onset_delay: false,
         incubation: [0,0],
-        infection_rate: 10,
+        infection_rate: 2,
         reinfection: true,
         effects: {
-            mortality: 0.80,
+            mortality: 1.5,
         }
     },
     {
@@ -79,21 +79,21 @@ const contagions: Contagion[] = [
         duration: [1,1],
         onset_delay: false,
         incubation: [0,0],
-        infection_rate: 10,
+        infection_rate: 4,
         reinfection: true,
         effects: {
-            mortality: 0.55,
+            mortality: 0.67,
         }
     },
     {
-        type_key: "dysentary",
+        type_key: "dysentery",
         duration: [1,1],
         onset_delay: false,
         incubation: [0,0],
-        infection_rate: 15,
+        infection_rate: 5,
         reinfection: true,
         effects: {
-            mortality: 0.95,
+            mortality: 6,
         }
     },
     {
@@ -101,10 +101,10 @@ const contagions: Contagion[] = [
         duration: [1,1],
         onset_delay: false,
         incubation: [0,0],
-        infection_rate: 30,
+        infection_rate: 6,
         reinfection: true,
         effects: {
-            mortality: 0.95,
+            mortality: 6,
         }
     },
     {
@@ -112,10 +112,10 @@ const contagions: Contagion[] = [
         duration: [1,1],
         onset_delay: false,
         incubation: [0,0],
-        infection_rate: 90,
+        infection_rate: 6,
         reinfection: false,
         effects: {
-            mortality: 0.98,
+            mortality: 15,
         }
     },
     {
@@ -123,10 +123,10 @@ const contagions: Contagion[] = [
         duration: [1,1],
         onset_delay: false,
         incubation: [0,0],
-        infection_rate: 10,
+        infection_rate: 2,
         reinfection: false,
         effects: {
-            mortality: 0.99,
+            mortality: 30,
         }
     },
     {
@@ -134,10 +134,10 @@ const contagions: Contagion[] = [
         duration: [1,1],
         onset_delay: false,
         incubation: [0,0],
-        infection_rate: 25,
+        infection_rate: 3,
         reinfection: false, // setting this to false because complicated
         effects: {
-            mortality: 0.60,
+            mortality: 0.75,
         }
     },
     {
@@ -145,10 +145,10 @@ const contagions: Contagion[] = [
         duration: [1,0],
         onset_delay: false,
         incubation: [0,0],
-        infection_rate: 5,
+        infection_rate: 1,
         reinfection: false,
         effects: {
-            mortality: 0.98,
+            mortality: 15,
         }
     },
     {
@@ -156,10 +156,10 @@ const contagions: Contagion[] = [
         duration: [1,1],
         onset_delay: false,
         incubation: [0,0],
-        infection_rate: 10,
+        infection_rate: 5,
         reinfection: true,
         effects: {
-            mortality: 0.80,
+            mortality: 1.5,
         }
     },
     {
@@ -167,10 +167,10 @@ const contagions: Contagion[] = [
         duration: [0,0],
         onset_delay: true,
         incubation: [2,15],
-        infection_rate: 5,
+        infection_rate: 3,
         reinfection: false,
         effects: {
-            mortality: 0.90,
+            mortality: 3,
         }
     },
 ]
