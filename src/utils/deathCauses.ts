@@ -263,23 +263,4 @@ export function infectPerson (person: Person, year: number): {added_disease: str
 }
 
 
-// List of possible contagions
-/*
-*/
 
-// List of possible congenital conditions
-/* 
-Heart Risk
-Stroke Risk
-Epilepsy
-Hemophilia
-*/
-// List of acquired conditions??
-/* 
-Ergotism
-Scurvy
-Heart Risk
-Stroke Risk
-Gout
-Lead Poisoning
-*/

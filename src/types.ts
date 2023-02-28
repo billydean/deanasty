@@ -168,6 +168,24 @@ type NewsItem = {
     content: string
 }
 
-export type { Year, Person, People, War, Plague, State, Action, Events, EventfulYear, NewsItem, Title, House, Houses, ParentPair, Parents, Accidents, Contagion };
+interface Condition {
+    name: string,
+    inheritibility: number,
+    effect : {
+        mortality: number, //other effects TBD
+    }
+    news : {
+        mortality: string,
+    }
+}
+
+interface ConditionInstance extends Condition {
+    severity: number
+}
+
+// Condition types have names, effects object, inheritibility index.
+// Condition instances have additional "severity index," modifying likelihood of manifesting.
+
+export type { Year, Person, People, War, Plague, State, Action, Events, EventfulYear, NewsItem, Title, House, Houses, ParentPair, Parents, Accidents, Contagion, Condition, ConditionInstance };
 
 
