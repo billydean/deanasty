@@ -216,7 +216,39 @@ export function fatalSlapstickOdds (age: number, modifier: number = 0.5): boolea
             const total = 6000;
             const chance_array = [120,120,120,120,150,180,180,180,180,180,150,150,150,120,120,120,120,120,120,120,120,120,120];
             return masterBracketLogic(age,total,chance_array, modifier);
-        }
+        };
+
+    export function oddsFatalDisease (age: number, modifier: number = 1): boolean {
+                /** The odds of being infected at age... 
+             *      0-4     2000
+             *      5-9     1500
+             *      10-14   1000
+             *      15-19   500
+             *      20-24   250
+             *      25-29   125
+             *      30-34   100
+             *      35-39   125
+             *      40-44   125
+             *      45-49   250
+             *      50-54   250
+             *      55-59   500
+             *      60-64   500
+             *      65-69   1000
+             *      70-74   1000
+             *      75-79   2000
+             *      80-84   2000
+             *      85-89   3000
+             *      90-94   3000
+             *      95-99   3000
+             *      100-104 4000
+             *      105-109 4000
+             *      110-114 4000
+             */
+                const total = 6000;
+                const chance_array = [120,120,120,120,150,180,180,180,180,180,150,150,150,120,120,120,120,120,120,120,120,120,120];
+                return masterBracketLogic(age,total,chance_array, modifier);
+
+    }
 
 
 // Need bracket for....

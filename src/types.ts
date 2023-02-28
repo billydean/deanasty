@@ -54,7 +54,7 @@ interface Person {
         id: number, // matches Title id (for other checks/calculations)
     },
     title_claim: number | undefined,
-    disease?: Disease,
+    disease?: Disease[],
     immunity?: string[],
     /**
      * avenir
@@ -128,7 +128,8 @@ interface Title {
 
 interface Disease {
     type_key: string,
-    manifest: boolean,
+    duration: number, //year
+    onset: number, // year value
     effects: {
         mortality: number,
     }

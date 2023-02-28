@@ -3,8 +3,8 @@ import { NewsItem, People, Person, Title } from "../types";
 import { beta } from '@stdlib/random/base';
 import { createSpouse } from "./people";
 import { findHeir } from "./titles";
-import { fatalSlapstickOdds, slapstickOdds } from "./Brackets";
-import { fatalAccidents } from "./deathCauses";
+import { catchContagionOdds, fatalSlapstickOdds, slapstickOdds } from "./Brackets";
+import { fatalAccidents, infectPerson } from "./deathCauses";
 
 // Takes array of folks and filters both living and dead arrays
 // If a title holder is included among the dead, looks for heir...
@@ -125,6 +125,20 @@ export function dieAccident (people: People): { fatalAccidentNews: NewsItem[] } 
     }
     return {
         fatalAccidentNews
+    }
+};
+
+export function dieContagion (people: People, year: number): { contagionNews: NewsItem[] } {
+    let contagionNews: NewsItem[] = [];
+    for (let i=0; i<people.length; i++) {
+        if (people[i].alive === true && catchContagionOdds(people[i].age)) {
+            infectPerson(people[i], year);
+        }
+        if (people[i].disease) {
+            for (let i=0; i<people[i].disease!.length; i++) {
+                
+            }
+        }
     }
 }
 
