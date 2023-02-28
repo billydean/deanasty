@@ -3,7 +3,7 @@ import type { NewsItem, People, Person, Title } from "../types";
 //Only one title for now. Eventually titles will be more dynamic. Appearing, disappearing, changing hands. And there will be disputes among claimants.
 
 export function firstTitle(year: number, holder: Person): {title: Title, title_news: NewsItem} {
-    const succTypes = ['mprim', 'fprim', 'aprim']
+    const succTypes = ['mprim', 'fprim'] //removing 'aprim' for now
     const successionType = succTypes[Math.floor(Math.random() * succTypes.length)]
     const title = {
         name: 'Examplia',
@@ -75,27 +75,28 @@ export function femalePrimo (title: Title, parent: Person, child: Person): {upda
     }
 }
 
-export function absolutePrimo (title: Title, parent: Person, child: Person): {updated_succession_list: string[], child_title: number | undefined} {
-    let exported_list = title.succession_list.map(id => id);
-    let child_title = undefined;
-    let siblings: number = 0;
+// Absolute Primogeniture currently broken!!!
+// export function absolutePrimo (title: Title, parent: Person, child: Person): {updated_succession_list: string[], child_title: number | undefined} {
+//     let exported_list = title.succession_list.map(id => id);
+//     let child_title = undefined;
+//     let siblings: number = 0;
 
-    for (let i=0;i<parent.relations.offspring.length; i++) {
-        if (parent.relations.offspring[i]) {
-            siblings++;
-        }
-    }
+//     for (let i=0;i<parent.relations.offspring.length; i++) {
+//         if (parent.relations.offspring[i]) {
+//             siblings++;
+//         }
+//     }
 
-        child_title = parent.title_claim;
-        let found_index: number = exported_list.findIndex(id => id === parent.id);
-        found_index = found_index + siblings + 1;
-        exported_list.splice(found_index,0,child.id);
+//         child_title = parent.title_claim;
+//         let found_index: number = exported_list.findIndex(id => id === parent.id);
+//         found_index = found_index + siblings + 1;
+//         exported_list.splice(found_index,0,child.id);
     
-    return {
-        updated_succession_list: exported_list,
-        child_title
-    }
-}
+//     return {
+//         updated_succession_list: exported_list,
+//         child_title
+//     }
+// }
 
 export function checkSuccessionAtBirth (title: Title, parent: Person, child: Person): {updated_succession_list: string[], child_title: number | undefined} {
     if (title.succession === 'mprim') {
@@ -104,9 +105,10 @@ export function checkSuccessionAtBirth (title: Title, parent: Person, child: Per
     } else if (title.succession === 'fprim') {
         const {updated_succession_list, child_title} = femalePrimo(title, parent, child)
         return {updated_succession_list, child_title};
-    } else if (title.succession === 'aprim') {
-        const {updated_succession_list, child_title} = absolutePrimo(title, parent, child)
-        return {updated_succession_list, child_title};
+    // } else if (title.succession === 'aprim') {
+    //     const {updated_succession_list, child_title} = absolutePrimo(title, parent, child)
+    //     return {updated_succession_list, child_title};
+    // } 
     } else {
         return {updated_succession_list: title.succession_list, child_title: undefined}
     }

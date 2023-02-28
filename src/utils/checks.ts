@@ -133,7 +133,7 @@ export function dieContagion (people: People, year: number): { contagionNews: Ne
     for (let i=0; i<people.length; i++) {
         if (people[i].alive === true && catchContagionOdds(people[i].age)) {
             const {added_disease} = infectPerson(people[i], year);
-            if (added_disease !== "") {
+            if (added_disease !== "none") {
                 contagionNews.push({category:'disease', content: `${people[i].name} ${people[i].house} has caught ${added_disease}.`})
             } 
         }

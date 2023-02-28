@@ -179,8 +179,12 @@ function determineDuration (range: number[], year: number, old_year: number): nu
     let to_death = (old_year - year) + 1;
     if (range[0] !== 0) {
         if (range[1] !== 0) { // [1,1]
-            return (Math.floor(Math.random() * (range[1] - range[0])) + range[0]) + year;
-        } else { // [1,0]
+            if (range[0] === range[1]){
+                return year;
+            } else {
+                return (Math.floor(Math.random() * (range[1] - range[0])) + range[0]) + year;
+            }
+            } else { // [1,0]
             return (Math.floor(Math.random() * (to_death - range[0])) + range[0]) + year;
         }
     } else {
