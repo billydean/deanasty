@@ -201,8 +201,9 @@ function determineOnset (range: number[], onset: boolean, year: number ): number
     }
 
 }
-export function infectPerson (person: Person, year: number) {
+export function infectPerson (person: Person, year: number): {added_disease: string} {
     let pool: string[] = [];
+    let added_disease: string = "none"
     contagions.forEach((contagion) => {
         let count = 0;
         while (count < contagion.infection_rate) {
@@ -221,7 +222,8 @@ export function infectPerson (person: Person, year: number) {
                 duration: duration,
                 onset: onset,
                 effects: contagion!.effects
-            }]
+            }];
+            added_disease = contagion!.type_key;
         } else {
             person.disease.push({
                 type_key: contagion!.type_key,
@@ -229,6 +231,7 @@ export function infectPerson (person: Person, year: number) {
                 onset: onset,
                 effects: contagion!.effects
             })
+            added_disease = contagion!.type_key;
         }
         if (!contagion!.reinfection) {
             person.immunity = [contagion!.type_key]
@@ -240,19 +243,22 @@ export function infectPerson (person: Person, year: number) {
                 duration: duration,
                 onset: onset,
                 effects: contagion!.effects
-            }]
+            }];
+            added_disease = contagion!.type_key;
         } else {
             person.disease.push({
                 type_key: contagion!.type_key,
                 duration: duration,
                 onset: onset,
                 effects: contagion!.effects
-            })
+            });
+            added_disease = contagion!.type_key;
         }
         if (!contagion!.reinfection) {
             person.immunity.push(contagion!.type_key)
         }
     }
+    return {added_disease}
 }
 
 

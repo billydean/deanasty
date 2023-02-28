@@ -1,6 +1,6 @@
 import type { House, Houses, NewsItem, Parents, People, Person, Title } from "../types"
 import { v4 as uuid } from "uuid";
-import { dieAccident, dieOldAge, filterDeadFolks, handleMarriage, inherentOldAge, pickSex } from "./checks";
+import { dieAccident, dieContagion, dieOldAge, filterDeadFolks, handleMarriage, inherentOldAge, pickSex } from "./checks";
 import { nameMaker } from "./Naming";
 import { foundHouse, historicalHouse, pickHouse, whetherNewHouse } from "./houses";
 import { babyOnTheWay, willYouMarryMe } from "./Brackets";
@@ -123,14 +123,15 @@ export function createChild (parent1: Person, parent2: Person, year: number): Pe
 export function death (year: number, living_people: People, dead_people: People, titles: Title[]): {new_deaths: NewsItem[], the_living: People, updated_dead: People} {
     const { oldAgeNews} = dieOldAge(year,living_people);
     const { fatalAccidentNews} = dieAccident(living_people);
-    /* TBD: { contagionDeathNews } = dieContagion(living_people);
-            { conditionDeathNews } = dieCondition(living_people);
+    const { contagionNews} = dieContagion(living_people,year);
+
+    /* TBD: { conditionDeathNews } = dieCondition(living_people);
             { killedNews } = dieKilled(living_people...?);
     */
     const {the_living, the_dead, title_news } = filterDeadFolks(living_people, titles, year);
     const updated_dead = dead_people.concat(the_dead);
 
-    const new_deaths = oldAgeNews.concat(fatalAccidentNews, title_news);
+    const new_deaths = oldAgeNews.concat(fatalAccidentNews, title_news, contagionNews);
     return {
         new_deaths,
         the_living,
