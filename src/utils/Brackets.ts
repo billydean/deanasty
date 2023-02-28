@@ -53,20 +53,20 @@ export function willYouMarryMe (age: number, modifier: number = 1): boolean {
      *      0-4     0
      *      5-9     0
      *      10-14   0
-     *      15-19   56 in 5600  TO 84?
-     *      20-24   280 in 5600 420?
-     *      25-29   560 in 5600 840?
-     *      30-34   280 in 5600 420?
-     *      35-39   187 in 5600 281?
-     *      40-44   112 in 5600 168?
-     *      45-49   56 in 5600  84?
-     *      50-54   37 in 5600  56?
-     *      55-59   37 in 5600  56?
-     *      60-64   28 in 5600  42
-     *      65-69   18 in 5600  27
-     *      70-74   9 in 5600   14
-     *      75-79   8 in 5600   12
-     *      80-84   7 in 5600   10
+     *      15-19   1 in 10     1000
+     *      20-24   1 in 5      2000
+     *      25-29   1 in 8      1250
+     *      30-34   1 in 10     1000
+     *      35-39   1 in 15     667
+     *      40-44   1 in 20     500
+     *      45-49   1 in 30     333
+     *      50-54   1 in 40     250
+     *      55-59   1 in 50     200
+     *      60-64   1 in 60     167
+     *      65-69   1 in 75     133
+     *      70-74   1 in 90     110
+     *      75-79   1 in 120    83
+     *      80-84   1 in 150    67
      *      85-89   0
      *      90-94   0
      *      95-99   0
@@ -74,8 +74,8 @@ export function willYouMarryMe (age: number, modifier: number = 1): boolean {
      *      105-109 0
      *      110-114 0 
      */
-    const total = 5600;
-    const chance_array = [0,0,0,300,900,900,560,281,168,84,56,56,42,27,14,12,10,0,0,0,0,0,0];
+    const total = 10000;
+    const chance_array = [0,0,0,1000,2000,1250,1000,667,500,333,250,200,167,133,110,83,67,0,0,0,0,0,0];
 
     return masterBracketLogic(age,total,chance_array, modifier);
 };
@@ -214,7 +214,7 @@ export function fatalSlapstickOdds (age: number, modifier: number = 0.75): boole
              *      110-114 1000
              */
             const total = 10000;
-            const chance_array = [120,120,120,120,150,180,180,180,180,180,150,150,150,120,120,120,120,120,120,120,120,120,120];
+            const chance_array = [800,500,300,275,250,225,200,150,100,100,150,200,250,300,350,400,450,500,500,500,500,500,500];
             return masterBracketLogic(age,total,chance_array, modifier);
         };
 

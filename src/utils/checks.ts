@@ -139,10 +139,9 @@ export function dieContagion (people: People, year: number): { contagionNews: Ne
         }
         if (people[i].disease) {
             for (let j=0; j<people[i].disease!.length; j++) {
-                if (year >= people[i].disease![j].onset && year <= people[i].disease![j].duration && oddsFatalDisease(people[i].age,people[i].disease![j].effects.mortality)) {
+                if (year >= people[i].disease![j].onset && year <= people[i].disease![j].duration && oddsFatalDisease(people[i].age,people[i].disease![j].effects.mortality) && people[i].alive === true) {
                     contagionNews.push({category: 'death', content: `${people[i].name} ${people[i].house} died of ${people[i].disease![j].type_key} at the age of ${people[i].age}.`});
                     people[i].alive = false;
-                    break
                 }
             }
         }

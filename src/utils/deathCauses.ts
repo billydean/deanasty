@@ -141,7 +141,7 @@ const contagions: Contagion[] = [
         }
     },
     {
-        type_key: "lyme",
+        type_key: "lyme disease",
         duration: [1,0],
         onset_delay: false,
         incubation: [0,0],
@@ -182,10 +182,10 @@ function determineDuration (range: number[], year: number, old_year: number): nu
             if (range[0] === range[1]){
                 return year;
             } else {
-                return (Math.floor(Math.random() * (range[1] - range[0])) + range[0]) + year;
+                return (Math.ceil(Math.random() * (range[1] - range[0])) + range[0]) + year;
             }
             } else { // [1,0]
-            return (Math.floor(Math.random() * (to_death - range[0])) + range[0]) + year;
+            return (Math.ceil(Math.random() * (to_death - range[0])) + range[0]) + year;
         }
     } else {
         if (range[1] !== 0) { // [0,1]
@@ -196,15 +196,12 @@ function determineDuration (range: number[], year: number, old_year: number): nu
     }
 }
 
-function determineOnset (range: number[], onset: boolean, year: number ): number {
-    if (!onset) {
-        return year;
-    } else {
-        const diff = range[1] - range[0];
+function determineOnset (range: number[], year: number ): number {
+    const diff = range[1] - range[0];
         return (Math.ceil(Math.random() * diff) + range[0] + year)
-    }
 
 }
+
 export function infectPerson (person: Person, year: number): {added_disease: string} {
     let pool: string[] = [];
     let added_disease: string = "none"
@@ -218,7 +215,7 @@ export function infectPerson (person: Person, year: number): {added_disease: str
     let chosenIndex: number = Math.floor(Math.random() * pool.length);
     const contagion = contagions.find(each => each.type_key === pool[chosenIndex]);
     const duration = determineDuration(contagion!.duration,year,person.old_year);
-    const onset = determineOnset(contagion!.incubation,contagion!.onset_delay,year);
+    const onset = determineOnset(contagion!.incubation,year);
     if (!person.immunity) {
         if (!person.disease) {
             person.disease = [{
