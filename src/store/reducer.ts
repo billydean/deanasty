@@ -1,16 +1,20 @@
 import { State, Action, NewsItem } from "../types";
+import { Person } from '../classes'
 // import { firstPerson } from "../utils/PeopleMakers";
 import { initialState } from "./initialState";
 // import { livingToDead } from "../utils/livingToDead";
-import { firstPerson } from "../utils/people";
+// import { firstPerson } from "../utils/people";
 // import { agingFertility, checkOldAge, coordinateSpouseIDs, handleMarriages, stork, willYouMarryMe } from "../utils/PeopleCheckers";
 import { okay } from "../utils/masterFunctions";
 import { firstTitle } from "../utils/titles";
+import { foundHouse } from "../utils/houses";
 
 export default function reducer(state: State, action: Action): State {
     switch (action.type) {
         case 'START_SIM':
-            const { newPerson, firstHouse } = firstPerson(state.year.current)
+            const newPerson = new Person(state.year.current);
+            const firstHouse = foundHouse(newPerson, state.year.current);
+            newPerson.house = firstHouse.name;
             const birthMessage: NewsItem = {category: 'birth', content: `${newPerson.name} ${newPerson.house} was born.`};
             const houseMessage: NewsItem = {category: 'house', content: `The ${firstHouse.name} dynasty begins with the birth of ${newPerson.name}.`}
             const {title, title_news} = firstTitle(state.year.current, newPerson);

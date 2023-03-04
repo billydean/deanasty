@@ -186,6 +186,6 @@ interface ConditionInstance extends Condition {
 // Condition types have names, effects object, inheritibility index.
 // Condition instances have additional "severity index," modifying likelihood of manifesting.
 
-export type { Year, Person, People, War, Plague, State, Action, Events, EventfulYear, NewsItem, Title, House, Houses, ParentPair, Parents, Accidents, Contagion, Condition, ConditionInstance };
+export type { Year, Person, People, War, Plague, State, Action, Events, EventfulYear, NewsItem, Title, House, Houses, ParentPair, Parents, Accidents, Contagion, Condition, ConditionInstance, Disease, Relations };
 
 
