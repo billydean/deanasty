@@ -16,7 +16,7 @@ export function inherentOldAge (birth_year: number, modifier: number = 0): numbe
     return Math.ceil(beta(5,3) * 60) + 50 + modifier + birth_year
 };
 
-export class Person {
+class Person {
     name: string;
     id: string;
     sex: string;
@@ -37,18 +37,16 @@ export class Person {
     disease?: Disease[];
     immunity?: string[];
 
-    constructor(year: number) {
-        let sex = pickSex();
-
+    constructor(year: number, sex: string = pickSex(), age: number = 0) {
         this.name = nameMaker('shorter');
         this.id = uuid() + sex === 'male'
             ? 'M'
             : 'F';
         this.sex = sex;
-        this.age = 0;
-        this.old_year = inherentOldAge(year);
+        this.age = age;
+        this.old_year = inherentOldAge(year - age);
         this.alive = true;
-        this.birth_year = year;
+        this.birth_year = year - age;
         this.relations = {
             family: uuid(),
             mother: "",
@@ -62,35 +60,29 @@ export class Person {
     }
 }
 
-// export function firstPerson(year:number): {newPerson: Person, firstHouse: House} {
-//     // const birth_year = year;
-//     const capitalName = nameMaker('shorter');
-//     const newbie: Person = {
-//         name: "",
-//         id: `${uuid()}M`,
-//         sex: 'male', // pickSex() I HATE this, but until I can figure out how to handle different kinds of succession laws, everything is single-sex primogeniture. Must fix this as soon as possible, because it feels gross. But I'm modelling off history (at first). Lame excuse
-//         age: 0,
-//         old_year: inherentOldAge(year),
-//         alive: true,
-//         birth_year: year,
-//         relations: {
-//             family: uuid(),
-//             mother: "",
-//             father: "",
-//             spouse: "",
-//             offspring: []
-//         },
-//         marital_status: false,
-//         title_claim: undefined,
-//         house: ""
-//     }
-//     const firstHouse = foundHouse(newbie,year)
-//     newbie.house = firstHouse.name;
-//     newbie.name = capitalName;
+class Spouse extends Person {
+    constructor(year: number, person: Person) {
+        if (person.sex === 'female') {
+            let age = person.age + Math.floor(Math.random() * 15);
+            super(year, 'male', age);
+        } else {
+            let age = wifeAge(person.age)
+            super(year, 'female', age);
+        }
+        this.relations.spouse = person.id;
+        this.marital_status = true;
+    }
+}
 
 
-//     return {
-//         newPerson: newbie,
-//         firstHouse: firstHouse
-//     }
-// };
+
+function wifeAge (husband: number): number {
+    const threshold = husband - ((husband - 15)/2);
+    const minimum = Math.max(15, threshold)
+    const maximum = husband + 2
+    return Math.floor(Math.random() * (maximum - minimum)) + 15;
+}
+
+
+export { Person, Spouse }
+

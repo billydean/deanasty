@@ -5,6 +5,7 @@ import { createSpouse } from "./people";
 import { findHeir } from "./titles";
 import { catchContagionOdds, fatalSlapstickOdds, oddsFatalDisease, slapstickOdds } from "./Brackets";
 import { fatalAccidents, infectPerson } from "./deathCauses";
+import { Spouse } from "../classes";
 
 // Takes array of folks and filters both living and dead arrays
 // If a title holder is included among the dead, looks for heir...
@@ -168,10 +169,9 @@ export function dieContagion (people: People, year: number): { contagionNews: Ne
 export function handleMarriage (year: number, person: Person): { spouseID: string, spouse: Person } {
     
 
-    const spouse = createSpouse(person, year);
+    const spouse = new Spouse(year,person);
     const spouseID = spouse.id;
     
-
     return {
         spouseID,
         spouse
