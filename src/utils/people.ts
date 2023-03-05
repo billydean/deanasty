@@ -1,120 +1,16 @@
-import type { House, Houses, NewsItem, Parents, People, Person, Title } from "../types"
-import { v4 as uuid } from "uuid";
-import { dieAccident, dieContagion, dieOldAge, filterDeadFolks, handleMarriage, inherentOldAge, pickSex } from "./checks";
-import { nameMaker } from "./Naming";
-import { foundHouse, historicalHouse, pickHouse, whetherNewHouse } from "./houses";
+import type { Houses, NewsItem, Parents, People, Person, Title } from "../types"
+import { dieAccident, dieContagion, dieOldAge, filterDeadFolks, handleMarriage } from "./checks";
+import { historicalHouse, pickHouse, whetherNewHouse } from "./houses";
 import { babyOnTheWay, willYouMarryMe } from "./Brackets";
 import { checkSuccessionAtBirth } from "./titles";
 import { Child } from '../classes'
 
-// People Makers
-// export function firstPerson(year:number): {newPerson: Person, firstHouse: House} {
-//     // const birth_year = year;
-//     const capitalName = nameMaker('shorter');
-//     const newbie: Person = {
-//         name: "",
-//         id: `${uuid()}M`,
-//         sex: 'male', // pickSex() I HATE this, but until I can figure out how to handle different kinds of succession laws, everything is single-sex primogeniture. Must fix this as soon as possible, because it feels gross. But I'm modelling off history (at first). Lame excuse
-//         age: 0,
-//         old_year: inherentOldAge(year),
-//         alive: true,
-//         birth_year: year,
-//         relations: {
-//             family: uuid(),
-//             mother: "",
-//             father: "",
-//             spouse: "",
-//             offspring: []
-//         },
-//         marital_status: false,
-//         title_claim: undefined,
-//         house: ""
-//     }
-//     const firstHouse = foundHouse(newbie,year)
-//     newbie.house = firstHouse.name;
-//     newbie.name = capitalName;
-
-
-//     return {
-//         newPerson: newbie,
-//         firstHouse: firstHouse
-//     }
-// };
- 
-
-// distance from 15yo
-// distance / 2
-// random times that!
-// + 15
-// (age - 15) / 2
-// function wifeAge (husband: number): number {
-//     const threshold = husband - ((husband - 15)/2);
-//     const minimum = Math.max(15, threshold)
-//     const maximum = husband + 2
-//     return Math.floor(Math.random() * (maximum - minimum)) + 15;
-// }
-
-// export function createSpouse(person: Person, year: number): Person {
-//     const capitalFirst = nameMaker('shorter');
-//     const sex = person.sex === 'female'
-//         ? 'male'
-//         : 'female'
-//     const sexed_id = sex === 'female'
-//         ? 'F'
-//         : 'M'
-//     const spouse_age = person.sex === 'male'
-//         ? wifeAge(person.age)
-//         : person.age + Math.floor(Math.random() * 15);
-//     return {
-//         name: capitalFirst,
-//         id: `${uuid()}${sexed_id}`,
-//         sex: sex,
-//         age: spouse_age,
-//         birth_year: year - spouse_age,
-//         old_year: inherentOldAge(year - spouse_age),
-//         alive: true,
-//         relations: {
-//             family: uuid(),
-//             mother: "",
-//             father: "",
-//             spouse: person.id,
-//             offspring: []
-//         },
-//         marital_status: true,
-//         title_claim: undefined,
-//         house: 'placeholder'
-//     }
-// }
-
-// export function createChild (parent1: Person, parent2: Person, year: number): Person {
-//     const capitalName = nameMaker('shorter');
-//     const lastName = parent2.house;
-//     let babysClaim = undefined;
-//     const assigned_sex = pickSex();
-//     const sexed_id = assigned_sex === 'female'
-//         ? 'F'
-//         : 'M'
-        
-//     return {
-//         name: capitalName,
-//         id: `${uuid()}${sexed_id}`,
-//         sex: assigned_sex,
-//         age: 0,
-//         old_year: inherentOldAge(year),
-//         alive: true,
-//         birth_year: year,
-//         relations: {
-//             family: parent1.relations.family,
-//             mother: parent1.id,
-//             father: parent2.id,
-//             spouse: "",
-//             offspring: []
-//         },
-//         marital_status: false,
-//         title_claim: babysClaim,
-//         house: lastName
-//     }
-// }
+// Another year older...
+export function yearOlder (people: People) {
+    for (let i=0; i<people.length;i++) {
+        people[i].age++;
+    }
+}
 
 // Death, so sad
 // Maps over people --> Die?
@@ -130,9 +26,15 @@ export function death (year: number, living_people: People, dead_people: People,
             { killedNews } = dieKilled(living_people...?);
     */
     const {the_living, the_dead, title_news } = filterDeadFolks(living_people, titles, year);
-    const updated_dead = dead_people.concat(the_dead);
 
-    const new_deaths = contagionNews.concat(oldAgeNews, fatalAccidentNews, title_news);
+    const updated_dead = [...dead_people, ...the_dead];
+
+    const new_deaths = [
+        ...contagionNews, 
+        ...oldAgeNews, 
+        ...fatalAccidentNews, 
+        ...title_news];
+
     return {
         new_deaths,
         the_living,
@@ -142,18 +44,15 @@ export function death (year: number, living_people: People, dead_people: People,
 
 // Love and Marriage...
 
-export function marriageStuff (year: number, living_people: People, houses: Houses): {new_spouses: People, marriage_news: NewsItem[], people: People, new_houses: Houses, possible_parents: Parents} {
-    let dummy = 0; // ignore this for now
+export function marriageStuff (year: number, people: People, houses: Houses): {new_spouses: People, marriage_news: NewsItem[], people: People, available_houses: Houses, possible_parents: Parents} {
+
     let new_spouses: People = [];
-    let new_houses: Houses = [];
-    let available_houses: Houses = new_houses.concat(houses)
+    let available_houses: Houses = [...houses];
     let marriage_news: NewsItem[] = [];
     let possible_parents: Parents = [];
-    let people = living_people;
+
     for (let i=0; i<people.length; i++) {
-        if (people[i].marital_status === true) {
-            dummy = 0;
-        } else {
+        if (people[i].marital_status === false) {
             let test = willYouMarryMe(people[i].age);
             if ( test === true ) {
                 people[i].marital_status = true;
@@ -162,7 +61,6 @@ export function marriageStuff (year: number, living_people: People, houses: Hous
                 let spouseHouse;
                 if (house_test) {
                     spouseHouse = historicalHouse(year);
-                    new_houses.push(spouseHouse);
                     available_houses.push(spouseHouse);
                 } else {
                     spouseHouse = pickHouse(available_houses)
@@ -172,9 +70,7 @@ export function marriageStuff (year: number, living_people: People, houses: Hous
                 spouse.house = spouseHouse.name;
                 new_spouses.push(spouse)
                 possible_parents.push([people[i].id,spouse.id]);
-            } else {
-                dummy = 0; // eslint-disable-line
-            }
+            } 
 
     }
     
@@ -184,7 +80,7 @@ return {
     new_spouses,
     marriage_news,
     people,
-    new_houses,
+    available_houses,
     possible_parents
 }
 }
@@ -194,11 +90,7 @@ export function allStorks(people: People, year: number, parents: Parents, titles
     let baby_news: NewsItem[] = [];
 
     for (let i=0; i<parents.length; i++) {
-        // const parent1Index: number | undefined = people.findIndex(x => x.id === couple[0]);
-        // const parent2Index: number | undefined = people.findIndex(x => x.id === couple[1]);
-        // const parent1: Person | undefined = people[parent1Index];
-        // const parent2: Person | undefined  = people[parent2Index];
-
+        
         const parent1: Person | undefined = people.find((person) => person.id === parents[i][0]);
         const parent2: Person | undefined = people.find((person) => person.id === parents[i][1]);
 
@@ -252,47 +144,13 @@ export function allStorks(people: People, year: number, parents: Parents, titles
             }
         }
 
-        // this is silly, but...
-       
-        // parent not undefined, if parent female, babyontheway(age)
+
 
     }
-    const new_people = people.map(person => person);
-    const updated_titles = titles.map(title => title);
-    // const mothers = people.filter((person: Person) => person.sex === 'female' && person.marital_status === true);
 
-    // for (let i=0; i<mothers.length; i++) {
-    //     const match = people.find((person) => person.id === mothers[i].relations.spouse);
-    //     if (typeof match !== 'undefined' && babyOnTheWay(mothers[i].age)) {
-
-    //         const {baby, baby_announcement} = individualStork(mothers[i],match,year);
-
-    //         new_children.push(baby);
-
-    //         baby_news.push(baby_announcement);
-    //     } else {
-    //         dummy = 0; // eslint-disable-line
-    //     }
-    // }
- 
-    // const new_people: People = people.map((person: Person) => {
-    //     const spawn = new_children.find((kid) => person.id === kid.relations.mother || person.id === kid.relations.father);
-    //     if (typeof spawn !== 'undefined') {
-    //         return {
-    //             ...person,
-    //             relations: {
-    //                 ...person.relations,
-    //                 offspring: [
-    //                     ...person.relations.offspring,
-    //                     spawn.id
-    //                 ]
-    //             }
-    //         }
-    //     } else {
-    //         return person 
-    //     }
-    // });
-
+    const new_people = people;
+    const updated_titles = titles;
+    
     return {
         new_people,
         new_children,
@@ -302,7 +160,7 @@ export function allStorks(people: People, year: number, parents: Parents, titles
 }
 
 export function individualStork (mother: Person, father: Person, year: number): { baby: Person, baby_announcement: NewsItem} {
-    const baby =  new Child(mother,father,year);
+    const baby =  new Child (mother,father,year);
     const baby_announcement = {category: 'birth', content: `${baby.name} of House ${baby.house} was born to ${mother.name} ${mother.house} and ${father.name} ${father.house}.`}
     return {
         baby,

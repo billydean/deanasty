@@ -42,63 +42,6 @@ export function titleOnDeath (dead: People, titles: Title[], living: People): Ne
     return array;
 }
 
-// Function describes "neutral changes," i.e., changes that are constant across populations and are not dynamically determined by other factors in state. Example: increase in age, decrease in fertility, etc.
-export function timeMarchesOn (people: People): People {
-    return people.map((person: Person) => {
-        const new_age = person.age + 1;
-        // let new_fertility = 0; <--- BILLY GO BACK TO USING THIS VARIABLE RATHER THAN DIRECTLY CHANGING PERSON.FERTILITY!!!
-        // if (new_age > 40) {
-        //     if (person.fertility > 5) {
-        //         person.fertility -= 6;
-        //     } else {
-        //         person.fertility = 0;
-        //     }
-        // } else if (new_age > 30) {
-        //     if (person.fertility > 3) {
-        //          person.fertility -= 4;
-        //     } else {
-        //         person.fertility = 0;
-        //     }
-        // } else if (new_age > 20) {
-        //     if (person.fertility > 1) {
-        //         person.fertility -= 2;
-        //     } else {
-        //         person.fertility = 0;
-        //     }
-        // }
-        return {
-            ...person,
-            age: new_age
-        }
-    })
-};
-
-// Determines inherent year of death -- will die of "old age" if nothing kills them sooner.
-export function inherentOldAge (birth_year: number, modifier: number = 0): number {
-    return Math.ceil(beta(5,3) * 60) + 50 + modifier + birth_year
-};
-
-// Assigns sex at birth.
-export function pickSex (): string {
-    const value: number = Math.ceil(Math.random() * 2);
-    return value === 1
-        ? 'female'
-        : 'male'
-};
-
-// Assigns fertility at birth.
-// Made it lower! Later when I have a "universal bracketing" function, I'll give up the ghost with these beta distributions. Just too finicky
-// export function setFertility (): number {
-//     return Math.ceil(beta(2,2.5) * 100);
-// };
-
-// General-use death-handler
-// export function reaper (person: Person, year: number): Person {
-//     return { ...person,
-//         alive: false,
-//         death_year: year
-//     }
-// };
 
 // People die of old age.
 // returns old-age-death news items and list of ids.
