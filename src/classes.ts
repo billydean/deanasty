@@ -38,10 +38,11 @@ class Person {
     immunity?: string[];
 
     constructor(year: number, sex: string = pickSex(), age: number = 0) {
-        this.name = nameMaker('shorter');
-        this.id = uuid() + sex === 'male'
+        let tag = sex === 'male'
             ? 'M'
             : 'F';
+        this.name = nameMaker('shorter');
+        this.id = `${uuid()}${tag}`
         this.sex = sex;
         this.age = age;
         this.old_year = inherentOldAge(year - age);
@@ -74,7 +75,15 @@ class Spouse extends Person {
     }
 }
 
-
+class Child extends Person {
+    constructor (parent1: Person, parent2: Person, year: number) {
+        super(year);
+        this.relations.family = parent2.relations.family;
+        this.relations.mother = parent1.id;
+        this.relations.father = parent2.id;
+        this.house = parent2.house;
+    }
+}
 
 function wifeAge (husband: number): number {
     const threshold = husband - ((husband - 15)/2);
@@ -84,5 +93,5 @@ function wifeAge (husband: number): number {
 }
 
 
-export { Person, Spouse }
+export { Person, Spouse, Child }
 

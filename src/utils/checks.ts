@@ -1,7 +1,7 @@
 // This file contains any logic, tests, or filters used to create or transform slices of state related to the current year or to any generated people
 import { NewsItem, People, Person, Title } from "../types";
 import { beta } from '@stdlib/random/base';
-import { createSpouse } from "./people";
+// import { createSpouse } from "./people";
 import { findHeir } from "./titles";
 import { catchContagionOdds, fatalSlapstickOdds, oddsFatalDisease, slapstickOdds } from "./Brackets";
 import { fatalAccidents, infectPerson } from "./deathCauses";

@@ -5,40 +5,41 @@ import { nameMaker } from "./Naming";
 import { foundHouse, historicalHouse, pickHouse, whetherNewHouse } from "./houses";
 import { babyOnTheWay, willYouMarryMe } from "./Brackets";
 import { checkSuccessionAtBirth } from "./titles";
+import { Child } from '../classes'
 
 // People Makers
-export function firstPerson(year:number): {newPerson: Person, firstHouse: House} {
-    // const birth_year = year;
-    const capitalName = nameMaker('shorter');
-    const newbie: Person = {
-        name: "",
-        id: `${uuid()}M`,
-        sex: 'male', // pickSex() I HATE this, but until I can figure out how to handle different kinds of succession laws, everything is single-sex primogeniture. Must fix this as soon as possible, because it feels gross. But I'm modelling off history (at first). Lame excuse
-        age: 0,
-        old_year: inherentOldAge(year),
-        alive: true,
-        birth_year: year,
-        relations: {
-            family: uuid(),
-            mother: "",
-            father: "",
-            spouse: "",
-            offspring: []
-        },
-        marital_status: false,
-        title_claim: undefined,
-        house: ""
-    }
-    const firstHouse = foundHouse(newbie,year)
-    newbie.house = firstHouse.name;
-    newbie.name = capitalName;
+// export function firstPerson(year:number): {newPerson: Person, firstHouse: House} {
+//     // const birth_year = year;
+//     const capitalName = nameMaker('shorter');
+//     const newbie: Person = {
+//         name: "",
+//         id: `${uuid()}M`,
+//         sex: 'male', // pickSex() I HATE this, but until I can figure out how to handle different kinds of succession laws, everything is single-sex primogeniture. Must fix this as soon as possible, because it feels gross. But I'm modelling off history (at first). Lame excuse
+//         age: 0,
+//         old_year: inherentOldAge(year),
+//         alive: true,
+//         birth_year: year,
+//         relations: {
+//             family: uuid(),
+//             mother: "",
+//             father: "",
+//             spouse: "",
+//             offspring: []
+//         },
+//         marital_status: false,
+//         title_claim: undefined,
+//         house: ""
+//     }
+//     const firstHouse = foundHouse(newbie,year)
+//     newbie.house = firstHouse.name;
+//     newbie.name = capitalName;
 
 
-    return {
-        newPerson: newbie,
-        firstHouse: firstHouse
-    }
-};
+//     return {
+//         newPerson: newbie,
+//         firstHouse: firstHouse
+//     }
+// };
  
 
 // distance from 15yo
@@ -46,74 +47,74 @@ export function firstPerson(year:number): {newPerson: Person, firstHouse: House}
 // random times that!
 // + 15
 // (age - 15) / 2
-function wifeAge (husband: number): number {
-    const threshold = husband - ((husband - 15)/2);
-    const minimum = Math.max(15, threshold)
-    const maximum = husband + 2
-    return Math.floor(Math.random() * (maximum - minimum)) + 15;
-}
+// function wifeAge (husband: number): number {
+//     const threshold = husband - ((husband - 15)/2);
+//     const minimum = Math.max(15, threshold)
+//     const maximum = husband + 2
+//     return Math.floor(Math.random() * (maximum - minimum)) + 15;
+// }
 
-export function createSpouse(person: Person, year: number): Person {
-    const capitalFirst = nameMaker('shorter');
-    const sex = person.sex === 'female'
-        ? 'male'
-        : 'female'
-    const sexed_id = sex === 'female'
-        ? 'F'
-        : 'M'
-    const spouse_age = person.sex === 'male'
-        ? wifeAge(person.age)
-        : person.age + Math.floor(Math.random() * 15);
-    return {
-        name: capitalFirst,
-        id: `${uuid()}${sexed_id}`,
-        sex: sex,
-        age: spouse_age,
-        birth_year: year - spouse_age,
-        old_year: inherentOldAge(year - spouse_age),
-        alive: true,
-        relations: {
-            family: uuid(),
-            mother: "",
-            father: "",
-            spouse: person.id,
-            offspring: []
-        },
-        marital_status: true,
-        title_claim: undefined,
-        house: 'placeholder'
-    }
-}
+// export function createSpouse(person: Person, year: number): Person {
+//     const capitalFirst = nameMaker('shorter');
+//     const sex = person.sex === 'female'
+//         ? 'male'
+//         : 'female'
+//     const sexed_id = sex === 'female'
+//         ? 'F'
+//         : 'M'
+//     const spouse_age = person.sex === 'male'
+//         ? wifeAge(person.age)
+//         : person.age + Math.floor(Math.random() * 15);
+//     return {
+//         name: capitalFirst,
+//         id: `${uuid()}${sexed_id}`,
+//         sex: sex,
+//         age: spouse_age,
+//         birth_year: year - spouse_age,
+//         old_year: inherentOldAge(year - spouse_age),
+//         alive: true,
+//         relations: {
+//             family: uuid(),
+//             mother: "",
+//             father: "",
+//             spouse: person.id,
+//             offspring: []
+//         },
+//         marital_status: true,
+//         title_claim: undefined,
+//         house: 'placeholder'
+//     }
+// }
 
-export function createChild (parent1: Person, parent2: Person, year: number): Person {
-    const capitalName = nameMaker('shorter');
-    const lastName = parent2.house;
-    let babysClaim = undefined;
-    const assigned_sex = pickSex();
-    const sexed_id = assigned_sex === 'female'
-        ? 'F'
-        : 'M'
+// export function createChild (parent1: Person, parent2: Person, year: number): Person {
+//     const capitalName = nameMaker('shorter');
+//     const lastName = parent2.house;
+//     let babysClaim = undefined;
+//     const assigned_sex = pickSex();
+//     const sexed_id = assigned_sex === 'female'
+//         ? 'F'
+//         : 'M'
         
-    return {
-        name: capitalName,
-        id: `${uuid()}${sexed_id}`,
-        sex: assigned_sex,
-        age: 0,
-        old_year: inherentOldAge(year),
-        alive: true,
-        birth_year: year,
-        relations: {
-            family: parent1.relations.family,
-            mother: parent1.id,
-            father: parent2.id,
-            spouse: "",
-            offspring: []
-        },
-        marital_status: false,
-        title_claim: babysClaim,
-        house: lastName
-    }
-}
+//     return {
+//         name: capitalName,
+//         id: `${uuid()}${sexed_id}`,
+//         sex: assigned_sex,
+//         age: 0,
+//         old_year: inherentOldAge(year),
+//         alive: true,
+//         birth_year: year,
+//         relations: {
+//             family: parent1.relations.family,
+//             mother: parent1.id,
+//             father: parent2.id,
+//             spouse: "",
+//             offspring: []
+//         },
+//         marital_status: false,
+//         title_claim: babysClaim,
+//         house: lastName
+//     }
+// }
 
 // Death, so sad
 // Maps over people --> Die?
@@ -301,7 +302,7 @@ export function allStorks(people: People, year: number, parents: Parents, titles
 }
 
 export function individualStork (mother: Person, father: Person, year: number): { baby: Person, baby_announcement: NewsItem} {
-    const baby = createChild(mother,father,year);
+    const baby =  new Child(mother,father,year);
     const baby_announcement = {category: 'birth', content: `${baby.name} of House ${baby.house} was born to ${mother.name} ${mother.house} and ${father.name} ${father.house}.`}
     return {
         baby,
