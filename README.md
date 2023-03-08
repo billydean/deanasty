@@ -26,8 +26,22 @@ I want to develop a self-informed generator, where later calculations are influe
 
 Generated results are still intended to be "jumping off points" for authors and GMs, but I want them to have enough internal cohesion to be believable (and hopefully, useful). 
 
-## Current State and Roadmap
-TBD.
+## Version in Development: 0.1 - Generations
+
+### Roadmap
+- v 0.2
+- v 0.3
+- v 0.4
+- v 0.5
+- v 0.6
+- v 0.6
+- v 0.6
+- v 0.7
+- v 0.8
+- v 0.8
+- v 0.9
+- v 0.9
+- v ?.?
 
 #### Creation and Contribution
 Copyright (c) 2023 Billy Dean Goehring
