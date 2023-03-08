@@ -1,5 +1,6 @@
-import { Houses, NewsItem, Parents, People, Title } from "../types";
+import { Houses, NewsItem, Parents, Title } from "../types";
 import { allStorks, death, marriageStuff, yearOlder } from "./people";
+import { People } from "../classes";
 
 export function okay (current_year: number, living_people: People, dead_people: People, current_houses: Houses, parents: Parents, titles: Title[]): {
     updated_dead: People, updated_living: People, news_items: NewsItem[], updated_houses: Houses, updated_parents: Parents, updated_titles: Title[]

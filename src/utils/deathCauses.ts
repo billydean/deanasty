@@ -1,4 +1,5 @@
-import { Contagion, Person } from "../types";
+import { Contagion } from "../types";
+import { Person } from "../classes";
 
 // So-and-so died after BLANK
 const fatal_accidents = [

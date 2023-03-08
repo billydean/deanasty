@@ -1,3 +1,5 @@
+import type {  People } from "./classes"
+
 interface Plague {
     name: string,
     effect: string
@@ -36,33 +38,33 @@ interface Relations {
      */
 }
 
-interface Person {
-    name: string,
-    id: string,
-    sex: string,
-    age: number,
-    old_year: number, //death date by old age, barring other cause(s)
-    alive: boolean,
-    birth_year: number,
-    death_year?: number,
-    relations: Relations,
-    marital_status: boolean,
-    house: string,
-    title?: {
-        name: string, // pulled from 'rank' and 'name' of Title. 'Rank of Name'
-        address: string, // 'appellation' in Title
-        id: number, // matches Title id (for other checks/calculations)
-    },
-    title_claim: number | undefined,
-    disease?: Disease[],
-    immunity?: string[],
-    /**
-     * avenir
-     *  - claim (to titles extant or otherwise)
-     */
-}
+// interface Person {
+//     name: string,
+//     id: string,
+//     sex: string,
+//     age: number,
+//     old_year: number, //death date by old age, barring other cause(s)
+//     alive: boolean,
+//     birth_year: number,
+//     death_year?: number,
+//     relations: Relations,
+//     marital_status: boolean,
+//     house: string,
+//     title?: {
+//         name: string, // pulled from 'rank' and 'name' of Title. 'Rank of Name'
+//         address: string, // 'appellation' in Title
+//         id: number, // matches Title id (for other checks/calculations)
+//     },
+//     title_claim: number | undefined,
+//     disease?: Disease[],
+//     immunity?: string[],
+//     /**
+//      * avenir
+//      *  - claim (to titles extant or otherwise)
+//      */
+// }
 
-type People = Person[];
+// type People = Person[];
 
 type Events = EventfulYear[]
 
@@ -186,6 +188,6 @@ interface ConditionInstance extends Condition {
 // Condition types have names, effects object, inheritibility index.
 // Condition instances have additional "severity index," modifying likelihood of manifesting.
 
-export type { Year, Person, People, War, Plague, State, Action, Events, EventfulYear, NewsItem, Title, House, Houses, ParentPair, Parents, Accidents, Contagion, Condition, ConditionInstance, Disease, Relations };
+export type { Year, War, Plague, State, Action, Events, EventfulYear, NewsItem, Title, House, Houses, ParentPair, Parents, Accidents, Contagion, Condition, ConditionInstance, Disease, Relations };
 
 

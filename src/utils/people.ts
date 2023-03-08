@@ -1,9 +1,9 @@
-import type { Houses, NewsItem, Parents, People, Person, Title } from "../types"
+import type { Houses, NewsItem, Parents, Title } from "../types"
 import { dieAccident, dieContagion, dieOldAge, filterDeadFolks, handleMarriage } from "./checks";
 import { historicalHouse, pickHouse, whetherNewHouse } from "./houses";
 import { babyOnTheWay, willYouMarryMe } from "./Brackets";
 import { checkSuccessionAtBirth } from "./titles";
-import { Child } from '../classes'
+import { Child, Person, People } from '../classes'
 
 // Another year older...
 export function yearOlder (people: People) {
@@ -91,8 +91,8 @@ export function allStorks(people: People, year: number, parents: Parents, titles
 
     for (let i=0; i<parents.length; i++) {
         
-        const parent1: Person | undefined = people.find((person) => person.id === parents[i][0]);
-        const parent2: Person | undefined = people.find((person) => person.id === parents[i][1]);
+        const parent1: Person | undefined = people.find((person: Person) => person.id === parents[i][0]);
+        const parent2: Person | undefined = people.find((person: Person) => person.id === parents[i][1]);
 
         if (parent1 !== undefined && parent2 !== undefined) {
             if (parent1.sex === 'female' && babyOnTheWay(parent1.age)) {

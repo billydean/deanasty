@@ -1,5 +1,6 @@
-import type { NewsItem, People, Person, Title } from "../types";
+import type { NewsItem, Title } from "../types";
 
+import { People, Person } from "../classes";
 //Only one title for now. Eventually titles will be more dynamic. Appearing, disappearing, changing hands. And there will be disputes among claimants.
 
 export function firstTitle(year: number, holder: Person): {title: Title, title_news: NewsItem} {
@@ -128,8 +129,8 @@ export function findHeir (title: Title, people: People, news: NewsItem[] ) {
     let while_count = 0;
     while (heir_found === false && while_count < title.succession_list.length) {
         const candidate = title.succession_list[while_count];
-        if (people.some(person => person.id === candidate)) {
-            const heir = people.find(person => person.id === candidate);
+        if (people.some((person: Person) => person.id === candidate)) {
+            const heir = people.find((person: Person) => person.id === candidate);
             heir!.title = {
                 name: `${title.rank} of ${title.name}`,
                 address: title.appellation,

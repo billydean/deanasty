@@ -1,6 +1,6 @@
-import type { House, Person, Houses } from "../types";
+import type { House, Houses } from "../types";
 import { nameMaker } from "./Naming";
-
+import { Person } from "../classes";
 // for when a NEW house is founded (at worldgen or otherwise)
 export function foundHouse(founder: Person, year: number): House {
     const capitalName = nameMaker('longer');

@@ -1,7 +1,9 @@
 import type {Relations, Disease } from './types';
+import { DNA, bigZipper } from './utils/Genetics';
 import { v4 as uuid } from "uuid";
 import { nameMaker } from './utils/Naming';
 import { beta } from '@stdlib/random/base';
+import { noParentsDNA } from './utils/Genetics';
 
 // Assigns sex at birth.
 export function pickSex (): string {
@@ -19,6 +21,7 @@ export function inherentOldAge (birth_year: number, modifier: number = 0): numbe
 class Person {
     name: string;
     id: string;
+    dna: DNA;
     sex: string;
     age: number;
     old_year: number; // year when "die from natural causes"
@@ -42,7 +45,8 @@ class Person {
             ? 'M'
             : 'F';
         this.name = nameMaker('shorter');
-        this.id = `${uuid()}${tag}`
+        this.id = `${uuid()}${tag}`;
+        this.dna = noParentsDNA();
         this.sex = sex;
         this.age = age;
         this.old_year = inherentOldAge(year - age);
@@ -78,6 +82,7 @@ class Spouse extends Person {
 class Child extends Person {
     constructor (parent1: Person, parent2: Person, year: number) {
         super(year);
+        this.dna = bigZipper(parent1.dna, parent2.dna);
         this.relations.family = parent2.relations.family;
         this.relations.mother = parent1.id;
         this.relations.father = parent2.id;
@@ -92,6 +97,7 @@ function wifeAge (husband: number): number {
     return Math.floor(Math.random() * (maximum - minimum)) + 15;
 }
 
+export type People = Person[];
 
 export { Person, Spouse, Child }
 
