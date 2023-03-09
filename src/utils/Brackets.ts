@@ -123,7 +123,7 @@ export function babyOnTheWay (age: number, modifier: number = 0.75): boolean {
  * @param age 
  * @param modifier - Possible modifiers: sickness, frailty, stress/morale?
  */
-export function slapstickOdds (age: number, modifier: number = 1): boolean {
+export function slapstickOdds (age: number, modifier: number = 0.75): boolean {
 /** The chances of having a PHYSICAL accident at age... 
      *      0-4     0
      *      5-9     20
@@ -186,8 +186,7 @@ export function fatalSlapstickOdds (age: number, modifier: number = 0.75): boole
         const chance_array = [0,100,50,100,150,50,50,60,80,120,160,200,350,500,600,650,700,750,800,850,900,900,950];
         return masterBracketLogic(age,total,chance_array, modifier);
     }
-
-    export function catchContagionOdds (age: number, modifier: number = 1): boolean {
+export function catchContagionOdds (age: number, modifier: number = 1): boolean {
         /** The odds of being infected at age... 
              *      0-4     1300
              *      5-9     900
@@ -218,7 +217,7 @@ export function fatalSlapstickOdds (age: number, modifier: number = 0.75): boole
             return masterBracketLogic(age,total,chance_array, modifier);
         };
 
-    export function oddsFatalDisease (age: number, modifier: number = 1): boolean {
+    export function oddsFatalDisease (age: number, modifier: number = .3): boolean {
                 /** The odds of being infected at age... 
              *      0-4     4000
              *      5-9     3300
