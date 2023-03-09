@@ -26,22 +26,62 @@ I want to develop a self-informed generator, where later calculations are influe
 
 Generated results are still intended to be "jumping off points" for authors and GMs, but I want them to have enough internal cohesion to be believable (and hopefully, useful). 
 
-## Version in Development: 0.1 - Generations
+## Version in Development - v0.1 : Generations
+- [ ] People have "genes," a.k.a. inborn dispositions, risk factors, and traits.
+- [ ] Genes are passed down (imperfectly!).
+- [ ] Genetics are (sometimes) mendelian.
+- [ ] Some genetic elements appear in the news.
+- [ ] Disease and acquired immunity now appear in Person.conditions.
+- [ ] Lower base odds of being infected by contagion.
+- [ ] Contagion odds are now influenced by number of active cases.
+- [ ] Fix/ Contagions are less frequent.
+- [ ] Fix/ Contagions are more deadly.
+- [ ] Fix/ Arrays now transformed rather than repeatedly re-mapped when updating state.
+- [ ] Fix/ Obsolete fragments and commented-out code cleaned up.
+- [ ] Fix/ Code re-factored where necessary (beginning with reducer).
+- [ ] Fix/ Improved comments and documentation.
 
 ### Roadmap
-- v 0.2
-- v 0.3
-- v 0.4
-- v 0.5
-- v 0.6
-- v 0.6
-- v 0.6
-- v 0.7
-- v 0.8
-- v 0.8
-- v 0.9
-- v 0.9
-- v ?.?
+- v0.2: Trees
+    - [ ] Generated persons implied in family tree.
+    - [ ] Node style distinguishes blood and marriage membership.
+    - [ ] Node style distinguishes living and dead members.
+    - [ ] Node style distinguishes title holders and (graded) line of succession.
+    - [ ] New nodes highlighted once/if generated in tree view.
+    - [ ] User can specify number of generations in tree view.
+    - [ ] User can filter for living members, those in line of succession, and can filter out "dead and childless" members.
+    - [ ] Both "full" and "minified" views of family tree available.
+- v0.3: Warfare
+    - [ ] War can be declared or break out.
+    - [ ] Local, regional, and global stability values now active.
+    - [ ] Active war affects local and regional values.
+    - [ ] Local, regional, and global values influences odds of war.
+    - [ ] When sufficiently unstable, regional stability can affect global value.
+    - [ ] Local value affects "smallfolk."
+    - [ ] Smallfolk have "satisfaction" property.
+    - [ ] Displeased smallfolk can break out in rebellion.
+    - [ ] "Rebellion" is one of several war categories.
+    - [ ] A person can be involved or affected by war in different ways.
+    - [ ] If in battle, person may die.
+    - [ ] Winning a battle can earn a person (currently dummy) accolades.
+    - [ ] War and battle-related events appear in the news.
+    - [ ] If invaded, non-combatants may also die.
+    - [ ] Person.condition now includes "morale"
+    - [ ] Winning increases morale; morale decreases when lose, or when family member dies in war.
+    - [ ] Depending on war category, low morale can end war.
+    - [ ] Otherwise, war ends somewhat randomly.
+    - [ ] Ending war affects local, regional, and (potentially) global values.
+- v0.4: Environment
+    - [ ] "Plague" is a world historical event rather than just another disease.
+- v0.5: Timeline
+- v0.6: Diplomacy
+- v0.6: Intrigue
+- v0.7: Style
+- v0.8: Promulgation
+- v0.8: Prestige
+- v0.9: Zoom
+- v0.9: Culture
+- v?.? TBD
 
 #### Creation and Contribution
 Copyright (c) 2023 Billy Dean Goehring
