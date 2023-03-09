@@ -86,7 +86,7 @@ export function willYouMarryMe (age: number, modifier: number = 1): boolean {
  * @param modifier - Modifier, when applicable. Defaults at 1 (100%).
  * @returns Married or not (boolean) after running age through probability brackets using masterBracketLogic
  */
-export function babyOnTheWay (age: number, modifier: number = 1): boolean {
+export function babyOnTheWay (age: number, modifier: number = 0.75): boolean {
     /** The chances of getting pregnant at age...
      *      0-4     0
      *      5-9     0
@@ -213,7 +213,7 @@ export function fatalSlapstickOdds (age: number, modifier: number = 0.75): boole
              *      105-109 1000
              *      110-114 1000
              */
-            const total = 10000;
+            const total = 20000;
             const chance_array = [800,500,300,275,250,225,200,150,100,100,150,200,250,300,350,400,450,500,500,500,500,500,500];
             return masterBracketLogic(age,total,chance_array, modifier);
         };
