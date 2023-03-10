@@ -217,50 +217,21 @@ export function infectPerson (person: Person, year: number): {added_disease: str
     const contagion = contagions.find(each => each.type_key === pool[chosenIndex]);
     const duration = determineDuration(contagion!.duration,year,person.old_year);
     const onset = determineOnset(contagion!.incubation,year);
-    if (!person.immunity) {
-        if (!person.disease) {
-            person.disease = [{
-                type_key: contagion!.type_key,
-                duration: duration,
-                onset: onset,
-                effects: contagion!.effects
-            }];
-            added_disease = contagion!.type_key;
-        } else {
-            person.disease.push({
-                type_key: contagion!.type_key,
-                duration: duration,
-                onset: onset,
-                effects: contagion!.effects
-            })
-            added_disease = contagion!.type_key;
-        }
+    // OLD: does person have immunity? 
+    if (!person.condition.acquired_immunities.includes(contagion!.type_key)) {
+        person.condition.diseases.push({
+            type_key: contagion!.type_key,
+            duration: duration,
+            onset: onset,
+            effects: contagion!.effects,
+        });
+        added_disease = contagion!.type_key;
         if (!contagion!.reinfection) {
-            person.immunity = [contagion!.type_key]
+            person.condition.acquired_immunities.push(added_disease);
         }
-    } else if (!person.immunity.includes(contagion!.type_key)) {
-        if (!person.disease) {
-            person.disease = [{
-                type_key: contagion!.type_key,
-                duration: duration,
-                onset: onset,
-                effects: contagion!.effects
-            }];
-            added_disease = contagion!.type_key;
-        } else {
-            person.disease.push({
-                type_key: contagion!.type_key,
-                duration: duration,
-                onset: onset,
-                effects: contagion!.effects
-            });
-            added_disease = contagion!.type_key;
-        }
-        if (!contagion!.reinfection) {
-            person.immunity.push(contagion!.type_key)
-        }
-    }
-    return {added_disease}
+    };
+    return { added_disease }
+   
 }
 
 

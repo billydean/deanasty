@@ -27,15 +27,15 @@ I want to develop a self-informed generator, where later calculations are influe
 Generated results are still intended to be "jumping off points" for authors and GMs, but I want them to have enough internal cohesion to be believable (and hopefully, useful). 
 
 ## Version in Development - v0.1 : Generations
-- [ ] People have "genes," a.k.a. inborn dispositions, risk factors, and traits.
-- [ ] Genes are passed down (imperfectly!).
-- [ ] Genetics are (sometimes) mendelian.
+- [x] People have "genes," a.k.a. inborn dispositions, risk factors, and traits.
+- [x] Genes are passed down (imperfectly!).
+- [x] Genetics are (sometimes) mendelian.
 - [ ] Some genetic elements appear in the news.
 - [ ] Disease and acquired immunity now appear in Person.conditions.
-- [ ] Lower base odds of being infected by contagion.
+- [x] Lower base odds of being infected by contagion.
 - [ ] Contagion odds are now influenced by number of active cases.
-- [ ] Fix/ Contagions are less frequent.
-- [ ] Fix/ Contagions are more deadly.
+- [x] Fix/ Contagions are less frequent.
+- [x] Fix/ Contagions are more deadly.
 - [ ] Fix/ Arrays now transformed rather than repeatedly re-mapped when updating state.
 - [ ] Fix/ Obsolete fragments and commented-out code cleaned up.
 - [ ] Fix/ Code re-factored where necessary (beginning with reducer).
