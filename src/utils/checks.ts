@@ -107,10 +107,10 @@ export function dieContagion (people: People, year: number): { contagionNews: Ne
 //      4. pushes the spouse to the "createdSpouses" array
 //      5. pushes an announcement about their marriage to the array of events in state
 
-export function handleMarriage (year: number, person: Person): { spouseID: string, spouse: Person } {
+export function handleMarriage (year: number, person: Person, events: NewsItem[]): { spouseID: string, spouse: Person } {
     
 
-    const spouse = new Spouse(year,person);
+    const spouse = new Spouse(year,person, events);
     const spouseID = spouse.id;
     
     return {

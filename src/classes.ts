@@ -1,4 +1,4 @@
-import type {Relations, Condition } from './types';
+import type {Relations, Condition, NewsItem } from './types';
 import { DNA, bigUnZipper, bigZipper } from './utils/Genetics';
 import { v4 as uuid } from "uuid";
 import { nameMaker } from './utils/Naming';
@@ -54,7 +54,7 @@ class Person {
         angst: number;
     };
 
-    constructor(year: number, sex: string = pickSex(), age: number = 0) {
+    constructor(year: number, events: NewsItem[], sex: string = pickSex(), age: number = 0) {
         let tag = sex === 'male'
             ? 'M'
             : 'F';
@@ -108,22 +108,23 @@ class Person {
 }
 
 class Spouse extends Person {
-    constructor(year: number, person: Person) {
+    constructor(year: number, person: Person, events: NewsItem[]) {
         if (person.sex === 'female') {
             let age = person.age + Math.floor(Math.random() * 15);
-            super(year, 'male', age);
+            super(year, events, 'male', age);
         } else {
             let age = wifeAge(person.age)
-            super(year, 'female', age);
+            super(year, events, 'female', age);
         }
         this.relations.spouse = person.id;
         this.marital_status = true;
+    
     }
 }
 
 class Child extends Person {
-    constructor (parent1: Person, parent2: Person, year: number) {
-        super(year);
+    constructor (parent1: Person, parent2: Person, year: number, events: NewsItem[]) {
+        super(year, events);
         let childDNA = bigZipper(parent1.dna, parent2.dna);
         this.dna = childDNA;
         this.relations.family = parent2.relations.family;
@@ -143,7 +144,9 @@ class Child extends Person {
         //     stable: parseInt(childDNA[14]),
         //     angst: parseInt(childDNA[15]),
         // }
-        bigUnZipper(this,childDNA)
+        bigUnZipper(this,childDNA);
+        events.push({category: 'birth', content: `${this.name} of House ${this.house} was born to ${parent1.name} ${parent1.house} and ${parent2.name} ${parent2.house}.`})
+
     }
 }
 

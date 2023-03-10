@@ -12,7 +12,8 @@ import { foundHouse } from "../utils/houses";
 export default function reducer(state: State, action: Action): State {
     switch (action.type) {
         case 'START_SIM':
-            const newPerson = new Person(state.year.current);
+            const firstEvents: NewsItem[] = [];
+            const newPerson = new Person(state.year.current,firstEvents);
             const firstHouse = foundHouse(newPerson, state.year.current);
             newPerson.house = firstHouse.name;
             const birthMessage: NewsItem = {category: 'birth', content: `${newPerson.name} ${newPerson.house} was born.`};
@@ -38,7 +39,7 @@ export default function reducer(state: State, action: Action): State {
                 events: [
                     ...state.events,
                     { year: state.year.current,
-                        events: [birthMessage, houseMessage, title_news]
+                        events: [birthMessage, ...firstEvents, houseMessage, title_news]
                     }
             ]
             };
@@ -94,7 +95,7 @@ export default function reducer(state: State, action: Action): State {
              * 
              * Then a function to stitch all the people arrays together.
              */
-            const { updated_dead, updated_living, news_items, updated_houses, updated_parents, updated_titles } = okay(state.year.current,state.living_people,state.dead_people, state.houses, state.parents, state.titles)
+            const { updated_dead, updated_living, news_items, updated_houses, updated_parents, updated_titles } = okay(state.year.current,state.living_people,state.dead_people, state.houses, state.parents, state.titles, current_year_events)
             //testing something...
             const this_yearly_events = current_year_events.concat(news_items);
 

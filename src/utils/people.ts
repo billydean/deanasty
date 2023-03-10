@@ -56,7 +56,8 @@ export function marriageStuff (year: number, people: People, houses: Houses): {n
             let test = willYouMarryMe(people[i].age);
             if ( test === true ) {
                 people[i].marital_status = true;
-                const { spouseID, spouse} = handleMarriage(year, people[i]);
+                let single_marriage_news: NewsItem[] = []
+                const { spouseID, spouse} = handleMarriage(year, people[i],single_marriage_news);
                 let house_test = whetherNewHouse(available_houses.length);
                 let spouseHouse;
                 if (house_test) {
@@ -66,10 +67,11 @@ export function marriageStuff (year: number, people: People, houses: Houses): {n
                     spouseHouse = pickHouse(available_houses)
                 };
                 people[i].relations.spouse = spouseID;
-                marriage_news.push({category: 'marriage', content: `${people[i].name} ${people[i].house} marries ${spouse.name} from House ${spouseHouse.name}.`});
+                single_marriage_news.unshift({category: 'marriage', content: `${people[i].name} ${people[i].house} marries ${spouse.name} from House ${spouseHouse.name}.`});
                 spouse.house = spouseHouse.name;
                 new_spouses.push(spouse)
                 possible_parents.push([people[i].id,spouse.id]);
+                marriage_news = [...marriage_news, ...single_marriage_news];
             } 
 
     }
@@ -85,9 +87,9 @@ return {
 }
 }
 
-export function allStorks(people: People, year: number, parents: Parents, titles: Title[]): {new_people: People, new_children: People, baby_news: NewsItem[], updated_titles: Title[]} {
+export function allStorks(people: People, year: number, parents: Parents, titles: Title[], events: NewsItem[]): {new_people: People, new_children: People, updated_titles: Title[]} {
     let new_children: People = [];
-    let baby_news: NewsItem[] = [];
+    // let baby_news: NewsItem[] = [];
 
     for (let i=0; i<parents.length; i++) {
         
@@ -96,7 +98,7 @@ export function allStorks(people: People, year: number, parents: Parents, titles
 
         if (parent1 !== undefined && parent2 !== undefined) {
             if (parent1.sex === 'female' && babyOnTheWay(parent1.age)) {
-                const {baby, baby_announcement} = individualStork(parent1,parent2,year);
+                const {baby} = individualStork(parent1,parent2,year, events);
                 if (parent1.title_claim !== undefined) {
                     const relevant_title = titles.find(title => title.id === parent1.title_claim);
                     if (relevant_title !== undefined) {
@@ -114,12 +116,12 @@ export function allStorks(people: People, year: number, parents: Parents, titles
                     }
                 };
                 new_children.push(baby);
-                baby_news.push(baby_announcement);
+                // baby_news.push(baby_announcement);
                 parent1.relations.offspring.push(baby.id);
                 parent2.relations.offspring.push(baby.id);
             }
             else if (parent2.sex === 'female' && babyOnTheWay(parent2.age)) {
-                const {baby, baby_announcement} = individualStork(parent2,parent1,year);
+                const {baby} = individualStork(parent2,parent1,year,events);
                 if (parent1.title_claim !== undefined) {
                     const relevant_title = titles.find(title => title.id === parent1.title_claim);
                     if (relevant_title !== undefined) {
@@ -137,7 +139,7 @@ export function allStorks(people: People, year: number, parents: Parents, titles
                     }
                 };
                 new_children.push(baby);
-                baby_news.push(baby_announcement);
+                // baby_news.push(baby_announcement);
                 parent1.relations.offspring.push(baby.id);
                 parent2.relations.offspring.push(baby.id);
                 
@@ -154,17 +156,17 @@ export function allStorks(people: People, year: number, parents: Parents, titles
     return {
         new_people,
         new_children,
-        baby_news, 
+        // baby_news, 
         updated_titles
     }
 }
 
-export function individualStork (mother: Person, father: Person, year: number): { baby: Person, baby_announcement: NewsItem} {
-    const baby =  new Child (mother,father,year);
-    const baby_announcement = {category: 'birth', content: `${baby.name} of House ${baby.house} was born to ${mother.name} ${mother.house} and ${father.name} ${father.house}.`}
+export function individualStork (mother: Person, father: Person, year: number, events:NewsItem[]): { baby: Person } {
+    const baby =  new Child (mother,father,year,events);
+    // const baby_announcement = {category: 'birth', content: `${baby.name} of House ${baby.house} was born to ${mother.name} ${mother.house} and ${father.name} ${father.house}.`}
     return {
         baby,
-        baby_announcement
+        // baby_announcement
     };
     
 }
