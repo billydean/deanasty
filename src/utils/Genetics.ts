@@ -231,7 +231,7 @@ function bigZipper(mother: DNA, father: DNA): DNA {
 function bigUnZipper(dna: DNA) {
 // What do I want this thing to do?
 // Adds News Items
-// Adds to Peron.Condition:
+// Adds to Person.Condition:
     // risk factors
     // 
 

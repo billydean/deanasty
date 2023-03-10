@@ -81,14 +81,12 @@ export function dieContagion (people: People, year: number): { contagionNews: Ne
                 contagionNews.push({category:'disease', content: `${people[i].name} ${people[i].house} has caught ${added_disease}.`})
             } 
         }
-        if (people[i].disease) {
-            for (let j=0; j<people[i].disease!.length; j++) {
-                if (year >= people[i].disease![j].onset && year <= people[i].disease![j].duration && oddsFatalDisease(people[i].age,people[i].disease![j].effects.mortality) && people[i].alive === true) {
-                    contagionNews.push({category: 'death', content: `${people[i].name} ${people[i].house} died of ${people[i].disease![j].type_key} at the age of ${people[i].age}.`});
+            for (let j=0; j<people[i].condition.diseases.length; j++) {
+                if (year >= people[i].condition.diseases[j].onset && year <= people[i].condition.diseases[j].duration && oddsFatalDisease(people[i].age,people[i].condition.diseases[j].effects.mortality) && people[i].alive === true) {
+                    contagionNews.push({category: 'death', content: `${people[i].name} ${people[i].house} died of ${people[i].condition.diseases[j].type_key} at the age of ${people[i].age}.`});
                     people[i].alive = false;
                 }
             }
-        }
     }
     return {
         contagionNews
