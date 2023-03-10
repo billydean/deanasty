@@ -31,7 +31,7 @@ Generated results are still intended to be "jumping off points" for authors and 
 - [x] Genes are passed down (imperfectly!).
 - [x] Genetics are (sometimes) mendelian.
 - [ ] Some genetic elements appear in the news.
-- [ ] Disease and acquired immunity now appear in Person.conditions.
+- [x] Disease and acquired immunity now appear in Person.conditions.
 - [x] Lower base odds of being infected by contagion.
 - [ ] Contagion odds are now influenced by number of active cases.
 - [x] Fix/ Contagions are less frequent.

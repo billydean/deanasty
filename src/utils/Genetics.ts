@@ -133,7 +133,7 @@ const genome_reference: Genome = [
     },
     {   //index 16
         name: "handedness",
-        values: "RRRRRRRL",
+        values: "RRRRRLLA",
         transfer: "mid",
     },
     {   //index 17
@@ -229,6 +229,12 @@ function bigZipper(mother: DNA, father: DNA): DNA {
 };
 
 function bigUnZipper(dna: DNA) {
+// What do I want this thing to do?
+// Adds News Items
+// Adds to Peron.Condition:
+    // risk factors
+    // 
+
 // Currently just for debugging -- in the future, bigUnZipper will read a person's DNA to determine any conditions, modifiers, news items, etc.
     let debug_list: string[] = [];
     let debug_message: string = "Genetic Condition(s): "

@@ -1,4 +1,4 @@
-import type {Relations, Disease, Condition } from './types';
+import type {Relations, Condition } from './types';
 import { DNA, bigZipper } from './utils/Genetics';
 import { v4 as uuid } from "uuid";
 import { nameMaker } from './utils/Naming';
@@ -38,8 +38,8 @@ class Person {
     };
     title_claim: number | undefined;
     condition: Condition;
-    disease?: Disease[];
-    immunity?: string[];
+    modifiers: {};
+    traits: string[];
 
     constructor(year: number, sex: string = pickSex(), age: number = 0) {
         let tag = sex === 'male'
@@ -61,14 +61,16 @@ class Person {
             offspring: []
         };
         this.marital_status = false;
-        this.house = ""
+        this.house = "";
         this.title_claim = undefined;
         this.condition = {
             diseases : [],
             acquired_immunities: [],
             risk_factors: [],
             morale: 0
-        }
+        };
+        this.modifiers = {};
+        this.traits = [];
     }
 }
 
