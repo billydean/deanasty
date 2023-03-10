@@ -1,5 +1,5 @@
 import type {Relations, Condition } from './types';
-import { DNA, bigZipper } from './utils/Genetics';
+import { DNA, bigUnZipper, bigZipper } from './utils/Genetics';
 import { v4 as uuid } from "uuid";
 import { nameMaker } from './utils/Naming';
 import { beta } from '@stdlib/random/base';
@@ -40,7 +40,7 @@ class Person {
     condition: Condition;
     modifiers: {};
     traits: string[];
-    personality: {
+    personality?: {
         open: number;
         thoughtful: number;
         impulse: number;
@@ -90,19 +90,20 @@ class Person {
             luck: 1,
         };
         this.traits = [];
-        this.personality = {
-            open: parseInt(dna[5]),
-            thoughtful: parseInt(dna[6]),
-            impulse: parseInt(dna[7]),
-            ambition: parseInt(dna[8]),
-            social: parseInt(dna[9]),
-            initiative: parseInt(dna[10]),
-            trust: parseInt(dna[11]),
-            kind: parseInt(dna[12]),
-            sad: parseInt(dna[13]),
-            stable: parseInt(dna[14]),
-            angst: parseInt(dna[15]),
-        }
+        // this.personality = {
+        //     open: parseInt(dna[5]),
+        //     thoughtful: parseInt(dna[6]),
+        //     impulse: parseInt(dna[7]),
+        //     ambition: parseInt(dna[8]),
+        //     social: parseInt(dna[9]),
+        //     initiative: parseInt(dna[10]),
+        //     trust: parseInt(dna[11]),
+        //     kind: parseInt(dna[12]),
+        //     sad: parseInt(dna[13]),
+        //     stable: parseInt(dna[14]),
+        //     angst: parseInt(dna[15]),
+        // }
+        bigUnZipper(this,dna)
     }
 }
 
@@ -129,19 +130,20 @@ class Child extends Person {
         this.relations.mother = parent1.id;
         this.relations.father = parent2.id;
         this.house = parent2.house;
-        this.personality = {
-            open: parseInt(childDNA[5]),
-            thoughtful: parseInt(childDNA[6]),
-            impulse: parseInt(childDNA[7]),
-            ambition: parseInt(childDNA[8]),
-            social: parseInt(childDNA[9]),
-            initiative: parseInt(childDNA[10]),
-            trust: parseInt(childDNA[11]),
-            kind: parseInt(childDNA[12]),
-            sad: parseInt(childDNA[13]),
-            stable: parseInt(childDNA[14]),
-            angst: parseInt(childDNA[15]),
-        }
+        // this.personality = {
+        //     open: parseInt(childDNA[5]),
+        //     thoughtful: parseInt(childDNA[6]),
+        //     impulse: parseInt(childDNA[7]),
+        //     ambition: parseInt(childDNA[8]),
+        //     social: parseInt(childDNA[9]),
+        //     initiative: parseInt(childDNA[10]),
+        //     trust: parseInt(childDNA[11]),
+        //     kind: parseInt(childDNA[12]),
+        //     sad: parseInt(childDNA[13]),
+        //     stable: parseInt(childDNA[14]),
+        //     angst: parseInt(childDNA[15]),
+        // }
+        bigUnZipper(this,childDNA)
     }
 }
 

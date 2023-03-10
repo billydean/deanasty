@@ -10,6 +10,8 @@
     // passGene -> how gene is inherited (mother? father? recessive? etc)
     // expressGene -> what happens with XXX genes are present at index in genome
 
+import { Person } from "../classes";
+
 type Gene = {
     name: string,
     values: string,
@@ -133,7 +135,7 @@ const genome_reference: Genome = [
     },
     {   //index 16
         name: "handedness",
-        values: "RRRRRLLA",
+        values: "RRRRLLA",
         transfer: "mid",
     },
     {   //index 17
@@ -228,36 +230,73 @@ function bigZipper(mother: DNA, father: DNA): DNA {
     return dna;
 };
 
-function bigUnZipper(dna: DNA) {
+function bigUnZipper(person: Person, dna: DNA) {
 // What do I want this thing to do?
 // Adds News Items
+    // added traits
+    // extreme personality traits (0-1, 8-9)
 // Adds to Person.Condition:
     // risk factors
-    // 
+// Adds to Person.traits
+
+// Adds personality values
+person.personality = {
+    open: parseInt(dna[5]),
+    thoughtful: parseInt(dna[6]),
+    impulse: parseInt(dna[7]),
+    ambition: parseInt(dna[8]),
+    social: parseInt(dna[9]),
+    initiative: parseInt(dna[10]),
+    trust: parseInt(dna[11]),
+    kind: parseInt(dna[12]),
+    sad: parseInt(dna[13]),
+    stable: parseInt(dna[14]),
+    angst: parseInt(dna[15]),
+}
+if (dna[0] === "HH") {
+    person.condition.risk_factors.push("heart");
+}
+if (dna[1] === "SS") {
+    person.condition.risk_factors.push("stroke");
+}
+if (dna[2] === "EE") {
+    person.condition.risk_factors.push("epilepsy")
+}
+if (dna[3] === "HH") {
+    person.condition.risk_factors.push("hemophilia")
+}
+if (["LA","AL","LL"].includes(dna[16])) {
+    person.traits.push("left-handed");
+}
+if (dna[16] === "AA") {
+    person.traits.push("ambidextrous");
+}
+if (dna[16].includes("R")) {
+    person.traits.push("right-handed");
+}
+if (dna[17] === "BB") {
+    person.traits.push("blind");
+}
+if (dna[18] === "DD") {
+    person.traits.push("deaf");
+}
 
 // Currently just for debugging -- in the future, bigUnZipper will read a person's DNA to determine any conditions, modifiers, news items, etc.
-    let debug_list: string[] = [];
-    let debug_message: string = "Genetic Condition(s): "
-    if (dna[0] === "HH") debug_list.push("Risk of Heart Disease");
-    if (dna[1] === "SS") debug_list.push("Risk of Stroke");
-    if (dna[2] === "EE") debug_list.push("Risk of Epilepsy");
-    if (dna[3] === "HH") debug_list.push("Hemophelia");
-    if (dna[16] === "LL") debug_list.push("Left-handed");
-    if (dna[16] === "RL" || dna[16] === "RR") debug_list.push("Right-handed");
-    if (dna[16] === "LR") debug_list.push("Ambidextrous");
-    if (dna[17] === "BB") debug_list.push("Blind");
-    if (dna[18] === "DD") debug_list.push("Deaf");
+    // let debug_list: string[] = [];
 
-    if (debug_list.length === 1) {
-        debug_message += `${debug_list[0]}.`
-    } else {
-        for (let i=0; i<debug_list.length - 1; i++) {
-            debug_message += `${debug_list[i]}, `
-        }
-        debug_message += `${debug_list[debug_list.length - 1]}.`
-    }
+    // if (dna[17] === "BB") debug_list.push("Blind");
+    // if (dna[18] === "DD") debug_list.push("Deaf");
 
-    return debug_message;
+    // if (debug_list.length === 1) {
+    //     debug_message += `${debug_list[0]}.`
+    // } else {
+    //     for (let i=0; i<debug_list.length - 1; i++) {
+    //         debug_message += `${debug_list[i]}, `
+    //     }
+    //     debug_message += `${debug_list[debug_list.length - 1]}.`
+    // }
+
+    // return debug_message;
 }
 
 export { noParentsDNA, bigZipper, bigUnZipper };
