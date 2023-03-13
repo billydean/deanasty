@@ -54,11 +54,10 @@ class Person {
         angst: number;
     };
 
-    constructor(year: number, events: NewsItem[], sex: string = pickSex(), age: number = 0) {
+    constructor(year: number, events: NewsItem[], dna: string[] = noParentsDNA(), sex: string = pickSex(), age: number = 0) {
         let tag = sex === 'male'
             ? 'M'
             : 'F';
-        let dna = noParentsDNA();
         this.name = nameMaker('shorter');
         this.id = `${uuid()}${tag}`;
         this.dna = dna;
@@ -103,7 +102,7 @@ class Person {
         //     stable: parseInt(dna[14]),
         //     angst: parseInt(dna[15]),
         // }
-        bigUnZipper(this,dna)
+        bigUnZipper(this,dna,events)
     }
 }
 
@@ -111,10 +110,10 @@ class Spouse extends Person {
     constructor(year: number, person: Person, events: NewsItem[]) {
         if (person.sex === 'female') {
             let age = person.age + Math.floor(Math.random() * 15);
-            super(year, events, 'male', age);
+            super(year, events, noParentsDNA(), 'male', age);
         } else {
             let age = wifeAge(person.age)
-            super(year, events, 'female', age);
+            super(year, events, noParentsDNA(),'female', age);
         }
         this.relations.spouse = person.id;
         this.marital_status = true;
@@ -124,9 +123,9 @@ class Spouse extends Person {
 
 class Child extends Person {
     constructor (parent1: Person, parent2: Person, year: number, events: NewsItem[]) {
-        super(year, events);
         let childDNA = bigZipper(parent1.dna, parent2.dna);
-        this.dna = childDNA;
+        super(year, events, childDNA);
+        // this.dna = childDNA;
         this.relations.family = parent2.relations.family;
         this.relations.mother = parent1.id;
         this.relations.father = parent2.id;
@@ -144,8 +143,9 @@ class Child extends Person {
         //     stable: parseInt(childDNA[14]),
         //     angst: parseInt(childDNA[15]),
         // }
-        bigUnZipper(this,childDNA);
-        events.push({category: 'birth', content: `${this.name} of House ${this.house} was born to ${parent1.name} ${parent1.house} and ${parent2.name} ${parent2.house}.`})
+        events.unshift({category: 'birth', content: `${this.name} of House ${this.house} was born to ${parent1.name} ${parent1.house} and ${parent2.name} ${parent2.house}.`})
+        // bigUnZipper(this,childDNA, events);
+        
 
     }
 }

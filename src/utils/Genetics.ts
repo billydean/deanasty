@@ -11,6 +11,7 @@
     // expressGene -> what happens with XXX genes are present at index in genome
 
 import { Person } from "../classes";
+import { NewsItem } from "../types";
 
 type Gene = {
     name: string,
@@ -230,7 +231,7 @@ function bigZipper(mother: DNA, father: DNA): DNA {
     return dna;
 };
 
-function bigUnZipper(person: Person, dna: DNA) {
+function bigUnZipper(person: Person, dna: DNA, events: NewsItem[]) {
 // What do I want this thing to do?
 // Adds News Items
     // added traits
@@ -240,6 +241,10 @@ function bigUnZipper(person: Person, dna: DNA) {
 // Adds to Person.traits
 
 // Adds personality values
+let trait_news: string[] = [];
+let risk_news: string[] = [];
+
+
 person.personality = {
     open: parseInt(dna[5]),
     thoughtful: parseInt(dna[6]),
@@ -252,34 +257,93 @@ person.personality = {
     sad: parseInt(dna[13]),
     stable: parseInt(dna[14]),
     angst: parseInt(dna[15]),
-}
+};
+
+if (person.personality.open < 2) trait_news.push("stubborn")
+if (person.personality.open > 8) trait_news.push("open-minded")
+if (person.personality.thoughtful < 2) trait_news.push("selfish")
+if (person.personality.thoughtful > 8) trait_news.push("thoughtful")
+if (person.personality.impulse < 2) trait_news.push("cautious")
+if (person.personality.impulse > 8) trait_news.push("impulsive")
+if (person.personality.ambition < 2) trait_news.push("lazy")
+if (person.personality.ambition > 8) trait_news.push("ambitious")
+if (person.personality.social < 2) trait_news.push("anti-social")
+if (person.personality.social > 8) trait_news.push("gregarious")
+if (person.personality.initiative < 2) trait_news.push("timid")
+if (person.personality.initiative > 8) trait_news.push("bold")
+if (person.personality.trust < 2) trait_news.push("skeptical")
+if (person.personality.trust > 8) trait_news.push("trusting")
+if (person.personality.kind < 2) trait_news.push("cruel")
+if (person.personality.kind > 8) trait_news.push("kind")
+if (person.personality.sad < 2) trait_news.push("cheerful")
+if (person.personality.sad > 8) trait_news.push("depressive")
+if (person.personality.stable < 2) trait_news.push("moody")
+if (person.personality.stable > 8) trait_news.push("stoic")
+if (person.personality.angst < 2) trait_news.push("carefree")
+if (person.personality.angst > 8) trait_news.push("anxious")
 if (dna[0] === "HH") {
     person.condition.risk_factors.push("heart");
+    risk_news.push("heart disease")
 }
 if (dna[1] === "SS") {
     person.condition.risk_factors.push("stroke");
+    risk_news.push("stroke");
 }
 if (dna[2] === "EE") {
     person.condition.risk_factors.push("epilepsy")
+    risk_news.push("epilepsy");
 }
 if (dna[3] === "HH") {
     person.condition.risk_factors.push("hemophilia")
+    risk_news.push("hemophilia");
 }
 if (["LA","AL","LL"].includes(dna[16])) {
     person.traits.push("left-handed");
+    trait_news.push("left-handed")
 }
 if (dna[16] === "AA") {
     person.traits.push("ambidextrous");
+    trait_news.push("ambidextrous")
 }
 if (dna[16].includes("R")) {
     person.traits.push("right-handed");
+    trait_news.push("right-handed")
 }
 if (dna[17] === "BB") {
     person.traits.push("blind");
+    trait_news.push("blind")
 }
 if (dna[18] === "DD") {
     person.traits.push("deaf");
+    trait_news.push("deaf")
 }
+
+let exported_news: NewsItem = {
+    category: "genetics",
+    content: ""
+}
+
+if (trait_news.length > 0) exported_news.content += `${person.name} is `
+if (trait_news.length === 1) {
+    exported_news.content += `${trait_news[0]}. `
+} else if (trait_news.length > 1) {
+    for (let i=0; i<trait_news.length - 1; i++) {
+                exported_news.content += `${trait_news[i]}, `
+            }
+            exported_news.content += `${trait_news[trait_news.length - 1]}. `
+};
+
+if (risk_news.length > 0) exported_news.content += `${person.name} has a hereditary risk of `
+if (risk_news.length === 1) {
+    exported_news.content += `${risk_news[0]}. `
+} else if (risk_news.length > 1) {
+    for (let i=0; i<risk_news.length - 1; i++) {
+        exported_news.content += `${risk_news[i]}, `
+    }
+    exported_news.content += `${risk_news[risk_news.length - 1]}. `
+};
+
+if (exported_news.content.length > 0) events.push(exported_news);
 
 // Currently just for debugging -- in the future, bigUnZipper will read a person's DNA to determine any conditions, modifiers, news items, etc.
     // let debug_list: string[] = [];

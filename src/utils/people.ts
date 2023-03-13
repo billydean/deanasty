@@ -98,7 +98,9 @@ export function allStorks(people: People, year: number, parents: Parents, titles
 
         if (parent1 !== undefined && parent2 !== undefined) {
             if (parent1.sex === 'female' && babyOnTheWay(parent1.age)) {
-                const {baby} = individualStork(parent1,parent2,year, events);
+                let baby_news: NewsItem[] = [];
+                const {baby} = individualStork(parent1,parent2,year, baby_news);
+                baby_news.forEach((each: NewsItem) => events.push(each));
                 if (parent1.title_claim !== undefined) {
                     const relevant_title = titles.find(title => title.id === parent1.title_claim);
                     if (relevant_title !== undefined) {
@@ -121,7 +123,9 @@ export function allStorks(people: People, year: number, parents: Parents, titles
                 parent2.relations.offspring.push(baby.id);
             }
             else if (parent2.sex === 'female' && babyOnTheWay(parent2.age)) {
-                const {baby} = individualStork(parent2,parent1,year,events);
+                let baby_news: NewsItem[] = [];
+                const {baby} = individualStork(parent2,parent1,year,baby_news);
+                baby_news.forEach((each: NewsItem) => events.push(each));
                 if (parent1.title_claim !== undefined) {
                     const relevant_title = titles.find(title => title.id === parent1.title_claim);
                     if (relevant_title !== undefined) {
