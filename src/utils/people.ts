@@ -143,7 +143,6 @@ export function allStorks(people: People, year: number, parents: Parents, titles
                     }
                 };
                 new_children.push(baby);
-                // baby_news.push(baby_announcement);
                 parent1.relations.offspring.push(baby.id);
                 parent2.relations.offspring.push(baby.id);
                 
@@ -167,10 +166,8 @@ export function allStorks(people: People, year: number, parents: Parents, titles
 
 export function individualStork (mother: Person, father: Person, year: number, events:NewsItem[]): { baby: Person } {
     const baby =  new Child (mother,father,year,events);
-    // const baby_announcement = {category: 'birth', content: `${baby.name} of House ${baby.house} was born to ${mother.name} ${mother.house} and ${father.name} ${father.house}.`}
     return {
         baby,
-        // baby_announcement
     };
     
 }

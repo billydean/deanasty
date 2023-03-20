@@ -26,9 +26,6 @@ export function filterDeadFolks (living: People, titles: Title[], year: number):
     }
 };
 
-
-
-
 // Creates array of new news items based on people array: new deaths
 export function titleOnDeath (dead: People, titles: Title[], living: People): NewsItem[] {
     let array: NewsItem[] = [];
@@ -93,19 +90,6 @@ export function dieContagion (people: People, year: number): { contagionNews: Ne
     }
 }
 
-// iterates over People and adjusts marital status based on the marriageRate function above.
-// export function willYouMarryMe (people: People) {
-//     people.forEach((person) => {
-//         person.marital_status = marriageRate(person.age);
-//     })
-// };
-
-// if married person is missing a spouse, this function
-//      1. creates a spouse
-//      2. ensures respective id for both spouses refer to each other
-//      3. sets the spouse's age based on their birth year (N/A!)
-//      4. pushes the spouse to the "createdSpouses" array
-//      5. pushes an announcement about their marriage to the array of events in state
 
 export function handleMarriage (year: number, person: Person, events: NewsItem[]): { spouseID: string, spouse: Person } {
     

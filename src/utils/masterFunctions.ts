@@ -8,7 +8,6 @@ export function okay (current_year: number, living_people: People, dead_people: 
 
     const { new_deaths, the_living, updated_dead } = death(current_year, living_people, dead_people, titles);
 
-    // const aged_living = timeMarchesOn(the_living);
     yearOlder(the_living);
 
     const {new_spouses, marriage_news, people, available_houses, possible_parents } = marriageStuff(current_year, the_living, current_houses);

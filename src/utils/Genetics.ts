@@ -345,22 +345,6 @@ if (risk_news.length === 1) {
 
 if (exported_news.content.length > 0) events.push(exported_news);
 
-// Currently just for debugging -- in the future, bigUnZipper will read a person's DNA to determine any conditions, modifiers, news items, etc.
-    // let debug_list: string[] = [];
-
-    // if (dna[17] === "BB") debug_list.push("Blind");
-    // if (dna[18] === "DD") debug_list.push("Deaf");
-
-    // if (debug_list.length === 1) {
-    //     debug_message += `${debug_list[0]}.`
-    // } else {
-    //     for (let i=0; i<debug_list.length - 1; i++) {
-    //         debug_message += `${debug_list[i]}, `
-    //     }
-    //     debug_message += `${debug_list[debug_list.length - 1]}.`
-    // }
-
-    // return debug_message;
 }
 
 export { noParentsDNA, bigZipper, bigUnZipper };

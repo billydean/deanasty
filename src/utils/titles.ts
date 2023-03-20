@@ -115,14 +115,6 @@ export function checkSuccessionAtBirth (title: Title, parent: Person, child: Per
     }
 }
 
-// title?: {
-//     name: string, // pulled from 'rank' and 'name' of Title. 'Rank of Name'
-//     address: string, // 'appellation' in Title
-//     id: number, // matches Title id (for other checks/calculations)
-// },
-
-// Find heir
-// Add title info to new title holder
 
 export function findHeir (title: Title, people: People, news: NewsItem[] ) {
     let heir_found = false;
@@ -149,37 +141,3 @@ export function findHeir (title: Title, people: People, news: NewsItem[] ) {
     };
     
 }
-
-// {
-//     let heir_found = false;
-//     let holder_info = {
-//         name: "",
-//         id: ""
-//     }
-//     let while_count = 0;
-//     while (heir_found === false) {
-//         const candidate = title.succession_list[while_count];
-//         if (people.some(person => person.id === candidate)) {
-//             const heir = people.find(person => person.id === candidate);
-//             if (heir) {
-//                 holder_info.name = heir.name;
-//                 holder_info.id = heir.id;
-//             }
-            
-//         }
-//     }
-
-//     return {
-//         holder_info,
-//         title_info: {
-//             name,
-//             address,
-//             id
-//         }
-//     }
-// }
-
-// Add title info to new title holder
-
-// Change title info: new holder, trimmed succession list
-

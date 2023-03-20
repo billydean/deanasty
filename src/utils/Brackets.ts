@@ -248,13 +248,3 @@ export function catchContagionOdds (age: number, modifier: number = 1): boolean 
                 return masterBracketLogic(age,total,chance_array, modifier);
 
     }
-
-
-// Need bracket for....
-// Chance of catching infection
-// Chance of showing symptoms
-// Chance of dying from infection
-// Chance of inheriting condition?
-// Chance of developing new condition?
-// Chance of condition manifesting
-// Chance of dying from condition
