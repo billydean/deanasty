@@ -40,7 +40,7 @@ Generated results are still intended to be "jumping off points" for authors and 
 - [x] Fix/ Obsolete fragments and commented-out code cleaned up.
 - [x] Fix/ Code re-factored. Minor changes.
 - [ ] Fix/ Improved comments and documentation.
-- [ ] Fix/ All "bracket function" rates (dates, marriage, etc) adjusted to prepare for future additions.
+- [x] Fix/ All "bracket function" rates (dates, marriage, etc) adjusted to prepare for future additions.
 
 ### Roadmap
 - v0.2: Trees
