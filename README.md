@@ -36,9 +36,9 @@ Generated results are still intended to be "jumping off points" for authors and 
 - [ ] Contagion odds are now influenced by number of active cases.
 - [x] Fix/ Contagions are less frequent.
 - [x] Fix/ Contagions are more deadly.
-- [ ] Fix/ Arrays now transformed rather than repeatedly re-mapped when updating state.
+- [x] Fix/ Arrays now transformed rather than repeatedly re-mapped when updating state.
 - [x] Fix/ Obsolete fragments and commented-out code cleaned up.
-- [ ] Fix/ Code re-factored where necessary (beginning with reducer).
+- [x] Fix/ Code re-factored. Minor changes.
 - [ ] Fix/ Improved comments and documentation.
 - [ ] Fix/ All "bracket function" rates (dates, marriage, etc) adjusted to prepare for future additions.
 

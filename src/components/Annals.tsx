@@ -39,17 +39,7 @@ function Annals({year, people, events}: {year: Year, people: People, events: Eve
                 </div>
             )
         })
-    }
-        {/* //     (
-             
-        //          { for (let i=0; i<19; i++){
-
-        //             }} */}
-                     {/* // each.dna.map(gene => ( */}
-                     {/* //     <span key={each.dna.indexOf(gene)} className={`gene${each.dna.indexOf(gene)}`}>{gene}</span>
-        //             // )) */}
-        {/* //      </div> */}
-    
+    }    
     </div>
     
     )

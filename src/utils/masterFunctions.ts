@@ -14,13 +14,13 @@ export function okay (current_year: number, living_people: People, dead_people: 
 
     const { new_people, new_children, updated_titles } = allStorks(people, current_year, parents, titles,events)
 
-    const updated_living = new_people.concat(new_spouses, new_children);
- 
-    const news_items = new_deaths.concat(marriage_news);
+    const updated_living = [...new_people, ...new_spouses, ...new_children];
+
+    const news_items = [...new_deaths, ...marriage_news]
 
     const updated_houses = available_houses;
 
-    const updated_parents = parents.concat(possible_parents)
+    const updated_parents = [...parents, ...possible_parents]
     
     return {
         updated_dead,
