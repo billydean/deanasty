@@ -48,3 +48,20 @@ code {
 .house-news {
   color: #66194f;
 }
+
+.gene0, .gene3, .gene6, .gene9, .gene12, .gene15, .gene18 {
+  color: #4456d4;
+}
+
+.gene1, .gene4, .gene7, .gene10, .gene13, .gene16 {
+  color: #1c692b;
+}
+
+.gene2, .gene5, .gene8, .gene11, .gene14, .gene17 {
+  color: #b11268;
+}
+
+.gene0, .gene2, .gene4, .gene6, .gene8, .gene10, .gene12, .gene14, .gene16, .gene18 {
+  font-weight: bold;
+}
+

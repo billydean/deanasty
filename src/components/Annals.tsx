@@ -24,7 +24,12 @@ function Annals({year, people, events}: {year: Year, people: People, events: Eve
         {
         people.map(each => (
              <div key={each.id}>
-                 { each.name } is { each.age } years old. House { each.house }.
+                 { each.name } is { each.age } years old. House { each.house }. &nbsp;
+                 {
+                    each.dna.map(gene => (
+                        <span key={gene} className={`gene${each.dna.indexOf(gene)}`}>{gene}</span>
+                    ))
+                 }
              </div>
          ))
         } 

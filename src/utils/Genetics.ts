@@ -201,7 +201,7 @@ function passGene(transfer_type: string, mother: string, father: string, values:
             let value = Math.ceil(Math.random() * parseInt(values));
             let maNum = parseInt(mother);
             let paNum = parseInt(father);
-            gene = ((value + (maNum * 2) + (paNum * 2))/5).toString();
+            gene = Math.ceil(((value + (maNum * 2) + (paNum * 2))/5)).toString();
         }
     return gene
 };

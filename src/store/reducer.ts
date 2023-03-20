@@ -1,10 +1,6 @@
 import { State, Action, NewsItem } from "../types";
 import { Person } from '../classes'
-// import { firstPerson } from "../utils/PeopleMakers";
 import { initialState } from "./initialState";
-// import { livingToDead } from "../utils/livingToDead";
-// import { firstPerson } from "../utils/people";
-// import { agingFertility, checkOldAge, coordinateSpouseIDs, handleMarriages, stork, willYouMarryMe } from "../utils/PeopleCheckers";
 import { okay } from "../utils/masterFunctions";
 import { firstTitle } from "../utils/titles";
 import { foundHouse } from "../utils/houses";
@@ -12,6 +8,7 @@ import { foundHouse } from "../utils/houses";
 export default function reducer(state: State, action: Action): State {
     switch (action.type) {
         case 'START_SIM':
+            // CONSIDER: Migrating "first person" stuff into dedicated module
             const firstEvents: NewsItem[] = [];
             const newPerson = new Person(state.year.current,firstEvents);
             const firstHouse = foundHouse(newPerson, state.year.current);
@@ -49,56 +46,15 @@ export default function reducer(state: State, action: Action): State {
 
         case 'INCREMENT_YEAR':
 
-            // const peopleCheckedForOld = checkOldAge(state.year.current, state.living_people)
-
-            // I know I'm playing fast and loose with 'less'! Not being able to quickly concatenate arrays led to dozens of new mapped arrays, which became hard to follow (and it was hard to settle on a naming convention that was easy to parse over the course of a dozen (potentially dozens) different checks). 
-            // let { living_people, dead_people, death_events } = livingToDead(peopleCheckedForOld, state.dead_people);
-
+            // Lost notes --> Why was this step included again?
             const other_year_events = state.events.filter((EventfulYear) => EventfulYear.year !== state.year.current);
             const current_year_events = state.events.find((EventfulYear) => EventfulYear.year === state.year.current)?.events || [];
 
-            // // bucket arrays for later
-            // let createdBabies: People = [];
-
-            // // check/adjust fertility based on age bracket
-            // living_people = (agingFertility(living_people));
-
-            // // check to see if single folks get hitched
-            // willYouMarryMe(living_people);
-            
-            // //  create spouses with correct id and age, announce marriages in array of current events
-            // const { new_spouses, new_news } = handleMarriages(living_people, state.year.current);
-
-            // living_people = coordinateSpouseIDs(new_spouses, living_people);
-            
-            // // check living couples for new babies, based on both fertility rates
-            // stork(living_people, createdBabies, current_year_events, state.year.current);
-
-            // const new_living_people = living_people.concat(new_spouses, createdBabies);
-            // console.log(new_spouses)
-
-            /**
-             * 
-             * ok....
-             * 
-             * big trouble...
-             * 
-             * either need to revert to when things were working
-             * 
-             * OORRRR combine into one huge handler
-             * 
-             * three modules:
-             *  1. checks and logic handlers
-             *  2. people creaters and people arrays
-             *  3. big handler, calling on #1 to spit out people/make changes to #2
-             *      3b. big handler for processing any check that DOESN'T involve new people (aging up, fertility, etc)
-             * 
-             * Then a function to stitch all the people arrays together.
-             */
+            // Note: "okay" is dummy title for master function. May need to be split in future; certainly renamed before all said and done
             const { updated_dead, updated_living, news_items, updated_houses, updated_parents, updated_titles } = okay(state.year.current,state.living_people,state.dead_people, state.houses, state.parents, state.titles, current_year_events)
-            //testing something...
-            const this_yearly_events = current_year_events.concat(news_items);
 
+            const new_current_year_events = [...current_year_events, ...news_items];
+            
             return {
                 ...state,
                 year: {
@@ -112,8 +68,8 @@ export default function reducer(state: State, action: Action): State {
                 houses: updated_houses,
                 titles: updated_titles,
                 events: 
-                    this_yearly_events.length > 0
-                        ? [...other_year_events, { year: state.year.current, events: [...this_yearly_events]}]
+                    new_current_year_events.length > 0
+                        ? [...other_year_events, { year: state.year.current, events: [...new_current_year_events]}]
                         : [...other_year_events]
                 
             }
