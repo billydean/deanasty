@@ -30,14 +30,14 @@ Generated results are still intended to be "jumping off points" for authors and 
 - [x] People have "genes," a.k.a. inborn dispositions, risk factors, and traits.
 - [x] Genes are passed down (imperfectly!).
 - [x] Genetics are (sometimes) mendelian.
-- [ ] Some genetic elements appear in the news.
+- [x] Some genetic elements appear in the news.
 - [x] Disease and acquired immunity now appear in Person.conditions.
 - [x] Lower base odds of being infected by contagion.
 - [ ] Contagion odds are now influenced by number of active cases.
 - [x] Fix/ Contagions are less frequent.
 - [x] Fix/ Contagions are more deadly.
 - [ ] Fix/ Arrays now transformed rather than repeatedly re-mapped when updating state.
-- [ ] Fix/ Obsolete fragments and commented-out code cleaned up.
+- [x] Fix/ Obsolete fragments and commented-out code cleaned up.
 - [ ] Fix/ Code re-factored where necessary (beginning with reducer).
 - [ ] Fix/ Improved comments and documentation.
 - [ ] Fix/ All "bracket function" rates (dates, marriage, etc) adjusted to prepare for future additions.
