@@ -130,21 +130,8 @@ class Child extends Person {
         this.relations.mother = parent1.id;
         this.relations.father = parent2.id;
         this.house = parent2.house;
-        // this.personality = {
-        //     open: parseInt(childDNA[5]),
-        //     thoughtful: parseInt(childDNA[6]),
-        //     impulse: parseInt(childDNA[7]),
-        //     ambition: parseInt(childDNA[8]),
-        //     social: parseInt(childDNA[9]),
-        //     initiative: parseInt(childDNA[10]),
-        //     trust: parseInt(childDNA[11]),
-        //     kind: parseInt(childDNA[12]),
-        //     sad: parseInt(childDNA[13]),
-        //     stable: parseInt(childDNA[14]),
-        //     angst: parseInt(childDNA[15]),
-        // }
+       
         events.unshift({category: 'birth', content: `${this.name} of House ${this.house} was born to ${parent1.name} ${parent1.house} and ${parent2.name} ${parent2.house}.`})
-        // bigUnZipper(this,childDNA, events);
         
 
     }
