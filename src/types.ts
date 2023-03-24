@@ -1,4 +1,4 @@
-import type {  People } from "./classes"
+import type {  People, TreePerson } from "./classes"
 
 interface Condition {
     diseases: Disease[];
@@ -92,6 +92,7 @@ interface State {
     events: Events;
     parents: Parents;
     contagions: StateContagion[];
+    treepeople?: TreePerson;
 }
 
 type Action = any;

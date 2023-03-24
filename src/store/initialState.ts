@@ -26,5 +26,5 @@ export const initialState: Readonly<State> = {
     },
     sim_check: false,
     events: [],
-    contagions: stateContagions,
+    contagions: stateContagions
 }

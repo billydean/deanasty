@@ -13,6 +13,95 @@ export function pickSex (): string {
         : 'male'
 };
 
+type Personality = {
+    open: number;
+    thoughtful: number;
+    impulse: number;
+    ambition: number;
+    social: number;
+    initiative: number;
+    trust: number;
+    kind: number;
+    sad: number;
+    stable: number;
+    angst: number;
+}
+
+// NOTES FOR 0.2 HIERARCHICAL VERSION
+export type TreePerson = {
+    id: string,
+    name: string,
+    bts: {
+        dna: DNA,
+        old_year: number,
+        title_claim: number | undefined,
+        modifiers: {}
+    },
+    traits: {
+        sex: string,
+        age: number,
+        alive: boolean,
+        condition: Condition,
+        traits: string[],
+    },
+    facts: {
+        birth_year: number,
+        death_year?: number,
+        marital_status: boolean,
+        house: string,
+        title?: {
+            name: string,
+            address: string,
+            id: number
+        }
+    },
+    children: TreePerson[],
+    other_relationships: {
+        mother: string,
+        father: string,
+        spouse: string,
+    }  
+}
+
+// TEMPORARY FOR v0.2 : Function converting new Person --> TreePerson node(s)
+
+export function personToTree (person: Person): TreePerson {
+    const tree_person: TreePerson = {
+        id: person.id,
+        name: person.name,
+        bts: {
+            dna: person.dna,
+            old_year: person.old_year,
+            title_claim: person.title_claim,
+            modifiers: person.modifiers,
+        },
+        traits: {
+            sex: person.sex,
+            age: person.age,
+            alive: person.alive,
+            condition: person.condition,
+            traits: person.traits,
+        },
+        facts: {
+            birth_year: person.birth_year,
+            marital_status: person.marital_status,
+            house: person.house,
+        },
+        children: [],
+        other_relationships: {
+            mother: person.relations.mother,
+            father: person.relations.father,
+            spouse: person.relations.spouse
+        } 
+    };
+
+    if (person.title) {
+        tree_person.facts.title = person.title;
+    };
+
+    return tree_person
+}
+
 // Determines inherent year of death -- will die of "old age" if nothing kills them sooner.
 export function inherentOldAge (birth_year: number, modifier: number = 0): number {
     return Math.ceil(beta(5,3) * 60) + 50 + modifier + birth_year
@@ -40,19 +129,7 @@ class Person {
     condition: Condition;
     modifiers: {};
     traits: string[];
-    personality?: {
-        open: number;
-        thoughtful: number;
-        impulse: number;
-        ambition: number;
-        social: number;
-        initiative: number;
-        trust: number;
-        kind: number;
-        sad: number;
-        stable: number;
-        angst: number;
-    };
+    personality?: Personality;
 
     constructor(year: number, events: NewsItem[], dna: string[] = noParentsDNA(), sex: string = pickSex(), age: number = 0) {
         let tag = sex === 'male'

@@ -1,5 +1,5 @@
 import { State, Action, NewsItem } from "../types";
-import { Person } from '../classes'
+import { Person, personToTree } from '../classes'
 import { initialState } from "./initialState";
 import { okay } from "../utils/masterFunctions";
 import { firstTitle } from "../utils/titles";
@@ -27,6 +27,10 @@ export default function reducer(state: State, action: Action): State {
                 name: `${newPerson.name} of House ${newPerson.house}`,
                 id: newPerson.id
             }
+
+            // FOR v.0.2
+            const treePerson = personToTree(newPerson);
+
             return {
                 ...state,
                 sim_check: true,
@@ -38,7 +42,8 @@ export default function reducer(state: State, action: Action): State {
                     { year: state.year.current,
                         events: [birthMessage, ...firstEvents, houseMessage, title_news]
                     }
-            ]
+                ],
+                treepeople: treePerson,
             };
 
         case 'RESET_SIM':
