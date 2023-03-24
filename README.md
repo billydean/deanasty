@@ -26,24 +26,9 @@ I want to develop a self-informed generator, where later calculations are influe
 
 Generated results are still intended to be "jumping off points" for authors and GMs, but I want them to have enough internal cohesion to be believable (and hopefully, useful). 
 
-## Version in Development - v0.1 : Generations
-- [x] People have "genes," a.k.a. inborn dispositions, risk factors, and traits.
-- [x] Genes are passed down (imperfectly!).
-- [x] Genetics are (sometimes) mendelian.
-- [x] Some genetic elements appear in the news.
-- [x] Disease and acquired immunity now appear in Person.conditions.
-- [x] Lower base odds of being infected by contagion.
-- [x] Contagion odds are now influenced by number of active cases.
-- [x] Fix/ Contagions are less frequent.
-- [x] Fix/ Contagions are more deadly.
-- [x] Fix/ Arrays now transformed rather than repeatedly re-mapped when updating state.
-- [x] Fix/ Obsolete fragments and commented-out code cleaned up.
-- [x] Fix/ Code re-factored. Minor changes.
-- [x] Fix/ All "bracket function" rates (dates, marriage, etc) adjusted to prepare for future additions.
-
-### Roadmap
+## Version in Development - v0.2 : Trees
 - v0.2: Trees
-    - [ ] Generated persons implied in family tree.
+    - [ ] Generated persons displayed in family tree.
     - [ ] Node style distinguishes blood and marriage membership.
     - [ ] Node style distinguishes living and dead members.
     - [ ] Node style distinguishes title holders and (graded) line of succession.
@@ -51,6 +36,11 @@ Generated results are still intended to be "jumping off points" for authors and 
     - [ ] User can specify number of generations in tree view.
     - [ ] User can filter for living members, those in line of succession, and can filter out "dead and childless" members.
     - [ ] Both "full" and "minified" views of family tree available.
+    - [ ] Process/ Fill in any missing documentation or comments.
+    - [ ] Process/ Export all documentation, comments in order to plan any necessary refactoring or restructuring.
+    - [ ] Feature/ Inherited risk factors actually have consequences.
+
+### Roadmap
 - v0.3: Warfare
     - [ ] War can be declared or break out.
     - [ ] Local, regional, and global stability values now active.
@@ -83,7 +73,23 @@ Generated results are still intended to be "jumping off points" for authors and 
 - v0.9: Culture
 - v?.? TBD
 
+### History
+- v0.1: Generations
+    - [x] People have "genes," a.k.a. inborn dispositions, risk factors, and traits.
+    - [x] Genes are passed down (imperfectly!).
+    - [x] Genetics are (sometimes) mendelian.
+    - [x] Some genetic elements appear in the news.
+    - [x] Disease and acquired immunity now appear in Person.conditions.
+    - [x] Lower base odds of being infected by contagion.
+    - [x] Contagion odds are now influenced by number of active cases.
+    - [x] Fix/ Contagions are less frequent.
+    - [x] Fix/ Contagions are more deadly.
+    - [x] Fix/ Arrays now transformed rather than repeatedly re-mapped when updating state.
+    - [x] Fix/ Obsolete fragments and commented-out code cleaned up.
+    - [x] Fix/ Code re-factored. Minor changes.
+    - [x] Fix/ All "bracket function" rates (dates, marriage, etc) adjusted to prepare for future additions.
+
 #### Creation and Contribution
-Copyright (c) 2023 Billy Dean Goehring
+Copyright &copy; 2023 Billy Dean Goehring
 
 Since I devised this project as an opportunity to practice and grow as a developer, I certainly welcome any suggestions or recommendations on how to improve its performance or build on its design. I'd love your feedback, and if it turns out this tool becomes useful for writers or TTRPG enthusiasts in the future, I'd certainly welcome any contributions. 
