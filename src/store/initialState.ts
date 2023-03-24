@@ -1,5 +1,8 @@
 import type { State } from '../types';
+import { contagions } from '../utils/deathCauses';
 
+const stateContagions = contagions.map(each => {
+    return {type_key: each.type_key, current_cases: 0}})
 
 export const initialState: Readonly<State> = {
     dead_people: [],
@@ -22,5 +25,6 @@ export const initialState: Readonly<State> = {
         wars: [],
     },
     sim_check: false,
-    events: []
+    events: [],
+    contagions: stateContagions,
 }

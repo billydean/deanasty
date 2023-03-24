@@ -51,7 +51,7 @@ export default function reducer(state: State, action: Action): State {
             const current_year_events = state.events.find((EventfulYear) => EventfulYear.year === state.year.current)?.events || [];
 
             // Note: "okay" is dummy title for master function. May need to be split in future; certainly renamed before all said and done
-            const { updated_dead, updated_living, news_items, updated_houses, updated_parents, updated_titles } = okay(state.year.current,state.living_people,state.dead_people, state.houses, state.parents, state.titles, current_year_events)
+            const { updated_dead, updated_living, news_items, updated_houses, updated_parents, updated_titles } = okay(state.year.current,state.living_people,state.dead_people, state.houses, state.parents, state.titles, current_year_events, state.contagions)
 
             const new_current_year_events = [...current_year_events, ...news_items];
             

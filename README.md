@@ -33,7 +33,7 @@ Generated results are still intended to be "jumping off points" for authors and 
 - [x] Some genetic elements appear in the news.
 - [x] Disease and acquired immunity now appear in Person.conditions.
 - [x] Lower base odds of being infected by contagion.
-- [ ] Contagion odds are now influenced by number of active cases.
+- [x] Contagion odds are now influenced by number of active cases.
 - [x] Fix/ Contagions are less frequent.
 - [x] Fix/ Contagions are more deadly.
 - [x] Fix/ Arrays now transformed rather than repeatedly re-mapped when updating state.

@@ -1,4 +1,4 @@
-import type { Houses, NewsItem, Parents, Title } from "../types"
+import type { Houses, NewsItem, Parents, StateContagion, Title } from "../types"
 import { dieAccident, dieContagion, dieOldAge, filterDeadFolks, handleMarriage } from "./checks";
 import { historicalHouse, pickHouse, whetherNewHouse } from "./houses";
 import { babyOnTheWay, willYouMarryMe } from "./Brackets";
@@ -17,10 +17,10 @@ export function yearOlder (people: People) {
 // Sorts out newly departed and survivors
 // Creates news items for newly departed
 // Returns news, updated living array, and updated dead array
-export function death (year: number, living_people: People, dead_people: People, titles: Title[]): {new_deaths: NewsItem[], the_living: People, updated_dead: People} {
+export function death (year: number, living_people: People, dead_people: People, titles: Title[], contagions: StateContagion[]): {new_deaths: NewsItem[], the_living: People, updated_dead: People} {
     const { oldAgeNews} = dieOldAge(year,living_people);
     const { fatalAccidentNews} = dieAccident(living_people);
-    const { contagionNews} = dieContagion(living_people,year);
+    const { contagionNews} = dieContagion(living_people,year,contagions);
 
     /* TBD: { conditionDeathNews } = dieCondition(living_people);
             { killedNews } = dieKilled(living_people...?);

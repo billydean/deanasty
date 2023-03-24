@@ -1,4 +1,4 @@
-import { Contagion } from "../types";
+import { StateContagion, Contagion } from "../types";
 import { Person } from "../classes";
 
 // So-and-so died after BLANK
@@ -19,7 +19,7 @@ export function fatalAccidents () {
     return fatal_accidents[random];
 }
 
-const contagions: Contagion[] = [
+export const contagions: Contagion[] = [
     {
         type_key: "leprosy",
         duration: [0,0],
@@ -36,7 +36,7 @@ const contagions: Contagion[] = [
         duration: [1,1],
         onset_delay: false,
         incubation: [0,0],
-        infection_rate: 4,
+        infection_rate: 2,
         reinfection: false,
         effects: {
             mortality: 0.50,
@@ -47,7 +47,7 @@ const contagions: Contagion[] = [
         duration: [1,1],
         onset_delay: false,
         incubation: [0,0],
-        infection_rate: 5,
+        infection_rate: 4,
         reinfection: false,
         effects: {
             mortality: 6,
@@ -80,7 +80,7 @@ const contagions: Contagion[] = [
         duration: [1,1],
         onset_delay: false,
         incubation: [0,0],
-        infection_rate: 4,
+        infection_rate: 2,
         reinfection: true,
         effects: {
             mortality: 0.67,
@@ -91,7 +91,7 @@ const contagions: Contagion[] = [
         duration: [1,1],
         onset_delay: false,
         incubation: [0,0],
-        infection_rate: 5,
+        infection_rate: 3,
         reinfection: true,
         effects: {
             mortality: 6,
@@ -102,7 +102,7 @@ const contagions: Contagion[] = [
         duration: [1,1],
         onset_delay: false,
         incubation: [0,0],
-        infection_rate: 6,
+        infection_rate: 4,
         reinfection: true,
         effects: {
             mortality: 6,
@@ -113,7 +113,7 @@ const contagions: Contagion[] = [
         duration: [1,1],
         onset_delay: false,
         incubation: [0,0],
-        infection_rate: 6,
+        infection_rate: 2,
         reinfection: false,
         effects: {
             mortality: 15,
@@ -124,7 +124,7 @@ const contagions: Contagion[] = [
         duration: [1,1],
         onset_delay: false,
         incubation: [0,0],
-        infection_rate: 2,
+        infection_rate: 1,
         reinfection: false,
         effects: {
             mortality: 30,
@@ -135,7 +135,7 @@ const contagions: Contagion[] = [
         duration: [1,1],
         onset_delay: false,
         incubation: [0,0],
-        infection_rate: 3,
+        infection_rate: 2,
         reinfection: false, // setting this to false because complicated
         effects: {
             mortality: 0.75,
@@ -157,7 +157,7 @@ const contagions: Contagion[] = [
         duration: [1,1],
         onset_delay: false,
         incubation: [0,0],
-        infection_rate: 5,
+        infection_rate: 2,
         reinfection: true,
         effects: {
             mortality: 1.5,
@@ -168,7 +168,7 @@ const contagions: Contagion[] = [
         duration: [0,0],
         onset_delay: true,
         incubation: [2,15],
-        infection_rate: 3,
+        infection_rate: 2,
         reinfection: false,
         effects: {
             mortality: 3,
@@ -203,10 +203,16 @@ function determineOnset (range: number[], year: number ): number {
 
 }
 
-export function infectPerson (person: Person, year: number): {added_disease: string} {
+export function infectPerson (person: Person, year: number, state_contagions: StateContagion[]): {added_disease: string} {
     let pool: string[] = [];
-    let added_disease: string = "none"
+    let added_disease: string = "none";
     contagions.forEach((contagion) => {
+        let state_version = state_contagions.find(stateContagion => stateContagion.type_key === contagion.type_key)
+        let cases = 0;
+        while ( cases < state_version!.current_cases) {
+            pool.push(contagion.type_key);
+            cases++;
+        }
         let count = 0;
         while (count < contagion.infection_rate) {
             pool.push(contagion.type_key);
@@ -215,6 +221,7 @@ export function infectPerson (person: Person, year: number): {added_disease: str
     })
     let chosenIndex: number = Math.floor(Math.random() * pool.length);
     const contagion = contagions.find(each => each.type_key === pool[chosenIndex]);
+    const state_version = state_contagions.find(each => each.type_key === contagion!.type_key);
     const duration = determineDuration(contagion!.duration,year,person.old_year);
     const onset = determineOnset(contagion!.incubation,year);
     // OLD: does person have immunity? 
@@ -225,6 +232,7 @@ export function infectPerson (person: Person, year: number): {added_disease: str
             onset: onset,
             effects: contagion!.effects,
         });
+        state_version!.current_cases++;
         added_disease = contagion!.type_key;
         if (!contagion!.reinfection) {
             person.condition.acquired_immunities.push(added_disease);

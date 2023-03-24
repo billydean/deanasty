@@ -78,10 +78,10 @@ export function willYouMarryMe (age: number, modifier: number = 1): boolean {
      *      110-114 0 
      */
     
-    const total = 7000;
+    const total = 1000;
     const chance_array = [
 // AGE  4   9   14  19  24  29  34  39  44  49  54  59  64  69  74  79  84  89  94  99  104 109 114
-        0,  0,  0,  650,999,750,600,500,400,300,250,200,167,133,110,83, 67, 0,  0,  0,  0,  0,  0
+        0,  0,  0,  100,250,225,200,175,150,125,100,75, 50, 25, 20, 15, 10, 0,  0,  0,  0,  0,  0
     ]
 
     return masterBracketLogic(age,total,chance_array, modifier);
@@ -123,7 +123,7 @@ export function babyOnTheWay (age: number, modifier: number = 1): boolean {
     const total = 1000;
     const chance_array = [
 // AGE  4   9   14  19  24  29  34  39  44  49  54  59  64  69  74  79  84  89  94  99  104 109 114
-        0,  0,  0,  100,200,180,160,100,50, 8,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0
+        0,  0,  0,  100,200,150,100,75, 25, 10,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0
     ];
     return masterBracketLogic(age,total,chance_array, modifier);
 };
@@ -237,7 +237,7 @@ export function catchContagionOdds (age: number, modifier: number = 1): boolean 
             return masterBracketLogic(age,total,chance_array, modifier);
         };
 
-    export function oddsFatalDisease (age: number, modifier: number = 0.2): boolean {
+export function oddsFatalDisease (age: number, modifier: number = 0.2): boolean {
                 /** The odds of being infected at age... 
              *      0-4     4000
              *      5-9     3300
@@ -271,3 +271,5 @@ export function catchContagionOdds (age: number, modifier: number = 1): boolean 
                 return masterBracketLogic(age,total,chance_array, modifier);
 
     }
+
+// 

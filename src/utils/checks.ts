@@ -1,5 +1,5 @@
 // This file contains any logic, tests, or filters used to create or transform slices of state related to the current year or to any generated people
-import { NewsItem, Title } from "../types";
+import { NewsItem, StateContagion, Title } from "../types";
 // import { beta } from '@stdlib/random/base';
 // import { createSpouse } from "./people";
 import { findHeir } from "./titles";
@@ -69,11 +69,11 @@ export function dieAccident (people: People): { fatalAccidentNews: NewsItem[] } 
     }
 };
 
-export function dieContagion (people: People, year: number): { contagionNews: NewsItem[] } {
+export function dieContagion (people: People, year: number, contagions: StateContagion[]): { contagionNews: NewsItem[] } {
     let contagionNews: NewsItem[] = [];
     for (let i=0; i<people.length; i++) {
         if (people[i].alive === true && catchContagionOdds(people[i].age)) {
-            const {added_disease} = infectPerson(people[i], year);
+            const {added_disease} = infectPerson(people[i], year, contagions);
             if (added_disease !== "none") {
                 contagionNews.push({category:'disease', content: `${people[i].name} ${people[i].house} has caught ${added_disease}.`})
             } 
@@ -82,6 +82,8 @@ export function dieContagion (people: People, year: number): { contagionNews: Ne
                 if (year >= people[i].condition.diseases[j].onset && year <= people[i].condition.diseases[j].duration && oddsFatalDisease(people[i].age,people[i].condition.diseases[j].effects.mortality) && people[i].alive === true) {
                     contagionNews.push({category: 'death', content: `${people[i].name} ${people[i].house} died of ${people[i].condition.diseases[j].type_key} at the age of ${people[i].age}.`});
                     people[i].alive = false;
+                    const contagion = contagions.find(entry => entry.type_key === people[i].condition.diseases[j].type_key);
+                    contagion!.current_cases!--;
                 }
             }
     }

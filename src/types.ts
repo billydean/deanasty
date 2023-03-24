@@ -45,6 +45,8 @@ interface Relations {
      */
 }
 
+
+
 // interface Person {
 //     name: string,
 //     id: string,
@@ -89,6 +91,7 @@ interface State {
     sim_check: boolean;
     events: Events;
     parents: Parents;
+    contagions: StateContagion[];
 }
 
 type Action = any;
@@ -158,6 +161,11 @@ interface Contagion {
     }
 }
 
+interface StateContagion {
+    type_key: string,
+    current_cases: number,
+}
+
 type Houses = House[];
 
 type Titles = Title[];
@@ -180,6 +188,6 @@ type NewsItem = {
 // Condition types have names, effects object, inheritibility index.
 // Condition instances have additional "severity index," modifying likelihood of manifesting.
 
-export type { Year, War, Plague, State, Action, Events, EventfulYear, NewsItem, Title, House, Houses, ParentPair, Parents, Accidents, Contagion, Condition, Disease, Relations };
+export type { Year, War, Plague, State, Action, Events, EventfulYear, NewsItem, Title, House, Houses, ParentPair, Parents, Accidents, Contagion, Condition, Disease, Relations, StateContagion };
 
 
