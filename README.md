@@ -27,6 +27,7 @@ I want to develop a self-informed generator, where later calculations are influe
 Generated results are still intended to be "jumping off points" for authors and GMs, but I want them to have enough internal cohesion to be believable (and hopefully, useful). 
 
 ## Version in Development - v0.2 : Trees
+v0.2 : Trees
     - [ ] Generated persons displayed in family tree.
     - [ ] TEMPORARY/ Hierarchical format of state.people alongside normal people arrays (to work with d3)
     - [ ] Node style distinguishes blood and marriage membership.
@@ -42,7 +43,7 @@ Generated results are still intended to be "jumping off points" for authors and 
     - [ ] HUGE FIX/ Rewire *everything* to work with hierarchical format of "people" (from arrays to single object...)
 
 ### Roadmap
-- v0.3: Warfare
+v0.3: Warfare
     - [ ] War can be declared or break out.
     - [ ] Local, regional, and global stability values now active.
     - [ ] Active war affects local and regional values.
@@ -62,17 +63,17 @@ Generated results are still intended to be "jumping off points" for authors and 
     - [ ] Depending on war category, low morale can end war.
     - [ ] Otherwise, war ends somewhat randomly.
     - [ ] Ending war affects local, regional, and (potentially) global values.
-- v0.4: Environment
+v0.4: Environment
     - [ ] "Plague" is a world historical event rather than just another disease.
-- v0.5: Timeline
-- v0.6: Diplomacy
-- v0.6: Intrigue
-- v0.7: Style
-- v0.8: Promulgation
-- v0.8: Prestige
-- v0.9: Zoom
-- v0.9: Culture
-- v?.? TBD
+v0.5 : Timeline
+v0.6 : Diplomacy
+v0.6 : Intrigue
+v0.7 : Style
+v0.8 : Promulgation
+v0.8 : Prestige
+v0.9 : Zoom
+v0.9 : Culture
+v?.? TBD
 
 ### History
 - v0.1: Generations
