@@ -1,10 +1,11 @@
 import type { NewsItem, Title } from "../types";
+import { Person } from "./Person";
 
-import { People, Person } from "../classes";
+
 //Only one title for now. Eventually titles will be more dynamic. Appearing, disappearing, changing hands. And there will be disputes among claimants.
 
 export function firstTitle(year: number, holder: Person): {title: Title, title_news: NewsItem} {
-    const succTypes = ['mprim', 'fprim'] //removing 'aprim' for now
+    const succTypes = ['mprim'] //removing 'aprim' and 'fprim' for now
     const successionType = succTypes[Math.floor(Math.random() * succTypes.length)]
     const title = {
         name: 'Examplia',
@@ -116,7 +117,7 @@ export function checkSuccessionAtBirth (title: Title, parent: Person, child: Per
 }
 
 
-export function findHeir (title: Title, people: People, news: NewsItem[] ) {
+export function findHeir (title: Title, people: Person[], news: NewsItem[] ) {
     let heir_found = false;
     let while_count = 0;
     while (heir_found === false && while_count < title.succession_list.length) {
