@@ -1,6 +1,6 @@
-import type { House, Houses } from "../types";
-import { nameMaker } from "./Naming";
-import { Person } from "../classes";
+import type { House } from "../types";
+import { nameMaker } from "./Name";
+import { Person } from "./Person";
 // for when a NEW house is founded (at worldgen or otherwise)
 export function foundHouse(founder: Person, year: number): House {
     const capitalName = nameMaker('longer');
@@ -42,7 +42,7 @@ export function whetherNewHouse(houses_length: number): boolean {
 }
 
 
-export function pickHouse(houses: Houses): House {
+export function pickHouse(houses: House[]): House {
     let range = houses.length - 1;
     let pick = Math.floor(Math.random() * range) + 1;
     return houses[pick];

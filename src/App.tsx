@@ -6,15 +6,16 @@ import ForestIcon from '@mui/icons-material/Forest';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import ViewTimelineIcon from '@mui/icons-material/ViewTimeline';
 import ContactSupportIcon from '@mui/icons-material/ContactSupport';
-import Main from './Main';
-import Tree from './Tree';
-import Annals from './Annals';
-import Contact from './Contact';
-import Timeline from './Timeline';
+import Home from './views/Home'
+import Tree from './views/Tree'
+import Annals from './views/Annals';
+import Contact from './components/Contact';
+import Timeline from './views/Timeline';
 
 import { useReducer } from 'react';
-import { initialState } from '../store/initialState';
-import reducer from '../store/reducer';
+
+import { reducer } from './reducer/reducer';
+import { initialState } from './reducer/initialState';
 
 
 
@@ -152,7 +153,7 @@ function Layout() {
                 <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
                     <Toolbar />
                     <Routes>
-                        <Route path="/" element={<Main />}/>
+                        <Route path="/" element={<Home />}/>
                         <Route path="/tree" element={<Tree />}/>
                         <Route path="/annals" element={<Annals year={ state.year } people={ state.living_people } events={ state.events }/>}/>
                         <Route path="/timeline" element={<Timeline />}/>

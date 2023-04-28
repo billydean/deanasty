@@ -1,5 +1,7 @@
-import { StateContagion, Contagion } from "../types";
-import { Person } from "../classes";
+import type { Contagion, StateContagion, Title, NewsItem } from "../types"
+import { Person, Spouse, Descendant } from "./Person"
+import { findHeir } from "./Title";
+import { catchContagionOdds, fatalSlapstickOdds, oddsFatalDisease, slapstickOdds } from "./Brackets";
 
 // So-and-so died after BLANK
 const fatal_accidents = [
@@ -242,5 +244,117 @@ export function infectPerson (person: Person, year: number, state_contagions: St
    
 }
 
+// Takes array of folks and filters both living and dead arrays
+// If a title holder is included among the dead, looks for heir...
+export function filterDeadFolks (living: Person[], titles: Title[], year: number): { the_living: Person[], the_dead: Person[], title_news: NewsItem[]} {
+    living.forEach(person => {
+        if (person.alive === false) {
+            person.death_year = year
+        }
+    });
+    const the_living = living.filter((person: Person) => person.alive === true);
+    const the_dead = living.filter((person: Person) => person.alive === false);
+    const title_news = titleOnDeath(the_dead, titles, the_living);
+    
+    return {
+        the_living,
+        the_dead,
+        title_news,
+    }
+};
+
+// Creates array of new news items based on people array: new deaths
+export function titleOnDeath (dead: Person[], titles: Title[], living: Person[]): NewsItem[] {
+    let array: NewsItem[] = [];
+    dead.forEach((person: Person) => {
+        if (person.title !== undefined) {
+            const vacant_title = titles.find(entry => entry.id === person.title!.id)
+            array.push({ category: 'title', content: `${person.title.address} ${person.name} was the ${vacant_title!.appellation} of ${vacant_title!.name}.`})
+            findHeir(vacant_title!, living, array);
+        }
+    });
+    return array;
+}
 
 
+// Person[] die of old age.
+// returns old-age-death news items and list of ids.
+export function dieOldAge (year: number, people: Person[]): { oldAgeNews: NewsItem[] } {
+    let oldAgeNews = [];
+    for (let i=0; i<people.length;i++){
+        if (people[i].alive === true && people[i].old_year <= year) {
+            oldAgeNews.push({category: "death", content: `${people[i].name} ${people[i].house} died of natural causes at the age of ${people[i].age}.`});
+            people[i].alive = false;
+        }
+    }
+    return {
+        oldAgeNews
+    }
+};
+
+export function dieAccident (people: Person[]): { fatalAccidentNews: NewsItem[] } {
+    let fatalAccidentNews: NewsItem[] = [];
+    for (let i=0; i<people.length;i++){
+        if (people[i].alive === true && slapstickOdds(people[i].age) && fatalSlapstickOdds(people[i].age)) {
+            let death_cause = fatalAccidents();
+            fatalAccidentNews.push({category: 'death', content: `${people[i].name} ${people[i].house} died at the age of ${people[i].age} after ${death_cause}.`});
+            people[i].alive = false;
+        }
+    }
+    return {
+        fatalAccidentNews
+    }
+};
+
+export function dieContagion (people: Person[], year: number, contagions: StateContagion[]): { contagionNews: NewsItem[] } {
+    let contagionNews: NewsItem[] = [];
+    for (let i=0; i<people.length; i++) {
+        if (people[i].alive === true && catchContagionOdds(people[i].age)) {
+            const {added_disease} = infectPerson(people[i], year, contagions);
+            if (added_disease !== "none") {
+                contagionNews.push({category:'disease', content: `${people[i].name} ${people[i].house} has caught ${added_disease}.`})
+            } 
+        }
+            for (let j=0; j<people[i].condition.diseases.length; j++) {
+                if (year >= people[i].condition.diseases[j].onset && year <= people[i].condition.diseases[j].duration && oddsFatalDisease(people[i].age,people[i].condition.diseases[j].effects.mortality) && people[i].alive === true) {
+                    contagionNews.push({category: 'death', content: `${people[i].name} ${people[i].house} died of ${people[i].condition.diseases[j].type_key} at the age of ${people[i].age}.`});
+                    people[i].alive = false;
+                    const contagion = contagions.find(entry => entry.type_key === people[i].condition.diseases[j].type_key);
+                    contagion!.current_cases!--;
+                }
+            }
+    }
+    return {
+        contagionNews
+    }
+}
+
+// Death, so sad
+// Maps over people --> Die?
+// Sorts out newly departed and survivors
+// Creates news items for newly departed
+// Returns news, updated living array, and updated dead array
+export function death (year: number, living_people: Person[], dead_people: Person[], titles: Title[], contagions: StateContagion[]): {new_deaths: NewsItem[], the_living: Person[], updated_dead: Person[]} {
+    const { oldAgeNews} = dieOldAge(year,living_people);
+    const { fatalAccidentNews} = dieAccident(living_people);
+    const { contagionNews} = dieContagion(living_people,year,contagions);
+
+    /* TBD: { conditionDeathNews } = dieCondition(living_people);
+            { killedNews } = dieKilled(living_people...?);
+    */
+    const {the_living, the_dead, title_news } = filterDeadFolks(living_people, titles, year);
+
+    const updated_dead = [...dead_people, ...the_dead];
+
+    const new_deaths = [
+        ...contagionNews, 
+        ...oldAgeNews, 
+        ...fatalAccidentNews, 
+        ...title_news];
+
+    return {
+        new_deaths,
+        the_living,
+        updated_dead
+    }
+}

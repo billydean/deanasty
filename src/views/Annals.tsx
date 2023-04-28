@@ -1,8 +1,9 @@
 import type { Year, Events } from '../types';
-import Annal from './Annal';
+import Annal from '../components/Annal';
 import { Divider } from '@mui/material';
-import { People } from '../classes';
-function Annals({year, people, events}: {year: Year, people: People, events: Events}) {
+import { Person } from '../utils/Person';
+
+function Annals({year, people, events}: {year: Year, people: Person[], events: Events}) {
     
     const filteredEvents = events.filter((eachYear) => eachYear.events.length > 0)
   

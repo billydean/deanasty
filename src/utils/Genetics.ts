@@ -1,58 +1,5 @@
-// "Genome" is array of XXX length. Genes identified by their index in the genome.
-// Each "Gene" object has:
-    // name
-    // values (list of options)
-    // transfer (argument used in passGene)
-    // manifest (argument used in XXX) 
-// Gene objects are in larger Genome array, with same index
-// Handlers
-    // bigZipper -> takes two genomes to instantiate new genome (mother, father)
-    // passGene -> how gene is inherited (mother? father? recessive? etc)
-    // expressGene -> what happens with XXX genes are present at index in genome
-
-import { Person } from "../classes";
-import { NewsItem } from "../types";
-
-type Gene = {
-    name: string,
-    values: string,
-    transfer: string,
-};
-
-type Genome = Gene[];
-
-export type DNA = string[];
-// TODO Need list of dispositions, risk factors, traits
-// Whenever "active," appear in debugging annals
-// Add "modifiers" to the person type (default at 1)
-// "Modifiers" used whenever call Brackets
-// Expressed genes -> modifiers
-
-/*  Current Genome w/ Indices
-0   heart disease
-1   stroke
-2   epilepsy
-3   hemophilia
-4   NONE
-BIG FIVE TRAITS
-5   openness
-6   thoughtfulness
-7   impulsive
-8   ambitious
-9   social
-10  initiative
-11  trust
-12  kind
-13  depression
-14  stability
-15  anxious
-OTHER TRAITS
-16  handedness
-17  blindness
-18  deafness
-...
-*/
-
+import { Genome, DNA, NewsItem } from "../types";
+import { Person } from "./Person";
 const genome_reference: Genome = [
     {   //index 0
         name: "heart disease",
@@ -151,14 +98,6 @@ const genome_reference: Genome = [
     },
 ];
 
-// transfer type tags include:
-    // par  just adds parents to value set
-    // mid  adds parents twice each
-    // strong adds parents three times each
-    // mid (mom/dad) adds (mom/dad) an extra time
-    // strong (mom/dad) adds two extra times
-    // number
-
 function pick(string: string): string {
     return string.at(Math.floor(Math.random() * string.length))!
 }
@@ -206,7 +145,7 @@ function passGene(transfer_type: string, mother: string, father: string, values:
     return gene
 };
 
-function noParentsDNA (): DNA {
+export function noParentsDNA (): DNA {
     let dna = []
     for (let i=0; i<genome_reference.length;i++) {
         let values = genome_reference[i].values;
@@ -222,7 +161,7 @@ function noParentsDNA (): DNA {
     return dna
 };
 
-function bigZipper(mother: DNA, father: DNA): DNA {
+export function bigZipper(mother: DNA, father: DNA): DNA {
     let dna = [];
     for (let i=0; i<genome_reference.length; i++) {
         let gene = genome_reference[i];
@@ -231,7 +170,7 @@ function bigZipper(mother: DNA, father: DNA): DNA {
     return dna;
 };
 
-function bigUnZipper(person: Person, dna: DNA, events: NewsItem[]) {
+export function bigUnZipper(person: Person, dna: DNA, events: NewsItem[]) {
 // What do I want this thing to do?
 // Adds News Items
     // added traits
@@ -346,5 +285,3 @@ if (risk_news.length === 1) {
 if (exported_news.content.length > 0) events.push(exported_news);
 
 }
-
-export { noParentsDNA, bigZipper, bigUnZipper };

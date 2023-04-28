@@ -1,6 +1,6 @@
 import { Typography } from '@mui/material';
 
-function Main() {
+function Home() {
     return (
         <Typography>
             This is the main page.
@@ -8,4 +8,4 @@ function Main() {
     )
 };
 
-export default Main;
+export default Home;
